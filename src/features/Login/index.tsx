@@ -3,6 +3,8 @@ import { SilentRequest } from "@azure/msal-browser";
 
 import { msalInstance } from "src/utils/authenticationHelper/msalInstance";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
+// import { getDecodedToken } from "src/utils/authenticationHelper/tokenHandler";
+// import { useGetMicrosoftInfo } from "./api/useGetMicrosoftInfo";
 
 export default function Login() {
   const { account, login, logout } = useAuth();
@@ -19,6 +21,7 @@ export default function Login() {
             silentRequest
           );
           console.log("Token acquired silently:", tokenResponse.accessToken);
+          localStorage.setItem("token", tokenResponse.accessToken);
         } catch (error) {
           console.error(
             "Silent token acquisition failed. Falling back to interactive login.",
