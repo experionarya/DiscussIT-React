@@ -1,15 +1,17 @@
 export function setParsedToken(parsedToken: string) {
   console.log("setToken", parsedToken);
-  localStorage.setItem("AUTH_TOKEN", JSON.stringify(parsedToken));
+  localStorage.setItem("AUTH_TOKEN", parsedToken);
 }
 
 // export function getParsedToken(): string | null {
 //   return localStorage.getItem("token");
 // }
 
-// export function removeToken() {
-//   localStorage.removeItem("token");
-// }
+export function removeToken() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("id_token");
+  localStorage.removeItem("AUTH_TOKEN");
+}
 
 export function getDecodedToken(token: string): any {
   if (!token) {
@@ -20,7 +22,7 @@ export function getDecodedToken(token: string): any {
     const payload = window.atob(token.split(".")[1]);
     const parsedToken = JSON.parse(payload);
     console.log("parsedToken", parsedToken);
-    setParsedToken(parsedToken);
+    // setParsedToken(parsedToken);
     return parsedToken;
   } catch (error) {
     console.error("Error decoding token:", error); // Error decoding token
@@ -28,22 +30,22 @@ export function getDecodedToken(token: string): any {
   }
 }
 
-// export function getNameFromToken(token: string): any {
-//   const parsedToken = getDecodedToken(token);
-//   return parsedToken.Name;
-// }
+export function getNameFromToken(token: string): any {
+  const parsedToken = getDecodedToken(token);
+  return parsedToken.Name;
+}
 
-// export function getEmailFromToken(token: string): any {
-//   const parsedToken = getDecodedToken(token);
-//   return parsedToken.Email;
-// }
+export function getEmailFromToken(token: string): any {
+  const parsedToken = getDecodedToken(token);
+  return parsedToken.Email;
+}
 
-// export function getRoleFromToken(token: string): any {
-//   const parsedToken = getDecodedToken(token);
-//   return parsedToken.role;
-// }
+export function getRoleFromToken(token: string): any {
+  const parsedToken = getDecodedToken(token);
+  return parsedToken.role;
+}
 
-// export function getUserIdFromToken(token: string): any {
-//   const parsedToken = getDecodedToken(token);
-//   return parsedToken.UserId;
-// }
+export function getUserIdFromToken(token: string): any {
+  const parsedToken = getDecodedToken(token);
+  return parsedToken.UserId;
+}

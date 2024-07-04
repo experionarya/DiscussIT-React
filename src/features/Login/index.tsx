@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { SilentRequest } from "@azure/msal-browser";
+import { useNavigate } from "react-router-dom";
 
 import { msalInstance } from "src/utils/authenticationHelper/msalInstance";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
-// import { getDecodedToken } from "src/utils/authenticationHelper/tokenHandler";
-// import { useGetMicrosoftInfo } from "./api/useGetMicrosoftInfo";
 
 export default function Login() {
   const { account, login, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ensureToken = async () => {
@@ -21,7 +21,8 @@ export default function Login() {
             silentRequest
           );
           console.log("Token acquired silently:", tokenResponse.accessToken);
-          localStorage.setItem("token", tokenResponse.accessToken);
+          localStorage.setItem("id_token", tokenResponse.idToken);
+          navigate("/home");
         } catch (error) {
           console.error(
             "Silent token acquisition failed. Falling back to interactive login.",
@@ -33,7 +34,7 @@ export default function Login() {
     };
 
     ensureToken();
-  }, [account, login]);
+  }, [account, login, navigate]);
 
   return (
     <div>

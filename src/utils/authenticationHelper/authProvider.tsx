@@ -6,11 +6,12 @@ import {
 } from "@azure/msal-browser";
 
 import { initializeMsal, msalInstance } from "./msalInstance";
+import { removeToken } from "./tokenHandler";
 // import { getParsedToken, removeToken } from "./tokenHandler";
 
 export interface AuthContextType {
   account: AccountInfo | null;
-  // token: string | null;
+  token: string | null;
   // getParsedToken: () => string;
   // initialToken: string | null;
   // getToken: () => Promise<string | undefined>;
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }: any) => {
   const logout = () => {
     msalInstance.logoutPopup();
     setAccount(null);
-    // removeToken();
+    removeToken();
   };
 
   const acquireTokenSilently = async (account: AccountInfo) => {
@@ -101,8 +102,7 @@ export const AuthProvider = ({ children }: any) => {
     <AuthContext.Provider
       value={{
         account,
-        // token: getParsedToken(),
-        // getToken,
+        token: localStorage.getItem("AUTH_TOKEN"),
         login,
         logout,
         tokenType: "Bearer",

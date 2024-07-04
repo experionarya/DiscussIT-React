@@ -1,6 +1,9 @@
 import { useMutation, UseMutationResult } from "react-query";
 
-import { getDecodedToken } from "src/utils/authenticationHelper/tokenHandler";
+import {
+  getDecodedToken,
+  setParsedToken,
+} from "src/utils/authenticationHelper/tokenHandler";
 
 import { externalLoginDetails } from "src/utils/urls";
 
@@ -44,6 +47,9 @@ function useExternalLogin(): UseMutationResult<
     const result = await externalLogin({
       data,
     });
+
+    setParsedToken(result?.token);
+
     getDecodedToken(result?.token);
     return result;
   });

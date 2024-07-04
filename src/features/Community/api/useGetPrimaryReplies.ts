@@ -1,13 +1,15 @@
 import { useQuery, UseQueryResult } from "react-query";
 
-import { microsoftInfo } from "src/utils/urls";
+import { getPrimaryRepliesOfThread } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
-async function fetchInformation({
+import { CommunityType } from "../types/communityType";
+
+async function fetchPrimaryReplies({
   token,
   tokenType,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(microsoftInfo, {
+  const response = await fetch(getPrimaryRepliesOfThread, {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -16,7 +18,7 @@ async function fetchInformation({
   return response.json();
 }
 
-type APIResult = any;
+type APIResult = Array<CommunityType>;
 
 type TError = { message: string };
 type TVariables = {
@@ -24,18 +26,16 @@ type TVariables = {
   tokenType: string;
 };
 
-function useGetMicrosoftInfo(): UseQueryResult<APIResult, TError> {
-  const { tokenType } = useAuth();
-
-  const token = localStorage.getItem("token");
+function useGetPrimaryReplies(): UseQueryResult<APIResult, TError> {
+  const { token, tokenType } = useAuth();
   return useQuery(
-    ["get_information"],
+    ["get_primary_replies_thread"],
     async () => {
-      const result = await fetchInformation({
+      const result = await fetchPrimaryReplies({
         token,
         tokenType,
       });
-      return await result;
+      return result;
     },
     {
       staleTime: Infinity,
@@ -44,4 +44,4 @@ function useGetMicrosoftInfo(): UseQueryResult<APIResult, TError> {
   );
 }
 
-export { useGetMicrosoftInfo };
+export { useGetPrimaryReplies };

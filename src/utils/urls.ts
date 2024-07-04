@@ -8,3 +8,9 @@ export const microsoftInfo = "https://graph.microsoft.com/beta/me";
 
 //external login
 export const externalLoginDetails = `${apiBaseUrl}Login/ExternalLogin`;
+
+//leaderboard api
+export const getTopLeaders = `${apiBaseUrl}users/TopUsersByScore/15`;
+
+//
+export const getPrimaryRepliesOfThread = `${apiBaseUrl}Reply/PrimaryRepliesOfThread/11?page=1&pageSize=6`;

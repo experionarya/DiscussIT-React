@@ -14,7 +14,7 @@ export default function Home(): ReactElement {
       externalLogin({
         Provider: "microsoft",
         expiration: 0,
-        Token: localStorage.getItem("token") || "",
+        Token: localStorage.getItem("id_token") || "",
         userDetails: microsoftInfo,
         username: "",
       });
