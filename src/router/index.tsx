@@ -12,12 +12,14 @@ export default function AppRouter(): ReactElement {
     <div>
       <Header/>
     </div>
+    <div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="community" element={<Community />} />
         <Route path="announcements" element={<Announcements />} />
         <Route path="notifications" element={<Notifications />} />
       </Routes>
+    </div>
     </BrowserRouter>
   );
 }
