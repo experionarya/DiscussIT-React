@@ -1,70 +1,75 @@
 import React, { ReactElement } from "react";
-import {
-    HandThumbUpIcon,
-    HandThumbDownIcon,
-    ChatBubbleOvalLeftEllipsisIcon,
-    ShareIcon,
-    BookmarkIcon
-  } from "@heroicons/react/24/outline";
+import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
+import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
+import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
+import { ArrowUpTrayIcon as ArrowUpTrayIconMicro } from "@heroicons/react/16/solid";
+import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
 export default function Grid(): ReactElement {
   return (
-    <div className="border border-stroke-weak rounded pl-5 pr-5 pt-2 pb-2 grid grid-rows-12">
-    <div className="flex items-center row-span-1">
-      <img
-        src={require(`../../assets/images//person-4.jpg`)}
-        alt="person 3"
-        className="rounded-full w-9 h-9"
-      />
-      <div className="ml-3 font-sans">
-        <div className="flex">
-          <strong className="text-text-strong text-sm">
-            Subha Lakshmi
-          </strong>
+    <div className="pl-2">
+      <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
+        <div className="flex min-w-0 gap-x-2">
+          <img
+            className="h-8 w-8 flex-none rounded-full bg-gray-50"
+            src={require(`../../assets/images/person-4.jpg`)}
+            alt=""
+          />
+          <div className="min-w-0 flex-auto">
+            <p className="text-sm font-semibold leading-tight text-slate-900">
+              Subha Lakshmi
+            </p>
+            <p className="truncate text-xs leading-tight text-slate-500">
+              27-Jan-2024
+            </p>
+          </div>
         </div>
-        <div className="flex text-text-weak text-[12px]">
-          <div>Former Student</div>
-          <div className="ms-2">.May 7</div>
+        <div className="space-y-1">
+          <h5 className="font-semibold text-slate-900">
+            How to handle exceptions in Java?
+          </h5>
+          <p className="text-slate-900">
+            What are some best practices for handling exceptions in Java
+            applications to ensure robust error handling and graceful
+            degradation?
+            <a href="#" className="text-primary-800 underline">
+              (More)
+            </a>
+          </p>
         </div>
-      </div>
+        <img
+          src={require(`../../assets/images/java-programming.jpg`)}
+          alt="java"
+        />
+        <div className="flex space-x-3">
+          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+            <ArrowUpIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Up vote</span>
+            <span>20</span>
+          </button>
+          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+            <ArrowDownIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Down vote</span>
+            <span>3</span>
+          </button>
+          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+            <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Comment</span>
+            <span>10</span>
+          </button>
+          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+            <ArrowUpTrayIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Share</span>
+          </button>
+          <button
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            title=""
+          >
+            <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
+            <span className="sr-only">Bookmark</span>
+          </button>
+        </div>
+      </article>
     </div>
-    <div className="text-text-strong row-span-10 h-full">
-      <strong className="text-base">My heartbreaking journey 💔</strong>
-      <p className="text-[15px] mt-1">
-        So today I am going to share my 2nd drop journey (Pura story bahut
-        lamba h quora hang hojayega) NEET 23 result came and I scored 576 in
-        my 1st drop (Rank 44759😭) It was really devastating for me ……
-        Relatives log sab tanne sunane lage parents ko I felt like I was a
-        complete failure….Mere
-      </p>
-      <img
-        src={require(`../../assets/images/note.jpg`)}
-        alt="person"
-        className="w-full mt-2"
-      />
-    </div>
-    <div className="flex row-span-1">
-      <div className="flex items-center">
-      <button className="h-4 w-4 text-green-600">
-        <HandThumbUpIcon />
-      </button>
-      <span className="text-xs ms-1">15</span>
-      <button className="h-4 w-4 text-red-600 ms-2">
-        <HandThumbDownIcon />
-      </button>
-      <span className="text-xs ms-1">7</span>
-      <button className="h-4 w-4 text-blue-400 ms-2">
-        <ChatBubbleOvalLeftEllipsisIcon />
-      </button>
-      <span className="text-xs ms-1">20</span>  
-      <button className="h-4 w-4 ms-3">
-      <ShareIcon/>
-      </button>
-      <button className="h-4 w-4 ms-3">
-      <BookmarkIcon/>
-      </button>
-      </div>
-    </div>
-  </div> 
   );
 }

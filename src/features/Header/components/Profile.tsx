@@ -17,7 +17,7 @@ export default function Profile(): ReactElement {
         {({ open }) => (
           <>
             <PopoverButton className="outline-none">
-              <div className="rounded-full w-9 h-9 bg-lightOrange">
+              <div className="rounded-full w-8 h-8 bg-lightOrange">
                 <img
                   src={require(`../../../assets/images/person-4.jpg`)}
                   alt="person 3"

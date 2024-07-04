@@ -1,65 +1,99 @@
 import React, { ReactElement } from "react";
+import { MedalSolid } from "iconoir-react";
+import { TrophyIcon } from "@heroicons/react/16/solid";
 
 export default function LeaderBoard(): ReactElement {
   return (
     <div>
-      <h4 className="flex justify-center mt-3">
-        <strong>Leaderboard</strong>
-      </h4>
-        <div className="grid grid-cols-2 mb-3 mt-4 text-sm">
-            <div className="flex">
-          <p>Jone Thomas</p>
-          <p className="text-text-weak text-xs mt-1 ms-2">(275)</p>
+      <section className="max-w-full rounded-md bg-white shadow-sm mt-3">
+      <div className="p-2">
+        <h3 className="flex items-center gap-1 font-semibold text-slate-900">
+        <TrophyIcon className="size-4 text-slate-400"/>
+            Leaderboard</h3>
+        </div>
+        <div className="space-y-2 p-2 max-h-64 overflow-y-scroll">
+          <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
+            <img
+              className="h-6 w-6 flex-none rounded-full bg-gray-50 ring-2 ring-amber-500"
+              src={require(`src/assets/images/person-1.jpg`)}
+              alt="person"
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-xs font-semibold leading-tight text-amber-900">
+                Tom Cook
+              </p>
+              <p className="truncate text-xs leading-tight text-amber-700/80">
+                120 Posts
+              </p>
             </div>
-          <div className="flex justify-end mr-5 box-border">
-            <div className="w-10 h-7 flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EAC452"><path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg>
+            <MedalSolid className="h-6 w-6 text-amber-500" />
+          </div>
+          <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
+            <img
+              className="h-6 w-6 flex-none rounded-full bg-gray-50 ring-2 ring-amber-500"
+              src={require(`src/assets/images/person-2.jpg`)}
+              alt=""
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-xs font-semibold leading-tight text-amber-900">
+                Leslie Alexander
+              </p>
+              <p className="truncate text-xs leading-tight text-amber-700/80">
+                112 Posts
+              </p>
             </div>
+            <MedalSolid className="h-6 w-6 text-amber-500" />
+          </div>
+          <div className="flex min-w-0 items-center gap-x-2 rounded-md px-2 py-1">
+            <img
+              className="h-6 w-6 flex-none rounded-full bg-gray-50"
+              src={require(`src/assets/images/person-3.jpg`)}
+              alt=""
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-xs font-semibold leading-tight text-slate-900">
+                Courtney Henry
+              </p>
+              <p className="truncate text-xs leading-tight text-slate-500">
+                98 Posts
+              </p>
+            </div>
+            <MedalSolid className="h-6 w-6 text-slate-400" />
+          </div>
+          <div className="flex min-w-0 items-center gap-x-2 rounded-md px-2 py-1">
+          <img
+              className="h-6 w-6 flex-none rounded-full bg-gray-50"
+              src={require(`src/assets/images/person-4.jpg`)}
+              alt=""
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-xs font-semibold leading-tight text-slate-900">
+                Lindsay Walton
+              </p>
+              <p className="truncate text-xs leading-tight text-slate-500">
+                72 Posts
+              </p>
+            </div>
+            <MedalSolid className="h-6 w-6 text-slate-400" />
+          </div>
+          <div className="flex min-w-0 items-center gap-x-2 rounded-md px-2 py-1">
+            <img
+              className="h-6 w-6 flex-none rounded-full bg-gray-50"
+              src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt=""
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-xs font-semibold leading-tight text-slate-900">
+                Dries Vincent
+              </p>
+              <p className="truncate text-xs leading-tight text-slate-500">
+                44 Posts
+              </p>
+            </div>
+            <MedalSolid className="h-6 w-6 text-slate-400" />
           </div>
         </div>
-        <div className="grid grid-cols-2 mb-3 text-sm">
-        <div className="flex">
-          <p>Arya Dar</p>
-          <p className="text-text-weak text-xs mt-1 ms-2">(185)</p>
-          </div>
-          <div className="flex justify-end mr-5 box-border">
-            <div className="w-10 h-7 flex justify-center ">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg>                    </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 mb-3 text-sm">
-        <div className="flex">
-          <p>Diya pillai</p>
-          <p className="text-text-weak text-xs mt-1 ms-2">(150)</p>
-          </div>
-          <div className="flex justify-end mr-5 box-border">
-            <div className="w-10 h-7 flex justify-center ">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg>            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 mb-3 text-sm">
-        <div className="flex">
-          <p>Arum varma</p>
-          <p className="text-text-weak text-xs mt-1 ms-2">(150)</p>
-          </div>
-          <div className="flex justify-end mr-5 box-border">
-            <div className="w-10 h-7 flex justify-center ">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D08370"><path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg>            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 mb-3 text-sm">
-        <div className="flex">
-          <p>Sonu Jone</p>
-          <p className="text-text-weak text-xs mt-1 ms-2">(90)</p>
-          </div>
-          <div className="flex justify-end mr-5 box-border">
-            <div className="w-10 h-7 flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D08370"><path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg>            </div>
-          </div>
-        </div>
+      </section>
     </div>
   );
 }
