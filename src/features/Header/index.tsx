@@ -22,7 +22,7 @@ export default function Header(): ReactElement {
           </div>
           <nav className="hidden gap-2 self-stretch md:flex">
             <NavLink
-              to="/"
+              to="home"
               className={({ isActive }) =>
                 isActive
                   ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-[''] dark:bg-slate-800/50"
@@ -54,9 +54,9 @@ export default function Header(): ReactElement {
               Search topics
             </span>
             <kbd className="ml-auto hidden font-medium text-slate-400 md:block dark:text-sky-200/50">
-            <kbd className="font-sans">Ctrl </kbd>
-            <kbd className="font-sans">K</kbd>
-          </kbd>
+              <kbd className="font-sans">Ctrl </kbd>
+              <kbd className="font-sans">K</kbd>
+            </kbd>
           </button>
 
           <div className="ml-auto hidden gap-4 md:flex">
