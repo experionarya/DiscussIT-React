@@ -26,7 +26,7 @@ module.exports = {
         'stroke-weak': colors.slate[300],
         'fill': colors.slate[100],
       }
-    },
+    }
   },
   plugins: [],
 };

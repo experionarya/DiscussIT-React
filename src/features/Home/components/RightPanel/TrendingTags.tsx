@@ -1,20 +1,39 @@
+import { HashtagIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement } from "react";
+import Tag from "src/components/Tag/intex";
 
 export default function TrendingTags(): ReactElement {
+  const tagArray = [
+    "Webpack",
+    "Amazon Web Services",
+    "Kubernetes",
+    "API Management",
+    "D3.js",
+    "Async/Await",
+    "RESTful APIs",
+    "Talent Acquisition",
+    "JIRA",
+    "Workplace Culture",
+    "Leadership DevelopmentLeadership DevelopmentLeadership DevelopmentLeadership Development",
+    "Budgeting",
+    "Project Scheduling",
+    "Agile Methodology",
+    "AI",
+    "Basecamp",
+  ];
   return (
-    <div>
-      <h4 className="flex justify-center">
-        <strong>Trending Tags</strong>
-      </h4>
-      <div className="flex flex-row flex-wrap mt-5 gap-3">
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Java</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Python</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Flutter</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Testing</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Machine Learning</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">AI</button>
-      <button className="flex justify-center pl-2 pr-2 min-w-12 border border-primary items-center hover:border-primary-900 hover:text-primary-900 rounded-full text-primary">Cloud</button>
-      </div>
-      </div>
+    <div className="w-[335px] ">
+      <section className="rounded-md bg-white shadow-sm">
+        <div className="p-2 pb-1">
+          <h3 className="flex items-center gap-1 font-semibold text-slate-900">
+            <HashtagIcon className="size-4 text-slate-400" />
+            Trending tags
+          </h3>
+        </div>
+        <div className="flex flex-wrap gap-2 p-2 max-h-64 overflow-y-scroll">
+          <Tag tagArray={tagArray}/>
+        </div>
+      </section>
+    </div>
   );
 }
