@@ -6,7 +6,7 @@ import { msalInstance } from "src/utils/authenticationHelper/msalInstance";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 export default function Login() {
-  const { account, login, logout } = useAuth();
+  const { account, login, logout, setIdToken } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +20,7 @@ export default function Login() {
           const tokenResponse = await msalInstance.acquireTokenSilent(
             silentRequest
           );
-          console.log("Token acquired silently:", tokenResponse.accessToken);
-          localStorage.setItem("id_token", tokenResponse.idToken);
+          setIdToken(tokenResponse.idToken);
           navigate("/home");
         } catch (error) {
           console.error(
@@ -34,7 +33,7 @@ export default function Login() {
     };
 
     ensureToken();
-  }, [account, login, navigate]);
+  }, [account, login, navigate, setIdToken]);
 
   return (
     <div>

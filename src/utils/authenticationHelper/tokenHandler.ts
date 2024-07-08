@@ -1,15 +1,12 @@
-export function setParsedToken(parsedToken: string) {
-  console.log("setToken", parsedToken);
-  localStorage.setItem("AUTH_TOKEN", parsedToken);
+export function setParsedToken(token: string) {
+  localStorage.setItem("AUTH_TOKEN", token);
 }
 
-// export function getParsedToken(): string | null {
-//   return localStorage.getItem("token");
-// }
+export function getParsedToken(): string | null {
+  return localStorage.getItem("AUTH_TOKEN");
+}
 
 export function removeToken() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("id_token");
   localStorage.removeItem("AUTH_TOKEN");
 }
 
@@ -21,8 +18,6 @@ export function getDecodedToken(token: string): any {
   try {
     const payload = window.atob(token.split(".")[1]);
     const parsedToken = JSON.parse(payload);
-    console.log("parsedToken", parsedToken);
-    // setParsedToken(parsedToken);
     return parsedToken;
   } catch (error) {
     console.error("Error decoding token:", error); // Error decoding token

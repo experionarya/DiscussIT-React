@@ -25,9 +25,8 @@ type TVariables = {
 };
 
 function useGetMicrosoftInfo(): UseQueryResult<APIResult, TError> {
-  const { tokenType } = useAuth();
+  const { token, tokenType } = useAuth();
 
-  const token = localStorage.getItem("token");
   return useQuery(
     ["get_information"],
     async () => {

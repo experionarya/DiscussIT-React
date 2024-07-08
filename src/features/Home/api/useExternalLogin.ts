@@ -25,7 +25,7 @@ export type TResult = { token: string };
 type ExternalLoginType = {
   Provider: string;
   expiration: number;
-  Token: string;
+  Token: string | null;
   userDetails: any;
   username: string;
 };

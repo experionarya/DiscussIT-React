@@ -3,6 +3,7 @@ import { useQuery, UseQueryResult } from "react-query";
 import { getCommunityList } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { CommunityType } from "../types/communityType";
+import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 async function fetchCommunityList({
   token,
@@ -26,12 +27,12 @@ type TVariables = {
 };
 
 function useGetCommunityList(): UseQueryResult<APIResult, TError> {
-  const { token, tokenType } = useAuth();
+  const { tokenType } = useAuth();
   return useQuery(
     ["get_community_list"],
     async () => {
       const result = await fetchCommunityList({
-        token,
+        token: getParsedToken(),
         tokenType,
       });
       return result;

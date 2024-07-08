@@ -4,17 +4,15 @@ import {
   AuthenticationResult,
   SilentRequest,
 } from "@azure/msal-browser";
-
 import { initializeMsal, msalInstance } from "./msalInstance";
+
 import { removeToken } from "./tokenHandler";
-// import { getParsedToken, removeToken } from "./tokenHandler";
 
 export interface AuthContextType {
   account: AccountInfo | null;
   token: string | null;
-  // getParsedToken: () => string;
-  // initialToken: string | null;
-  // getToken: () => Promise<string | undefined>;
+  id_token: string | null;
+  setIdToken: (id_token: string | null) => void;
   login: () => Promise<void>;
   logout: () => void;
   tokenType: string;
@@ -24,9 +22,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: any) => {
   const [account, setAccount] = useState<AccountInfo | null>(null);
-  // const [token, setToken] = useState<string | null>(null);
-
-  console.log("accountsssssss", account);
+  const [token, setToken] = useState<string | null>(null);
+  const [id_token, setIdToken] = useState<string | null>(null);
 
   useEffect(() => {
     const initialize = async () => {
@@ -40,19 +37,6 @@ export const AuthProvider = ({ children }: any) => {
 
     initialize();
   }, []);
-
-  // const getToken = async () => {
-  //   if (account) {
-  //     return await acquireTokenSilently(account);
-  //   } else {
-  //     await login();
-  //   }
-  // };
-
-  function setToken(token: string) {
-    // console.log("setToken", parsedToken);
-    localStorage.setItem("token", token);
-  }
 
   const login = async () => {
     try {
@@ -74,19 +58,14 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const acquireTokenSilently = async (account: AccountInfo) => {
-    console.log("acquireTokenSilently");
     if (account) {
       const silentRequest: SilentRequest = {
         account: account,
         scopes: ["User.Read"],
       };
-
-      console.log("account 73", account);
       try {
         const tokenResponse: AuthenticationResult =
           await msalInstance.acquireTokenSilent(silentRequest);
-        console.log("tokenResponse", tokenResponse);
-        // setToken(tokenResponse?.accessToken);
         return tokenResponse.accessToken;
       } catch (error) {
         console.error(
@@ -102,7 +81,9 @@ export const AuthProvider = ({ children }: any) => {
     <AuthContext.Provider
       value={{
         account,
-        token: localStorage.getItem("AUTH_TOKEN"),
+        token,
+        id_token,
+        setIdToken,
         login,
         logout,
         tokenType: "Bearer",
