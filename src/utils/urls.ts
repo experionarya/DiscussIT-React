@@ -21,3 +21,6 @@ export const getUserDetails = (userId: string) =>
 
 // get the trending tags
 export const getTrendingTags = `${apiBaseUrl}Tag?true`;
+
+// get the top users
+export const getTopUsers = `${apiBaseUrl}users/TopUsersByScore/15`;

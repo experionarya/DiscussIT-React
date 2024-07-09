@@ -1,8 +1,52 @@
 import React, { ReactElement } from "react";
 import { MedalSolid } from "iconoir-react";
+
 import { TrophyIcon } from "@heroicons/react/16/solid";
 
+import { useGetLeaderboard } from "../../api";
+import { TopUsersType } from "../../types/topUsers";
+
 export default function LeaderBoard(): ReactElement {
+  const { data: topUsers } = useGetLeaderboard();
+
+  function renderTopUsers(item: TopUsersType, index: number) {
+    return (
+      <div
+        className={`flex min-w-0 items-center gap-x-2 rounded-md ${
+          index < 3 ? "bg-amber-100/80" : ""
+        } px-2 py-1`}
+      >
+        <img
+          className={`h-6 w-6 flex-none rounded-full bg-gray-50  ${
+            index < 3 ? "ring-2 ring-amber-500" : ""
+          }`}
+          src={require(`src/assets/images/person-1.jpg`)}
+          alt="person"
+        />
+        <div className="min-w-0 flex-auto">
+          <p
+            className={`text-xs font-semibold leading-tight ${
+              index < 3 ? "text-amber-900" : "text-slate-900"
+            }`}
+          >
+            {item?.name}
+          </p>
+          <p
+            className={`truncate text-xs leading-tight ${
+              index < 3 ? "text-amber-700/80" : "text-slate-500"
+            }`}
+          >
+            {item?.score} points
+          </p>
+        </div>
+        <MedalSolid
+          className={`h-6 w-6 ${
+            index < 3 ? "text-amber-500" : "text-slate-400"
+          }`}
+        />
+      </div>
+    );
+  }
   return (
     <div>
       <section className="max-w-full rounded-md bg-white shadow-sm mt-3">
@@ -13,23 +57,12 @@ export default function LeaderBoard(): ReactElement {
           </h3>
         </div>
         <div className="space-y-2 p-2 max-h-64 overflow-y-scroll">
-          <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
-            <img
-              className="h-6 w-6 flex-none rounded-full bg-gray-50 ring-2 ring-amber-500"
-              src={require(`src/assets/images/person-1.jpg`)}
-              alt="person"
-            />
-            <div className="min-w-0 flex-auto">
-              <p className="text-xs font-semibold leading-tight text-amber-900">
-                Tom Cook
-              </p>
-              <p className="truncate text-xs leading-tight text-amber-700/80">
-                120 Posts
-              </p>
-            </div>
-            <MedalSolid className="h-6 w-6 text-amber-500" />
-          </div>
-          <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
+          {topUsers &&
+            topUsers?.map((item: TopUsersType, index: number) =>
+              renderTopUsers(item, index)
+            )}
+
+          {/* <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
             <img
               className="h-6 w-6 flex-none rounded-full bg-gray-50 ring-2 ring-amber-500"
               src={require(`src/assets/images/person-2.jpg`)}
@@ -92,7 +125,7 @@ export default function LeaderBoard(): ReactElement {
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-slate-400" />
-          </div>
+          </div> */}
         </div>
       </section>
     </div>

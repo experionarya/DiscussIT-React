@@ -34,7 +34,6 @@ export default function TrendingTags(): ReactElement {
         </div>
         <div className="flex flex-wrap gap-2 p-2 max-h-64 overflow-y-scroll">
           {trendingTags?.map((item: TrendingTagType) => renderTags(item))}
-          {/* <Tag tagArray={tagArray} /> */}
         </div>
       </section>
     </div>
