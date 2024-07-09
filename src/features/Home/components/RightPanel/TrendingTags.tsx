@@ -5,21 +5,21 @@ import Tag from "src/components/Tag/intex";
 export default function TrendingTags(): ReactElement {
   const tagArray = [
     "Webpack",
-    "Amazon Web Services",
-    "Kubernetes",
-    "API Management",
     "D3.js",
+    "Amazon Web Services",
+    "JIRA",
+    "Kubernetes",
     "Async/Await",
     "RESTful APIs",
     "Talent Acquisition",
-    "JIRA",
+    "AI",
     "Workplace Culture",
-    "Leadership DevelopmentLeadership DevelopmentLeadership DevelopmentLeadership Development",
+    "Basecamp",
     "Budgeting",
+    "API Management",
+    "Leadership DevelopmentLeadership DevelopmentLeadership DevelopmentLeadership Development",
     "Project Scheduling",
     "Agile Methodology",
-    "AI",
-    "Basecamp",
   ];
   return (
     <div className="w-[335px] ">
