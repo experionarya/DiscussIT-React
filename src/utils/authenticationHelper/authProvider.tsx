@@ -29,12 +29,10 @@ export const AuthProvider = ({ children }: any) => {
     const initialize = async () => {
       await initializeMsal();
       const accounts = msalInstance.getAllAccounts();
-      console.log("accounts", accounts);
       if (accounts.length > 0) {
         setAccount(accounts[0]);
       }
     };
-
     initialize();
   }, []);
 

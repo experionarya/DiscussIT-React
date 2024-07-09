@@ -26,15 +26,18 @@ type TVariables = {
 
 function useGetMicrosoftInfo(): UseQueryResult<APIResult, TError> {
   const { token, tokenType } = useAuth();
-
+  console.log("token 29", token);
   return useQuery(
     ["get_information"],
     async () => {
-      const result = await fetchInformation({
-        token,
-        tokenType,
-      });
-      return await result;
+      if (token !== null) {
+        const result = await fetchInformation({
+          token,
+          tokenType,
+        });
+
+        return await result;
+      }
     },
     {
       staleTime: Infinity,

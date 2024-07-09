@@ -12,6 +12,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 export default function AppRouter(): ReactElement {
   const { account } = useAuth();
+  console.log("account", account);
   return (
     <BrowserRouter>
       {account !== null && <Header />}
