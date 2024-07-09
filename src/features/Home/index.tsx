@@ -15,7 +15,7 @@ export default function Home(): ReactElement {
   const { data: microsoftInfo } = useGetMicrosoftInfo();
   const { mutate: externalLogin } = useExternalLogin();
   const userId = getUserIdFromToken();
-  const { data: userDetails, refetch } = useGetUserDetails(userId);
+  const { refetch } = useGetUserDetails(userId);
 
   useEffect(() => {
     if (microsoftInfo)

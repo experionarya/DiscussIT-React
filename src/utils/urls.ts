@@ -18,3 +18,6 @@ export const getPrimaryRepliesOfThread = `${apiBaseUrl}Reply/PrimaryRepliesOfThr
 //user details
 export const getUserDetails = (userId: string) =>
   `${apiBaseUrl}users/${userId}`;
+
+// get the trending tags
+export const getTrendingTags = `${apiBaseUrl}Tag?true`;
