@@ -7,7 +7,6 @@ import Announcements from "src/features/Announcements";
 import Notifications from "src/features/Notifications";
 import Header from "src/features/Header";
 import Login from "src/features/Login";
-
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 export default function AppRouter(): ReactElement {
@@ -19,7 +18,7 @@ export default function AppRouter(): ReactElement {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/community" element={<Community />} />
+        <Route path="/community/category-posts" element={<Community />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/notifications" element={<Notifications />} />
       </Routes>

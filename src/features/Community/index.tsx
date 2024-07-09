@@ -1,17 +1,20 @@
 import React, { ReactElement } from "react";
+import CommunityList from "./components/CommunityList";
+// import CategoryList from "./components/CategoryList";
+import Post from "./components/Posts/intex";
 
 export default function Community(): ReactElement {
   return (
-    <div className="bg-fill h-full m-0 p-0 pt-16">
-      <div>
-        Community Create React App does not support custom PostCSS
-        configurations and is incompatible with many important tools in the
-        PostCSS ecosystem, like `postcss-import`. We highly recommend using
-        Vite, Parcel, Next.js, or Remix instead of Create React App. They
-        provide an equivalent or better developer experience but with more
-        flexibility, giving you more control over how Tailwind and PostCSS are
-        configured.
-      </div>
+    <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+    <div className="min-w-40 max-w-44 space-y-5">
+      <CommunityList />
     </div>
+    <div className="grid grow grid-cols-3 gap-4">
+      <div className="col-span-2">
+      <Post/>
+      </div>
+      <div className="col-span-1 space-y-2 overflow-y-auto"/>
+    </div>   
+  </div>
   );
 }

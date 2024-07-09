@@ -1,8 +1,26 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { ReactElement } from "react";
 import { Button } from "src/components/Button";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function CreateSpace({ isOpen, close }: any): ReactElement {
+  const data = [
+    "Webpack",
+    "Amazon Web Services",
+    "Kubernetes",
+    "API Management",
+    "D3.js",
+    "Async/Await",
+    "RESTful APIs",
+    "Talent Acquisition",
+    "JIRA",
+    "Workplace Culture",
+    "Budgeting",
+    "Project Scheduling",
+    "Agile Methodology",
+    "AI",
+    "Basecamp",
+  ];
   return (
     <div>
       <Dialog
@@ -15,95 +33,37 @@ export default function CreateSpace({ isOpen, close }: any): ReactElement {
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel className="w-[550px] rounded-lg bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
               <div className="flex mb-5">
-              <DialogTitle as="h3" className="text-text-strong text-lg">
-                <strong>Create Space</strong>
-              </DialogTitle>
+                <DialogTitle as="h3">
+                  <h1 className="font-semibold text-slate-900 text-lg">Create Space</h1>
+                </DialogTitle>
                 <button onClick={close} className="ml-[369px]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <XMarkIcon className="size-6"></XMarkIcon>
                 </button>
               </div>
+              {/* <div className="h-0.5 bg-slate-300/50 mb-5" /> */}
+
               {/* <div className="flex items-center"> */}
               <input
                 type="text"
-                className="h-9 w-full mb-2 rounded-lg border border-stroke-weak pl-4 pr-12 outline-none"
+                className="h-9 w-full rounded-lg border mb-2 border-stroke-weak pl-4 pr-12 outline-none"
                 placeholder="Search Interests..."
               />
               {/* </div> */}
-              <div className="flex flex-row flex-wrap gap-5 pt-5 min-h-20 max-h-80 overflow-y-scroll">
-                <Button size="small" variant="tag">
-                  Cloud
-                </Button>
-                <Button size="small" variant="tag">
-                  Machine Learning
-                </Button>
-                <Button size="small" variant="tag">
-                  Java
-                </Button>
-                <Button size="small" variant="tag">
-                  AI
-                </Button>
-                <Button size="small" variant="tag">
-                  Python
-                </Button>
-                <Button size="small" variant="tag">
-                  Flutter
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">
-                  Testing
-                </Button>
-                <Button size="small" variant="tag">AI</Button>
-      <Button size="small" variant="tag">Python</Button>
-      <Button size="small" variant="tag">Flutter</Button>
-      <Button size="small" variant="tag">Testing</Button>
-      <Button size="small" variant="tag">Cloud</Button>
-      <Button size="small" variant="tag">Design</Button>
-      <Button size="small" variant="tag">WPF</Button>
-      <Button size="small" variant="tag">React</Button>
-      <Button size="small" variant="tag">Human Resource</Button>
-      <Button size="small" variant="tag">Angular</Button>
-      <Button size="small" variant="tag">C++</Button>
-      <Button size="small" variant="tag">Finance</Button>
-      <Button size="small" variant="tag">Next</Button>
-      <Button size="small" variant="tag">React Native</Button>
-      <Button size="small" variant="tag">Machine Learning</Button>
-      <Button size="small" variant="tag">Flutter</Button>
-      <Button size="small" variant="tag">Python</Button>
-      <Button size="small" variant="tag">Design</Button>
-      <Button size="small" variant="tag">Java</Button>
-      <Button size="small" variant="tag">Angular</Button>
-      <Button size="small" variant="tag">WPF</Button>
-      <Button size="small" variant="tag">C Programming</Button>
-      <Button size="small" variant="tag">Python</Button>
-      <Button size="small" variant="tag">Mysql</Button>
+              <div className="flex flex-row flex-wrap gap-5 p-3 max-h-80 overflow-y-scroll">
+                {data?.map((data, index) => (
+                  <div
+                    key={index}
+                    className="px-1 py-1 bg-primary-50 flex truncate active:bg-primary-100 max-w-full rounded-md font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10 cursor-pointer items-center"
+                  >
+                    <span>{data}</span>
+                  </div>
+                ))}
               </div>
+              {/* <div className="h-0.5 bg-slate-300/50 mb-2 mt-2" /> */}
               <div className="flex gap-2 justify-end pt-3">
-              <button className="bg-gray-400 rounded-lg px-2 py-1">Cancel</button>
+                <button className="bg-slate-300 rounded-lg px-2 py-1">
+                  Cancel
+                </button>
                 <Button size="medium" variant="primary" onClick={close}>
                   Create
                 </Button>

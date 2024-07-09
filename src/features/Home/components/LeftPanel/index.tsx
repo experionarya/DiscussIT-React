@@ -1,6 +1,13 @@
 import React, { ReactElement, useState } from "react";
 import CreateSpace from "../CreateSpace";
+import Popovers from "src/components/Popovers/index";
 import { PinSolid, BookmarkSolid } from "iconoir-react";
+
+export interface Data {
+  category: string;
+  heading: string;
+  description: string;
+}
 
 export default function LeftPanel(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
@@ -12,6 +19,16 @@ export default function LeftPanel(): ReactElement {
   function handleCreateSpace() {
     setIsOpen(true);
   }
+
+  const data: Data[] = [
+    {
+      category: "Newtork security",
+      heading: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.  Nostrum, ratione!",
+      description: "What are some best practices for handling exceptions in Java applications to ensure robust error handling and graceful degradation?"
+    },
+    
+  ];
+
 
   return (
     <div className="fixed">
@@ -56,7 +73,7 @@ export default function LeftPanel(): ReactElement {
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>
-            <ul className="text-sm">
+            {/* <ul className="text-sm">
               <li className="inline-block cursor-pointer w-full overflow-hidden rounded-md px-3 hover:bg-slate-300/50">
                 <span className="inline-block text-xs text-slate-400">
                   Newtork security
@@ -75,7 +92,12 @@ export default function LeftPanel(): ReactElement {
                   Nostrum, ratione!
                 </span>
               </li>
-            </ul>
+            </ul> */}
+             <div className="text-sm space-y-2">
+              <Popovers data={data}/>
+              <Popovers data={data}/>
+              <Popovers data={data}/>
+            </div>
           </div>
         </aside>
       </div>
@@ -83,3 +105,4 @@ export default function LeftPanel(): ReactElement {
     </div>
   );
 }
+
