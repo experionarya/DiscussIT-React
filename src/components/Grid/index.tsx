@@ -7,7 +7,7 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
 export default function Grid(): ReactElement {
   return (
-    <div className="pl-2">
+    <div className="pl-2 cursor-pointer">
       <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
         <div className="flex min-w-0 gap-x-2">
           <img
@@ -20,7 +20,7 @@ export default function Grid(): ReactElement {
               Subha Lakshmi
             </p>
             <p className="truncate text-xs leading-tight text-slate-500">
-              27-Jan-2024
+            October 15, 2024
             </p>
           </div>
         </div>
@@ -38,7 +38,7 @@ export default function Grid(): ReactElement {
           </p>
         </div>
         <img
-          src={require(`../../assets/images/java-programming.jpg`)}
+          src={require(`../../assets/images/Java.png`)}
           alt="java"
         />
         <div className="flex space-x-3">

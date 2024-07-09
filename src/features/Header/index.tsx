@@ -22,7 +22,7 @@ export default function Header(): ReactElement {
           </div>
           <nav className="hidden gap-2 self-stretch md:flex">
             <NavLink
-              to="home"
+              to="/home"
               className={({ isActive }) =>
                 isActive
                   ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-[''] dark:bg-slate-800/50"
@@ -33,7 +33,7 @@ export default function Header(): ReactElement {
               Home
             </NavLink>
             <NavLink
-              to="community"
+              to="/community/category-posts"
               className={({ isActive }) =>
                 isActive
                   ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-[''] dark:bg-slate-800/50"
