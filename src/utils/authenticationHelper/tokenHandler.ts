@@ -14,7 +14,7 @@ export function getDecodedToken(token: string): any {
   if (!token) {
     return null;
   }
-  console.log("");
+
   try {
     const payload = window.atob(token.split(".")[1]);
     const parsedToken = JSON.parse(payload);
@@ -25,22 +25,27 @@ export function getDecodedToken(token: string): any {
   }
 }
 
-export function getNameFromToken(token: string): any {
-  const parsedToken = getDecodedToken(token);
+export function getNameFromToken(): any {
+  const token = getParsedToken();
+  const parsedToken = getDecodedToken(token || "");
   return parsedToken.Name;
 }
 
-export function getEmailFromToken(token: string): any {
-  const parsedToken = getDecodedToken(token);
+export function getEmailFromToken(): any {
+  const token = getParsedToken();
+  const parsedToken = getDecodedToken(token || "");
   return parsedToken.Email;
 }
 
-export function getRoleFromToken(token: string): any {
-  const parsedToken = getDecodedToken(token);
+export function getRoleFromToken(): any {
+  const token = getParsedToken();
+  const parsedToken = getDecodedToken(token || "");
   return parsedToken.role;
 }
 
-export function getUserIdFromToken(token: string): any {
-  const parsedToken = getDecodedToken(token);
-  return parsedToken.UserId;
+export function getUserIdFromToken(): any {
+  const token = getParsedToken();
+  const parsedToken = getDecodedToken(token || "");
+
+  return parsedToken?.UserId;
 }

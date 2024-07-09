@@ -14,3 +14,10 @@ export const getTopLeaders = `${apiBaseUrl}users/TopUsersByScore/15`;
 
 //
 export const getPrimaryRepliesOfThread = `${apiBaseUrl}Reply/PrimaryRepliesOfThread/11?page=1&pageSize=6`;
+
+//user details
+export const getUserDetails = (userId: string) =>
+  `${apiBaseUrl}users/${userId}`;
+
+// get the trending tags
+export const getTrendingTags = `${apiBaseUrl}Tag?true`;

@@ -47,10 +47,11 @@ function useExternalLogin(): UseMutationResult<
     const result = await externalLogin({
       data,
     });
+    if (result) {
+      setParsedToken(result?.token);
+      getDecodedToken(result?.token);
+    }
 
-    setParsedToken(result?.token);
-
-    getDecodedToken(result?.token);
     return result;
   });
 }
