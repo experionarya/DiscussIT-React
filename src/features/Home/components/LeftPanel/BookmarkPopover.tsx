@@ -6,7 +6,7 @@ interface PopoversProps {
   data: Data[];
 }
 
-export default function Popovers({ data }: PopoversProps): ReactElement {
+export function Popovers({ data }: PopoversProps): ReactElement {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   return (

@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import CreateSpace from "../CreateSpace";
-import Popovers from "src/components/Popovers/index";
+import { Popovers } from "./BookmarkPopover";
 import { PinSolid, BookmarkSolid } from "iconoir-react";
 
 export interface Data {
@@ -23,12 +23,12 @@ export default function LeftPanel(): ReactElement {
   const data: Data[] = [
     {
       category: "Newtork security",
-      heading: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.  Nostrum, ratione!",
-      description: "What are some best practices for handling exceptions in Java applications to ensure robust error handling and graceful degradation?"
+      heading:
+        "Lorem ipsum, dolor sit amet consectetur adipisicing elit.  Nostrum, ratione!",
+      description:
+        "What are some best practices for handling exceptions in Java applications to ensure robust error handling and graceful degradation?",
     },
-    
   ];
-
 
   return (
     <div className="fixed">
@@ -93,10 +93,10 @@ export default function LeftPanel(): ReactElement {
                 </span>
               </li>
             </ul> */}
-             <div className="text-sm space-y-2">
-              <Popovers data={data}/>
-              <Popovers data={data}/>
-              <Popovers data={data}/>
+            <div className="text-sm space-y-2">
+              <Popovers data={data} />
+              <Popovers data={data} />
+              <Popovers data={data} />
             </div>
           </div>
         </aside>
@@ -105,4 +105,3 @@ export default function LeftPanel(): ReactElement {
     </div>
   );
 }
-
