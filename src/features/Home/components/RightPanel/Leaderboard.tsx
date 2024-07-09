@@ -6,10 +6,11 @@ export default function LeaderBoard(): ReactElement {
   return (
     <div>
       <section className="max-w-full rounded-md bg-white shadow-sm mt-3">
-      <div className="p-2">
-        <h3 className="flex items-center gap-1 font-semibold text-slate-900">
-        <TrophyIcon className="size-4 text-slate-400"/>
-            Leaderboard</h3>
+        <div className="p-2">
+          <h3 className="flex items-center gap-1 font-semibold text-slate-900">
+            <TrophyIcon className="size-4 text-slate-400" />
+            Leaderboard
+          </h3>
         </div>
         <div className="space-y-2 p-2 max-h-64 overflow-y-scroll">
           <div className="flex min-w-0 items-center gap-x-2 rounded-md bg-amber-100/80 px-2 py-1">
@@ -61,7 +62,7 @@ export default function LeaderBoard(): ReactElement {
             <MedalSolid className="h-6 w-6 text-slate-400" />
           </div>
           <div className="flex min-w-0 items-center gap-x-2 rounded-md px-2 py-1">
-          <img
+            <img
               className="h-6 w-6 flex-none rounded-full bg-gray-50"
               src={require(`src/assets/images/person-4.jpg`)}
               alt=""

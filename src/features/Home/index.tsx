@@ -4,14 +4,18 @@ import MiddlePanel from "../Home/components/MiddlePanel";
 import RightPanel from "../Home/components/RightPanel";
 import LeftPanel from "../Home/components/LeftPanel";
 
-import { useGetMicrosoftInfo, useExternalLogin } from "./api";
+import { useGetMicrosoftInfo, useExternalLogin } from "src/hooks";
 
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import { useGetUserDetails } from "src/hooks/useGetUserDetails";
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export default function Home(): ReactElement {
   const { id_token } = useAuth();
   const { data: microsoftInfo } = useGetMicrosoftInfo();
   const { mutate: externalLogin } = useExternalLogin();
+  const userId = getUserIdFromToken();
+  const { refetch } = useGetUserDetails(userId);
 
   useEffect(() => {
     if (microsoftInfo)
@@ -23,6 +27,12 @@ export default function Home(): ReactElement {
         username: "",
       });
   }, [externalLogin, id_token, microsoftInfo]);
+
+  useEffect(() => {
+    if (userId) refetch();
+  }, [refetch, userId]);
+
+  useEffect(() => {});
 
   return (
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">

@@ -1,26 +1,28 @@
-import { HashtagIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement } from "react";
-import Tag from "src/components/Tag/intex";
+import { HashtagIcon } from "@heroicons/react/24/outline";
+
+import { useGetTrendingTags } from "../../api/useGetTrendingTags";
+
+import { TrendingTagType } from "../../types/trendingTags";
 
 export default function TrendingTags(): ReactElement {
-  const tagArray = [
-    "Webpack",
-    "D3.js",
-    "Amazon Web Services",
-    "JIRA",
-    "Kubernetes",
-    "Async/Await",
-    "RESTful APIs",
-    "Talent Acquisition",
-    "AI",
-    "Workplace Culture",
-    "Basecamp",
-    "Budgeting",
-    "API Management",
-    "Leadership DevelopmentLeadership DevelopmentLeadership DevelopmentLeadership Development",
-    "Project Scheduling",
-    "Agile Methodology",
-  ];
+  const { data: trendingTags } = useGetTrendingTags();
+
+  function renderTags(item: TrendingTagType) {
+    return (
+      <div>
+        <span
+          key={item?.tagId}
+          className="inline-flex cursor-pointer items-center m-1 rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
+        >
+          {item?.tagName}
+          <span className="text-xs ml-2 text-primary-500">
+            ({item?.tagCount} posts)
+          </span>
+        </span>
+      </div>
+    );
+  }
   return (
     <div className="w-[335px] ">
       <section className="rounded-md bg-white shadow-sm">
@@ -31,7 +33,8 @@ export default function TrendingTags(): ReactElement {
           </h3>
         </div>
         <div className="flex flex-wrap gap-2 p-2 max-h-64 overflow-y-scroll">
-          <Tag tagArray={tagArray}/>
+          {trendingTags?.map((item: TrendingTagType) => renderTags(item))}
+          {/* <Tag tagArray={tagArray} /> */}
         </div>
       </section>
     </div>
