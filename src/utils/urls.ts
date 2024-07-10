@@ -24,3 +24,14 @@ export const getTrendingTags = `${apiBaseUrl}Tag?true`;
 
 // get the top users
 export const getTopUsers = `${apiBaseUrl}users/TopUsersByScore/15`;
+
+// get the post by category
+export const getPostByCategory = (
+  communityId: number,
+  communityCategoryMappingId: number
+) =>
+  `${apiBaseUrl}Thread/top-threads?CommunityID=${communityId}&CommunityCategoryMappingID=${communityCategoryMappingId}&sortBy=latest&topCount=100`;
+
+// get ctaegory by community
+export const getCategoryByCommunity = (communityId: number) =>
+  `${apiBaseUrl}CommunityCategoryMapping/InCommunity/${communityId}`;

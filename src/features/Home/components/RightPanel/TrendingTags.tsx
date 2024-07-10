@@ -1,16 +1,18 @@
 import React, { ReactElement } from "react";
 import { HashtagIcon } from "@heroicons/react/24/outline";
 
-import { useGetTrendingTags } from "../../api/useGetTrendingTags";
+import { useHomeStore } from "../../store/homeStore";
 
 import { TrendingTagType } from "../../types/trendingTags";
 
 export default function TrendingTags(): ReactElement {
-  const { data: trendingTags } = useGetTrendingTags();
+  const trendingTags = useHomeStore(
+    React.useCallback((state: any) => state.trendingTags, [])
+  );
 
   function renderTags(item: TrendingTagType) {
     return (
-      <div>
+      <div key={item?.tagId}>
         <span
           key={item?.tagId}
           className="inline-flex cursor-pointer items-center m-1 rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
@@ -33,7 +35,8 @@ export default function TrendingTags(): ReactElement {
           </h3>
         </div>
         <div className="flex flex-wrap gap-2 p-2 max-h-64 overflow-y-scroll">
-          {trendingTags?.map((item: TrendingTagType) => renderTags(item))}
+          {trendingTags &&
+            trendingTags?.map((item: TrendingTagType) => renderTags(item))}
         </div>
       </section>
     </div>
