@@ -25,6 +25,8 @@ export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState<string | null>(null);
   const [id_token, setIdToken] = useState<string | null>(null);
 
+  console.log("id_tokenid_token", id_token);
+
   useEffect(() => {
     const initialize = async () => {
       await initializeMsal();
@@ -64,6 +66,8 @@ export const AuthProvider = ({ children }: any) => {
       try {
         const tokenResponse: AuthenticationResult =
           await msalInstance.acquireTokenSilent(silentRequest);
+        console.log("tokenResponse", tokenResponse);
+        setIdToken(tokenResponse?.idToken);
         return tokenResponse.accessToken;
       } catch (error) {
         console.error(

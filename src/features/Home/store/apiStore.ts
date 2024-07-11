@@ -15,25 +15,28 @@ export async function fetchMicrosoftInformation({
   token: string;
   tokenType: string;
 }>) {
-  const response = await fetch(microsoftInfo, {
-    method: "GET",
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
-  });
-  return response.json();
+  if (token) {
+    const response = await fetch(microsoftInfo, {
+      method: "GET",
+      headers: {
+        Authorization: `${tokenType} ${token}`,
+      },
+    });
+    return response.json();
+  }
 }
 
 export async function externalLogin(data: ExternalLoginType) {
-  console.log("data", data);
-  const response = await fetch(externalLoginDetails, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return response.json();
+  if (data?.Token) {
+    const response = await fetch(externalLoginDetails, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
 }
 
 export async function fetchUserDetails({
@@ -41,13 +44,15 @@ export async function fetchUserDetails({
   tokenType,
   userId,
 }: UserDetailsParamsType) {
-  const response = await fetch(getUserDetails(userId), {
-    method: "GET",
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
-  });
-  return response.json();
+  if (userId) {
+    const response = await fetch(getUserDetails(userId), {
+      method: "GET",
+      headers: {
+        Authorization: `${tokenType} ${token}`,
+      },
+    });
+    return response.json();
+  }
 }
 
 export async function fetchTrendingTags({
@@ -57,13 +62,15 @@ export async function fetchTrendingTags({
   token: string | null;
   tokenType: string;
 }>) {
-  const response = await fetch(getTrendingTags, {
-    method: "GET",
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
-  });
-  return response.json();
+  if (token) {
+    const response = await fetch(getTrendingTags, {
+      method: "GET",
+      headers: {
+        Authorization: `${tokenType} ${token}`,
+      },
+    });
+    return response.json();
+  }
 }
 
 export async function fetchTopUsers({
@@ -73,11 +80,13 @@ export async function fetchTopUsers({
   token: string | null;
   tokenType: string;
 }>) {
-  const response = await fetch(getTopUsers, {
-    method: "GET",
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
-  });
-  return response.json();
+  if (token) {
+    const response = await fetch(getTopUsers, {
+      method: "GET",
+      headers: {
+        Authorization: `${tokenType} ${token}`,
+      },
+    });
+    return response.json();
+  }
 }

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "src/features/Home";
@@ -9,11 +9,18 @@ import Header from "src/features/Header";
 import Login from "src/features/Login";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
-export default function AppRouter(): ReactElement {
-  const { account } = useAuth();
-  console.log("account", account);
+function PrivatePage(): ReactElement {
+  const { account, login, id_token, token } = useAuth();
+
+  useEffect(() => {
+    console.log("token router", token);
+    if (token === null) {
+      login();
+    }
+  }, [id_token, login, token]);
+
   return (
-    <BrowserRouter>
+    <>
       {account !== null && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
@@ -22,6 +29,18 @@ export default function AppRouter(): ReactElement {
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/notifications" element={<Notifications />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
+
+const AppRoutes = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<PrivatePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default AppRoutes;

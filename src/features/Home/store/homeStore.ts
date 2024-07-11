@@ -90,7 +90,5 @@ export const useHomeStore = create<any>()((set, get) => ({
         state.topUsers = [...topUsersResp];
       })
     );
-
-    console.log("userDetails", userDetails);
   },
 }));
