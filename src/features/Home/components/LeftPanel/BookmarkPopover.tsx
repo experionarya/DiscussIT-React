@@ -10,7 +10,7 @@ interface PopoversProps {
   data: Data[];
 }
 
-export default function Popovers({ data }: PopoversProps): ReactElement {
+export function Popovers({ data }: PopoversProps): ReactElement {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const navigate = useNavigate();
   function goToHome() {
@@ -60,7 +60,9 @@ export default function Popovers({ data }: PopoversProps): ReactElement {
                         <span className="sr-only">Down vote</span>
                         <span>1</span>
                       </button>
-                      <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+                      <button
+                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      >
                         <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Comment</span>
                         <span>10</span>

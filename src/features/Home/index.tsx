@@ -1,38 +1,32 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
+import { useQuery } from "react-query";
 
 import MiddlePanel from "../Home/components/MiddlePanel";
 import RightPanel from "../Home/components/RightPanel";
 import LeftPanel from "../Home/components/LeftPanel";
 
-import { useGetMicrosoftInfo, useExternalLogin } from "src/hooks";
-
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
-import { useGetUserDetails } from "src/hooks/useGetUserDetails";
-import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+
+import { useHomeStore } from "./store/homeStore";
 
 export default function Home(): ReactElement {
-  const { id_token } = useAuth();
-  const { data: microsoftInfo } = useGetMicrosoftInfo();
-  const { mutate: externalLogin } = useExternalLogin();
-  const userId = getUserIdFromToken();
-  const { refetch } = useGetUserDetails(userId);
+  const { id_token, tokenType, token } = useAuth();
 
-  useEffect(() => {
-    if (microsoftInfo)
-      externalLogin({
-        Provider: "microsoft",
-        expiration: 0,
-        Token: id_token,
-        userDetails: microsoftInfo,
-        username: "",
+  const getHomeInfo = useHomeStore(
+    React.useCallback((state: any) => state.getHomeInfo, [])
+  );
+
+  useQuery(
+    ["get_micro_information", { id_token: id_token, token: token }],
+    () => {
+      getHomeInfo({
+        token: token,
+        tokenType: tokenType,
+        id_token: id_token,
       });
-  }, [externalLogin, id_token, microsoftInfo]);
-
-  useEffect(() => {
-    if (userId) refetch();
-  }, [refetch, userId]);
-
-  useEffect(() => {});
+    },
+    { staleTime: Infinity }
+  );
 
   return (
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">

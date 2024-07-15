@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import AddCategories from "../AddCategories";
-import Popovers from "src/components/Popovers/index";
+import Popovers from "src/components/Popovers";
 import { PinSolid, BookmarkSolid } from "iconoir-react";
 
 export interface Data {

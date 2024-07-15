@@ -7,3 +7,9 @@ export type UserDetailsType = {
   score: number;
   userID: string;
 };
+
+export type UserDetailsParamsType = {
+  token: string | null;
+  tokenType: string | undefined;
+  userId: string;
+};

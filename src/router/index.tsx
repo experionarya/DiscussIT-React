@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "src/features/Home";
@@ -11,11 +11,18 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import Post from "src/features/Post/intex";
 import CreatePost from "src/features/CreatePost";
 
-export default function AppRouter(): ReactElement {
-  const { account } = useAuth();
-  console.log("account", account);
+function PrivatePage(): ReactElement {
+  const { account, login, id_token, token } = useAuth();
+
+  useEffect(() => {
+    console.log("token router", token);
+    if (token === null) {
+      login();
+    }
+  }, [id_token, login, token]);
+
   return (
-    <BrowserRouter>
+    <>
       {account !== null && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
@@ -26,6 +33,18 @@ export default function AppRouter(): ReactElement {
         <Route path="/createpost" element={<CreatePost/>} />
         <Route path="/community/category-posts/replies" element={<Post />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
+
+const AppRoutes = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<PrivatePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default AppRoutes;
