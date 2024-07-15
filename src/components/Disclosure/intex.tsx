@@ -6,6 +6,7 @@ import {
 } from "@headlessui/react";
 import { Data } from "src/features/Community/components/CommunityList/index";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { MagnifyingGlassIcon as MagnifyingGlassIconMicro } from "@heroicons/react/16/solid";
 
 interface DisclosuresProps {
   data: Data[];
@@ -13,7 +14,7 @@ interface DisclosuresProps {
 
 export default function Disclosures({ data }: DisclosuresProps): ReactElement {
   return (
-    <div className="space-y-3 text-sm">
+    <div className="space-y-5 text-sm">
       {data.map((item, index) => (
         <Disclosure as="div" key={index} defaultOpen={false}>
           {({ open }) => (
@@ -41,12 +42,12 @@ export default function Disclosures({ data }: DisclosuresProps): ReactElement {
                 />
               </DisclosureButton>
               <DisclosurePanel className="text-sm text-black/50 pl-3 overflow-x-hidden">
-                <ul className="pl-3">
-                  <div>
-                    {/* <button></button> */}
+                <ul className="pl-2">
+                  <div className="flex">
+                    <button><MagnifyingGlassIconMicro className="size-4" /></button>
                     <input
                       type="input"
-                      placeholder="Search Category..."
+                      placeholder="Search"
                       className="text-slate-700 h-7 pl-1 outline-none bg-transparent"
                     />
                   </div>
@@ -55,7 +56,7 @@ export default function Disclosures({ data }: DisclosuresProps): ReactElement {
                     {item.category.map((category, idx) => (
                       <li
                         key={idx}
-                        className="inline-block w-full truncate cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+                        className="inline-block w-full truncate cursor-pointer rounded py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
                       >
                         {category}
                       </li>
