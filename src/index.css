@@ -17,6 +17,7 @@
     background: #dad9d9fe;
     transition: 0.5s;
     border-radius: 7px;
+    max-height: 20px;
 }
 ::-webkit-scrollbar-thumb:hover{
     background: #a6a6a6;

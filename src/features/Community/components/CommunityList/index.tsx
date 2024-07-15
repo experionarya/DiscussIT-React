@@ -14,7 +14,8 @@ export default function CommunityList(): ReactElement {
         "Java Programming",
         "C++",
         "Network Security",
-        "Angular", 
+        "Angular",
+         
       ],
     },
     {

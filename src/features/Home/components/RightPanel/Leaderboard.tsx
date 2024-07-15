@@ -24,7 +24,7 @@ export default function LeaderBoard(): ReactElement {
                 Tom Cook
               </p>
               <p className="truncate text-xs leading-tight text-amber-700/80">
-                120 Posts
+                120 Points
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-amber-500" />
@@ -40,7 +40,7 @@ export default function LeaderBoard(): ReactElement {
                 Leslie Alexander
               </p>
               <p className="truncate text-xs leading-tight text-amber-700/80">
-                112 Posts
+                112 Points
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-amber-500" />
@@ -56,7 +56,7 @@ export default function LeaderBoard(): ReactElement {
                 Courtney Henry
               </p>
               <p className="truncate text-xs leading-tight text-slate-500">
-                98 Posts
+                98 Points
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-slate-400" />
@@ -72,7 +72,7 @@ export default function LeaderBoard(): ReactElement {
                 Lindsay Walton
               </p>
               <p className="truncate text-xs leading-tight text-slate-500">
-                72 Posts
+                72 Points
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-slate-400" />
@@ -88,7 +88,7 @@ export default function LeaderBoard(): ReactElement {
                 Dries Vincent
               </p>
               <p className="truncate text-xs leading-tight text-slate-500">
-                44 Posts
+                44 Points
               </p>
             </div>
             <MedalSolid className="h-6 w-6 text-slate-400" />
