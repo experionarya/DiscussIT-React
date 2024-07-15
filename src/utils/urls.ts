@@ -33,5 +33,5 @@ export const getPostByCategory = (
   `${apiBaseUrl}Thread/top-threads?CommunityID=${communityId}&CommunityCategoryMappingID=${communityCategoryMappingId}&sortBy=latest&topCount=100`;
 
 // get ctaegory by community
-export const getCategoryByCommunity = (communityId: number) =>
+export const getCategoryByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}CommunityCategoryMapping/InCommunity/${communityId}`;

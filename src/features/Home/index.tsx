@@ -11,7 +11,6 @@ import { useHomeStore } from "./store/homeStore";
 
 export default function Home(): ReactElement {
   const { id_token, tokenType, token } = useAuth();
-  console.log("id_token home", token);
 
   const getHomeInfo = useHomeStore(
     React.useCallback((state: any) => state.getHomeInfo, [])
