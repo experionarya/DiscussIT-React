@@ -12,16 +12,15 @@ export function classNames(...classes: any) {
 }
 
 export const buttonSizeClasses = {
-  small: "px-3",
-  medium: "px-3 py-1",
+  small: "px-1 py-1",
+  medium: "px-3 py-2",
   large: "px-6 py-3",
 };
 
 export const buttonVariantClasses = {
   primary:
-    "inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600",
-  secondary:
-    "border border-primary hover:border-primary-900 hover:text-primary-900 rounded-md text-primary text-sm",
+    "inline-flex items-center rounded-md bg-primary text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600",
+  secondary: "bg-slate-300 hover:bg-slate-400 rounded-md text-sm",
   tag: "border min-w-12 border-primary hover:border-primary-900 hover:text-primary-900 rounded-full text-primary text-sm",
   tertiary: "hover:text-primary-900 rounded-lg text-text-weak text-sm",
 };

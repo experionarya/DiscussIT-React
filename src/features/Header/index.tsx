@@ -1,23 +1,48 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 // import Profile from "./components/Profile";
 import { Button } from "../../components/Button";
+import { useNavigate } from "react-router-dom";
+
+import Search from "src/features/Header/components/Search";
 import {
   BellIcon,
   MegaphoneIcon,
   PencilIcon,
 } from "@heroicons/react/24/outline";
+
 export default function Header(): ReactElement {
+  const navigate = useNavigate();
+
+  let [isOpen, setIsOpen] = useState(false);
+
+  function handleClose() {
+    setIsOpen(false);
+  }
+
+  function handleSearch() {
+    setIsOpen(true);
+  }
+
+  function goToCreatePost() {
+    navigate(`/createpost`);
+  }
+
+  function goToHome() {
+    navigate(`/home`);
+  }
+
   return (
-    <header className="fixed w-full top-0 z-50 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
+    <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 grow items-center gap-5 md:gap-10">
           <div className="flex flex-shrink-0 items-center ml-2">
             <img
               src="https://discussit-dev.experionglobal.dev/assets/images/Logo.png"
-              className="h-10"
+              className="h-10 cursor-pointer"
               alt="Tailwind Play"
+              onClick={goToHome}
             />
           </div>
           <nav className="hidden gap-2 self-stretch md:flex">
@@ -41,17 +66,18 @@ export default function Header(): ReactElement {
               }
               aria-current="page"
             >
-              Community
+              Communities
             </NavLink>
           </nav>
 
           <button
             type="button"
             className="group ml-auto flex h-6 w-6 items-center justify-center sm:justify-start md:ml-0 md:h-auto md:w-60 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-400 lg:w-80 xl:w-96 dark:md:ring-slate-600"
+            onClick={handleSearch}
           >
             <MagnifyingGlassIcon className="h-5 w-5 fill-slate-400" />
             <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">
-              Search topics
+              Search Discuss it
             </span>
             <kbd className="ml-auto hidden font-medium text-slate-400 md:block dark:text-sky-200/50">
               <kbd className="font-sans">Ctrl </kbd>
@@ -60,7 +86,7 @@ export default function Header(): ReactElement {
           </button>
 
           <div className="ml-auto hidden gap-4 md:flex">
-            <Button size="medium" variant="primary">
+            <Button size="medium" variant="primary" onClick={goToCreatePost}>
               <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5" />
               Create post
             </Button>
@@ -90,13 +116,14 @@ export default function Header(): ReactElement {
             >
               <img
                 className="h-8 w-8 rounded-full"
-                src={require(`../../assets/images/person-4.jpg`)}
+                src={require(`../../assets/images/person-2.jpg`)}
                 alt="person"
               />
             </button>
           </div>
         </div>
       </div>
+      {isOpen ? <Search isOpen={isOpen} close={handleClose} /> : null}
     </header>
   );
 }

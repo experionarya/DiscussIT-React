@@ -8,6 +8,8 @@ import Notifications from "src/features/Notifications";
 import Header from "src/features/Header";
 import Login from "src/features/Login";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import Post from "src/features/Post/intex";
+import CreatePost from "src/features/CreatePost";
 
 function PrivatePage(): ReactElement {
   const { account, login, id_token, token } = useAuth();
@@ -28,6 +30,8 @@ function PrivatePage(): ReactElement {
         <Route path="/community/category-posts" element={<Community />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/createpost" element={<CreatePost/>} />
+        <Route path="/community/category-posts/replies" element={<Post />} />
       </Routes>
     </>
   );

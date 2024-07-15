@@ -18,9 +18,7 @@ export default function TrendingTags(): ReactElement {
           className="inline-flex cursor-pointer items-center m-1 rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
         >
           {item?.tagName}
-          <span className="text-xs ml-2 text-primary-500">
-            ({item?.tagCount} posts)
-          </span>
+          <span className="text-xs ml-2">({item?.tagCount})</span>
         </span>
       </div>
     );
@@ -34,7 +32,7 @@ export default function TrendingTags(): ReactElement {
             Trending tags
           </h3>
         </div>
-        <div className="flex flex-wrap gap-2 p-2 max-h-64 overflow-y-scroll">
+        <div className="flex flex-wrap pl-2 max-h-64 overflow-y-scroll">
           {trendingTags &&
             trendingTags?.map((item: TrendingTagType) => renderTags(item))}
         </div>

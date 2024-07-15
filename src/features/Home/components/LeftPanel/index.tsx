@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import CreateSpace from "../CreateSpace";
-import { Popovers } from "./BookmarkPopover";
+import AddCategories from "../AddCategories";
+import Popovers from "src/components/Popovers";
 import { PinSolid, BookmarkSolid } from "iconoir-react";
 
 export interface Data {
@@ -16,7 +16,7 @@ export default function LeftPanel(): ReactElement {
     setIsOpen(false);
   }
 
-  function handleCreateSpace() {
+  function handleAddCategories() {
     setIsOpen(true);
   }
 
@@ -45,26 +45,45 @@ export default function LeftPanel(): ReactElement {
           <div>
             <h5 className="mb-2 flex items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
-              <span>Pinned topics</span>
+              <span>Pinned categories</span>
             </h5>
             <ul className="space-y-1 text-sm">
-              <li className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                Newtork security
+              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-800 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                <span>Newtork security</span>
               </li>
-              <li className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                User experience
+
+              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-800 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                <span>
+                  <span>User experience</span>
+                </span>
               </li>
-              <li className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                Artificial intelligence
+              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-800 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                <span>Artificial intelligence</span>
               </li>
-              <li className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                MongoDB
+              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-800 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                <span>MongoDB</span>
               </li>
               <li
                 className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-                onClick={handleCreateSpace}
+                onClick={handleAddCategories}
               >
-                Add more topics
+                Add more categories
               </li>
             </ul>
           </div>
@@ -73,26 +92,6 @@ export default function LeftPanel(): ReactElement {
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>
-            {/* <ul className="text-sm">
-              <li className="inline-block cursor-pointer w-full overflow-hidden rounded-md px-3 hover:bg-slate-300/50">
-                <span className="inline-block text-xs text-slate-400">
-                  Newtork security
-                </span>
-                <span className="inline-block w-full truncate text-sm leading-tight text-slate-700">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Nostrum, ratione!
-                </span>
-              </li>
-              <li className="inline-block w-full cursor-pointer overflow-hidden rounded-md px-3 hover:bg-slate-300/50">
-                <span className="inline-block text-xs text-slate-400">
-                  Newtork security
-                </span>
-                <span className="inline-block w-full truncate text-sm leading-tight text-slate-700">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Nostrum, ratione!
-                </span>
-              </li>
-            </ul> */}
             <div className="text-sm space-y-2">
               <Popovers data={data} />
               <Popovers data={data} />
@@ -101,7 +100,7 @@ export default function LeftPanel(): ReactElement {
           </div>
         </aside>
       </div>
-      {isOpen ? <CreateSpace isOpen={isOpen} close={handleClose} /> : null}
+      {isOpen ? <AddCategories isOpen={isOpen} close={handleClose} /> : null}
     </div>
   );
 }
