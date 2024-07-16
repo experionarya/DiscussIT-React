@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { useNavigate} from 'react-router-dom';
-import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
+import { ArrowDownIcon as ArrowDownIconMicro, ShareIcon } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpTrayIcon as ArrowUpTrayIconMicro } from "@heroicons/react/16/solid";
+import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
 export default function Grid(): ReactElement {
@@ -67,7 +67,7 @@ export default function Grid(): ReactElement {
             <span>10</span>
           </button>
           <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-            <ArrowUpTrayIconMicro className="size-4 text-gray-600" />
+            <ShareIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Share</span>
           </button>
           <button

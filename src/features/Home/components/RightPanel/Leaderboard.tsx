@@ -61,7 +61,7 @@ export default function LeaderBoard(): ReactElement {
             Leaderboard
           </h3>
         </div>
-        <div className="space-y-2 p-2 max-h-64 overflow-y-scroll">
+        <div className="space-y-2 p-2 pt-0 max-h-64 overflow-y-scroll">
           {topUsers &&
             topUsers?.map((item: TopUsersType, index: number) =>
               renderTopUsers(item, index)

@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Search from "src/features/Header/components/Search";
 import {
   BellIcon,
-  MegaphoneIcon,
-  PencilIcon,
+  MegaphoneIcon
 } from "@heroicons/react/24/outline";
-
+import {PencilIcon} from "@heroicons/react/16/solid";
 export default function Header(): ReactElement {
   const navigate = useNavigate();
 
@@ -33,6 +32,13 @@ export default function Header(): ReactElement {
     navigate(`/home`);
   }
 
+  function goToNotifications() {
+    navigate('/notifications');
+  }
+
+  function goToAnnouncements() {
+    navigate('/announcements');
+  }
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -90,22 +96,20 @@ export default function Header(): ReactElement {
               <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5" />
               Create post
             </Button>
-            <NavLink to="announcements" className="ml-3">
               <button
                 type="button"
                 className="relative rounded-full p-1 text-slate-400 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-800 focus:text-primary-800"
+                onClick={goToAnnouncements}
               >
                 <MegaphoneIcon className="size-6" />
               </button>
-            </NavLink>
-            <NavLink to="notifications">
               <button
                 type="button"
                 className="relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-800 focus:text-primary-800"
+                onClick={goToNotifications}
               >
                 <BellIcon className="size-6" />
               </button>
-            </NavLink>
             <div className="relative flex shrink-0 rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"></div>
             <button
               type="button"
