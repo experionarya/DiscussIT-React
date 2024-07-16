@@ -3,7 +3,7 @@ import clsx, { ClassValue } from "clsx";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary" | "tertiary" | "tag";
+  variant?: "primary" | "secondary" | "danger";
   className?: ClassValue;
 };
 
@@ -14,15 +14,18 @@ export function classNames(...classes: any) {
 export const buttonSizeClasses = {
   small: "px-1 py-1",
   medium: "px-3 py-2",
-  large: "px-6 py-3",
+  large: "px-10 py-2",
 };
+
+export const buttonBaseClasses =
+  "inline-flex items-center rounded-md text-sm shadow-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
 
 export const buttonVariantClasses = {
   primary:
-    "inline-flex items-center rounded-md bg-primary text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600",
-  secondary: "bg-slate-300 hover:bg-slate-400 rounded-md text-sm",
-  tag: "border min-w-12 border-primary hover:border-primary-900 hover:text-primary-900 rounded-full text-primary text-sm",
-  tertiary: "hover:text-primary-900 rounded-lg text-text-weak text-sm",
+    "bg-primary text-white hover:bg-primary-600 focus-visible:outline-sky-600",
+  secondary:
+    "border border-stroke-stong/50 text-slate-700 bg-white hover:bg-primary-50 hover:border-primary hover:text-primary",
+  danger: "bg-red-600 text-white hover:bg-red-400",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -39,7 +42,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        className={classNames(sizeClass, variantClass, userClasses)}
+        className={classNames(
+          sizeClass,
+          variantClass,
+          userClasses,
+          buttonBaseClasses
+        )}
         ref={ref}
         {...rest}
       >
