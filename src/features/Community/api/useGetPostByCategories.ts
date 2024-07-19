@@ -2,6 +2,7 @@ import { useQuery, UseQueryResult } from "react-query";
 
 import { getPostByCategory } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { PostType } from "../types/postType";
 
@@ -34,20 +35,22 @@ type TVariables = {
 };
 
 function useGetPostByCategories(
-  communityId: number,
-  communityCategoryMappingId: number
+  communityId: number | undefined,
+  communityCategoryMappingId: number | undefined
 ): UseQueryResult<APIResult, TError> {
-  const { token, tokenType } = useAuth();
+  const { tokenType } = useAuth();
   return useQuery(
-    ["get_posts_by_category"],
+    ["get_posts_by_category", communityCategoryMappingId],
     async () => {
-      const result = await fetchPostsByCategory({
-        token,
-        tokenType,
-        communityId,
-        communityCategoryMappingId,
-      });
-      return result;
+      if (communityId && communityCategoryMappingId) {
+        const result = await fetchPostsByCategory({
+          token: getParsedToken(),
+          tokenType,
+          communityId,
+          communityCategoryMappingId,
+        });
+        return result;
+      }
     },
     {
       staleTime: Infinity,

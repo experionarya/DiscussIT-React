@@ -2,8 +2,9 @@ import { useQuery, UseQueryResult } from "react-query";
 
 import { getCommunityList } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
-import { CommunityType } from "../types/communityType";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+
+import { CommunityType } from "../types/communityType";
 
 async function fetchCommunityList({
   token,
