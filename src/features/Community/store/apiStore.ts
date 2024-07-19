@@ -1,4 +1,4 @@
-import { getCategoryByCommunity } from "src/utils/urls";
+import { getCategoryByCommunity, getCommunityList } from "src/utils/urls";
 
 export async function fetchCategoryByCommunity({
   token,
@@ -6,6 +6,16 @@ export async function fetchCategoryByCommunity({
   communityId,
 }: any) {
   const response = await fetch(getCategoryByCommunity(communityId), {
+    method: "GET",
+    headers: {
+      Authorization: `${tokenType} ${token}`,
+    },
+  });
+  return response.json();
+}
+
+export async function fetchCommunityList({ token, tokenType }: any) {
+  const response = await fetch(getCommunityList, {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,

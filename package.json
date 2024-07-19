@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@azure/msal-browser": "^3.18.0",
+    "@azure/msal-react": "^2.0.21",
     "@headlessui/react": "^2.0.4",
     "@heroicons/react": "^2.1.4",
     "@testing-library/jest-dom": "^5.17.0",
@@ -13,6 +14,7 @@
     "@types/node": "^20.14.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "dayjs": "^1.11.12",
     "iconoir-react": "^7.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

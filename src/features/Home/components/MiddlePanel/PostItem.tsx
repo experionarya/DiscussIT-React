@@ -1,12 +1,15 @@
 import React, { ReactElement } from "react";
-import { useNavigate} from 'react-router-dom';
-import { ArrowDownIcon as ArrowDownIconMicro, ShareIcon } from "@heroicons/react/16/solid";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowDownIcon as ArrowDownIconMicro,
+  ShareIcon,
+} from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
-export default function Grid(): ReactElement {
+export function PostItem(): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost() {
@@ -19,7 +22,7 @@ export default function Grid(): ReactElement {
         <div className="flex min-w-0 gap-x-2">
           <img
             className="h-8 w-8 flex-none rounded-full bg-gray-50"
-            src={require(`../../assets/images/person-4.jpg`)}
+            src={require(`../../../../assets/images/person-4.jpg`)}
             alt=""
           />
           <div className="min-w-0 flex-auto">
@@ -27,7 +30,7 @@ export default function Grid(): ReactElement {
               Subha Lakshmi
             </p>
             <p className="truncate text-xs leading-tight text-slate-500">
-            October 15, 2024
+              October 15, 2024
             </p>
           </div>
         </div>
@@ -45,7 +48,7 @@ export default function Grid(): ReactElement {
           </p>
         </div>
         <img
-          src={require(`../../assets/images/Java.png`)}
+          src={require(`../../../../assets/images/Java.png`)}
           alt="java"
           className="cursor-pointer"
           onClick={gotoPost}
@@ -61,7 +64,10 @@ export default function Grid(): ReactElement {
             <span className="sr-only">Down vote</span>
             <span>3</span>
           </button>
-          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200" onClick={gotoPost}>
+          <button
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            onClick={gotoPost}
+          >
             <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Comment</span>
             <span>10</span>

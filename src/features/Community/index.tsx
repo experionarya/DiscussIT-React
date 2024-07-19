@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
+
 import CommunityList from "./components/CommunityList";
-// import CategoryList from "./components/CategoryList";
 import Post from "./components/Posts";
 
 export default function Community(): ReactElement {
