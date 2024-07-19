@@ -44,12 +44,6 @@ export default function AddCategories({ isOpen, close }: any): ReactElement {
                   <XMarkIcon className="size-6 text-slate-400" />
                 </button>
               </div>
-              <div className="pl-5 pr-5 pb-3">
-                <select name="community" id="community" className="border border-stroke-weak rounded-md h-9 w-full text-slate-700 outline-none">
-                  <option value="Pm-hub">PM-hub</option>
-                  <option value="Experion-Discussion">Experion-Discussion</option>
-                </select>
-              </div>
               <div className="flex relative pl-5 pr-5">
                 <button className="absolute mt-[10px] ml-2">
                   <MagnifyingGlassIcon className="size-4 text-slate-400" />
