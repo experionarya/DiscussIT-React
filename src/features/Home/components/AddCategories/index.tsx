@@ -23,7 +23,7 @@ export default function AddCategories({ isOpen, close }: any): ReactElement {
     "Basecamp",
   ];
   return (
-    <div>
+    <>
       <Dialog
         open={isOpen}
         as="div"
@@ -77,6 +77,6 @@ export default function AddCategories({ isOpen, close }: any): ReactElement {
           </div>
         </div>
       </Dialog>
-    </div>
+    </>
   );
 }

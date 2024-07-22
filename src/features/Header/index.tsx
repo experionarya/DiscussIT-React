@@ -95,17 +95,20 @@ export default function Header(): ReactElement {
               Create post
             </Button>
             <Popover>
-              <PopoverButton
-                type="button"
-                className="relative rounded-full p-1 text-slate-400 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-800 focus:text-primary-800"
-              >
-                <MegaphoneIcon className="size-6" />
-              </PopoverButton>
+              <div className="relative">
+                <PopoverButton
+                  type="button"
+                  className="relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-800 focus:text-primary-800"
+                >
+              <MegaphoneIcon className="size-6" />
+                </PopoverButton>
+                <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2"/>
+              </div>
               <PopoverPanel
-                anchor="bottom"
-                className="w-96 mt-6 -ml-16 rounded-md bg-white shadow-xl border ease-in-out"
+                anchor="bottom end"
+                className="w-96 mt-6 rounded-md bg-white shadow-xl border ease-in-out"
               >
-                <div className="px-4 pt-3 space-y-3">
+                <div className="px-4 pt-3 space-y-3 border-b border-slate-200 pb-3">
                   <h1 className="font-semibold text-slate-900 flex text-lg">
                     Announcement
                   </h1>
@@ -148,7 +151,6 @@ export default function Header(): ReactElement {
                     {/* <style>{`ul::-webkit-scrollbar { display: none; }`}</style> */}
                   </ul>
                 </div>
-                <div className="mt-3 h-[1px] bg-slate-300" />
                 <div className="divide-y divide-slate-200 max-h-96 overflow-y-scroll">
                   <div className="px-4 py-3">
                     <h5 className="font-semibold text-sm text-slate-900 leading-tight">

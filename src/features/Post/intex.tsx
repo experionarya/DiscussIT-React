@@ -2,12 +2,12 @@ import React, { ReactElement, useRef, useState } from "react";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpTrayIcon as ArrowUpTrayIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Button } from "src/components/Button";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 
 export default function Post(): ReactElement {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -45,7 +45,7 @@ export default function Post(): ReactElement {
   return (
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
-        <button className="size-10 bg-sky-200/50 rounded-full flex justify-center items-center">
+        <button className="size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center">
           <ArrowLeftIcon className="size-5" />
         </button>
       </div>
@@ -99,12 +99,11 @@ export default function Post(): ReactElement {
                 <span>10</span>
               </button>
               <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-                <ArrowUpTrayIconMicro className="size-4 text-gray-600" />
-                <span className="sr-only">Share</span>
+              <ShareIconMicro className="size-4 text-gray-600" />
+              <span className="sr-only">Share</span>
               </button>
               <button
                 className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                title=""
               >
                 <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
                 <span className="sr-only">Bookmark</span>
@@ -212,7 +211,7 @@ export default function Post(): ReactElement {
                         <div className="grid grid-cols-6 p-5">
                           <DialogTitle as="h3" className="col-span-5">
                             <h1 className="font-semibold text-slate-900 flex">
-                              Add categories
+                              Discard comment?
                             </h1>
                           </DialogTitle>
                           <button
@@ -223,7 +222,7 @@ export default function Post(): ReactElement {
                           </button>
                         </div>
                         <div className="pl-5 pr-5">
-                          <p className="text-slate-900">
+                          <p className="text-sm text-slate-700">
                             You have a comment in progress, are you sure you
                             want to discard it?
                           </p>

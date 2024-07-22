@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 export default function Search({ isOpen, close }: any): ReactElement {
   return (
-    <div>
+    <>
       <Dialog open={isOpen} as="div" onClose={close}>
         <div
           className="fixed inset-0 bg-black/65 backdrop-blur-sm"
@@ -27,6 +27,6 @@ export default function Search({ isOpen, close }: any): ReactElement {
           </div>
         </div>
       </Dialog>
-    </div>
+    </>
   );
 }

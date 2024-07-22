@@ -18,7 +18,7 @@ export function Popovers({ data }: PopoversProps): ReactElement {
   }
 
   return (
-    <div>
+    <>
       {data.map((item, index) => (
         <Popover key={index}>
           {({ open }) => (
@@ -75,6 +75,6 @@ export function Popovers({ data }: PopoversProps): ReactElement {
           )}
         </Popover>
       ))}
-    </div>
+    </>
   );
 }
