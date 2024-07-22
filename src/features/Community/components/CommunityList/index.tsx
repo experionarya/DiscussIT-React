@@ -28,8 +28,8 @@ export default function CommunityList(): ReactElement {
   return (
     <div className="fixed">
       <div className="max-h-full overflow-y-scroll">
-        <aside className="min-w-40 max-w-44 space-y-8 pl-2 pr-2">
-          <div className="space-y-1 text-sm">
+        <aside className="min-w-40 max-w-52 space-y-8 pl-2 pr-2">
+          <div className="space-y-1">
             <CommunityDisclosure />
           </div>
         </aside>

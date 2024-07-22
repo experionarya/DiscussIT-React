@@ -26,13 +26,13 @@ export default function TrendingTags(): ReactElement {
   return (
     <div className="w-[335px] ">
       <section className="rounded-md bg-white shadow-sm">
-        <div className="p-2 pb-1">
-          <h3 className="flex items-center gap-1 font-semibold text-slate-900">
+        <div className="p-3">
+          <h3 className="flex items-center gap-1 text-lg font-semibold text-slate-900">
             <HashtagIcon className="size-4 text-slate-400" />
             Trending tags
           </h3>
         </div>
-        <div className="flex flex-wrap pl-2 max-h-64 overflow-y-scroll">
+        <div className="flex flex-wrap pl-2 max-h-56 overflow-y-scroll">
           {trendingTags &&
             trendingTags?.map((item: TrendingTagType) => renderTags(item))}
         </div>

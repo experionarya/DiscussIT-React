@@ -33,7 +33,7 @@ export default function LeftPanel(): ReactElement {
   return (
     <div className="fixed">
       <div className="overflow-y-scroll">
-        <aside className="min-w-40 max-w-44 space-y-8 pl-2">
+        <aside className="min-w-40 max-w-52 space-y-8 pl-2">
           <div className="space-y-1 text-sm">
             <li className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50">
               All posts
@@ -43,13 +43,14 @@ export default function LeftPanel(): ReactElement {
             </li>
           </div>
           <div>
-            <h5 className="mb-2 flex items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
+            <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
               <span>Pinned categories</span>
             </h5>
             <ul className="space-y-1 text-sm">
-              <li className="flex w-full cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+              <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
                 Newtork security
+                <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" />
               </li>
 
               <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
@@ -70,7 +71,7 @@ export default function LeftPanel(): ReactElement {
             </ul>
           </div>
           <div>
-            <h5 className="mb-2 flex items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
+            <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>
