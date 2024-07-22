@@ -2,12 +2,12 @@ import React, { ReactElement, useRef, useState } from "react";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpTrayIcon as ArrowUpTrayIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Button } from "src/components/Button";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 
 export default function Post(): ReactElement {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -45,11 +45,11 @@ export default function Post(): ReactElement {
   return (
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
-        <button className="size-10 bg-sky-200/50 rounded-full flex justify-center items-center">
+        <button className="size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center">
           <ArrowLeftIcon className="size-5" />
         </button>
       </div>
-      <div className="grid grow grid-cols-3 gap-4">
+      <div className="grid grow grid-cols-3 gap-4 pl-10">
         <div className="col-span-2 space-y-2">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
             <div className="flex min-w-0 gap-x-2">
@@ -83,28 +83,28 @@ export default function Post(): ReactElement {
               className="cursor-pointer"
             />
             <div className="flex space-x-3">
-              <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button title="Up vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                 <ArrowUpIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Up vote</span>
                 <span>20</span>
               </button>
-              <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button title="Down vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                 <ArrowDownIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Down vote</span>
                 <span>3</span>
               </button>
-              <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button title="Comment" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                 <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Comment</span>
                 <span>10</span>
               </button>
-              <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-                <ArrowUpTrayIconMicro className="size-4 text-gray-600" />
-                <span className="sr-only">Share</span>
+              <button title="Share" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <ShareIconMicro className="size-4 text-gray-600" />
+              <span className="sr-only">Share</span>
               </button>
               <button
+              title="Bookmark"
                 className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                title=""
               >
                 <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
                 <span className="sr-only">Bookmark</span>
@@ -212,7 +212,7 @@ export default function Post(): ReactElement {
                         <div className="grid grid-cols-6 p-5">
                           <DialogTitle as="h3" className="col-span-5">
                             <h1 className="font-semibold text-slate-900 flex">
-                              Add categories
+                              Discard comment?
                             </h1>
                           </DialogTitle>
                           <button
@@ -223,7 +223,7 @@ export default function Post(): ReactElement {
                           </button>
                         </div>
                         <div className="pl-5 pr-5">
-                          <p className="text-slate-900">
+                          <p className="text-sm text-slate-700">
                             You have a comment in progress, are you sure you
                             want to discard it?
                           </p>

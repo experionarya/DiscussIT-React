@@ -33,8 +33,8 @@ export default function Home(): ReactElement {
       <div className="min-w-40 max-w-44 space-y-5">
         <LeftPanel />
       </div>
-      <div className="grid grow grid-cols-3 gap-3">
-        <div className="col-span-2 space-y-2">
+      <div className="grid grow grid-cols-3 gap-4">
+        <div className="col-span-2 space-y-2 pl-10">
           <MiddlePanel />
         </div>
         <div className="col-span-1 space-y-2 overflow-y-auto">

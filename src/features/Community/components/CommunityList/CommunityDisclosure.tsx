@@ -14,6 +14,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { useCommunityStore } from "../../store/communityStore";
 
 import { CategoryType } from "../../types/categoryType";
+import { DisclosureType } from "../../types/communityType";
 
 export function CommunityDisclosure(): ReactElement {
   const { tokenType } = useAuth();
@@ -22,33 +23,42 @@ export function CommunityDisclosure(): ReactElement {
     React.useCallback((state: any) => state.communityList, [])
   );
 
-  const [disclosureItems, setDisclosureItems] = useState<any>([]);
+  const setCategoryByCommunity = useCommunityStore(
+    React.useCallback((state: any) => state.setCategoryByCommunity, [])
+  );
+
+  const [disclosureItems, setDisclosureItems] = useState<Array<DisclosureType>>(
+    []
+  );
 
   useEffect(() => {
     if (communityList) {
-      console.log("communityList", communityList);
       setDisclosureItems(communityList);
     }
   }, [communityList]);
 
   const handleToggle = async (id: number) => {
     setDisclosureItems((prevItems: any) =>
-      prevItems.map((item: any) => {
+      prevItems.map((item: DisclosureType) => {
         if (item.id === id) {
           return { ...item, isOpen: !item.isOpen };
         }
         return item;
       })
     );
-    const itemToLoad = disclosureItems.find((item: any) => item.id === id);
-    if (!itemToLoad.content) {
+    const itemToLoad = disclosureItems?.find(
+      (item: DisclosureType) => item.id === id
+    );
+    if (!itemToLoad?.content) {
       const fetchedContent = await fetchCategoryByCommunity({
         token: getParsedToken(),
         tokenType: tokenType,
         communityId: id,
       });
+      setCategoryByCommunity(fetchedContent);
+      console.log("categoryList 2", fetchedContent);
       setDisclosureItems((prevItems: any) =>
-        prevItems.map((item: any) => {
+        prevItems.map((item: DisclosureType) => {
           if (item.id === id) {
             return { ...item, content: fetchedContent };
           }
@@ -59,14 +69,14 @@ export function CommunityDisclosure(): ReactElement {
   };
 
   return (
-    <div className="space-y-3 text-sm">
+    <div className="space-y-5">
       {disclosureItems &&
-        disclosureItems.map((item: any) => {
+        disclosureItems.map((item: DisclosureType) => {
           return (
             <Disclosure as="div" key={item?.id} defaultOpen={item?.isOpen}>
               {({ open }) => {
                 return (
-                  <div>
+                  <>
                     <DisclosureButton
                       className={
                         open
@@ -82,7 +92,7 @@ export function CommunityDisclosure(): ReactElement {
                         className={
                           open
                             ? "cursor-pointer px-3 py-1 truncate"
-                            : "cursor-pointer rounded px-3 py-1 text-slate-700 hover:text-slate-800 truncate"
+                            : "cursor-pointer rounded px-3 py-1 hover:text-slate-800 truncate"
                         }
                       >
                         {item.name}
@@ -93,9 +103,9 @@ export function CommunityDisclosure(): ReactElement {
                         }`}
                       />
                     </DisclosureButton>
-                    <DisclosurePanel className="text-sm text-black/50 pl-3 overflow-x-hidden">
-                      <ul className="pl-3">
-                        <div className="flex">
+                    <DisclosurePanel className="text-sm text-black/50 pl-6 overflow-x-hidden">
+                      <ul>
+                        <div className="flex border-b border-slate-200 mb-3">
                           <button>
                             <MagnifyingGlassIcon className="size-4 text-slate-400" />
                           </button>
@@ -105,8 +115,7 @@ export function CommunityDisclosure(): ReactElement {
                             className="text-slate-700 h-7 pl-1 outline-none bg-transparent truncate"
                           />
                         </div>
-                        <div className="h-0.5 bg-slate-300/50 mb-2 mr-3" />
-                        <div className="max-h-[268px] overflow-y-auto overflow-x-hidden space-y-1">
+                        <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2">
                           {item?.content?.map((category: CategoryType) => (
                             <li
                               key={category?.communityCategoryID}
@@ -128,7 +137,7 @@ export function CommunityDisclosure(): ReactElement {
                         </div>
                       </ul>
                     </DisclosurePanel>
-                  </div>
+                  </>
                 );
               }}
             </Disclosure>
