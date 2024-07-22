@@ -49,7 +49,7 @@ export default function Post(): ReactElement {
           <ArrowLeftIcon className="size-5" />
         </button>
       </div>
-      <div className="grid grow grid-cols-3 gap-4">
+      <div className="grid grow grid-cols-3 gap-4 pl-10">
         <div className="col-span-2 space-y-2">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
             <div className="flex min-w-0 gap-x-2">

@@ -19,3 +19,31 @@ export type PostType = {
   title: string;
   upVoteCount: number;
 };
+
+export type ThreadType = {
+  categoryName: null | string;
+  communityName: null | string;
+  content: string;
+  createdAt: string;
+  createdBy: string;
+  createdByUser: string;
+  downVoteCount: number;
+  isAnswered: boolean;
+  isEdited: null;
+  modifiedAt: string;
+  modifiedBy: string;
+  modifiedByUser: string;
+  replyCount: number;
+  tagNames: Array<string>;
+  threadID: number;
+  threadOwnerEmail: null;
+  threadStatusName: string;
+  title: string;
+  upVoteCount: number;
+};
+
+export type AllPostsType = {
+  categoryDescription: string;
+  categoryName: string;
+  threads: Array<ThreadType>;
+};
