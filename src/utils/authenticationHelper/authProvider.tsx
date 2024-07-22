@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }: any) => {
   const [account, setAccount] = useState<AccountInfo | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [id_token, setIdToken] = useState<string | null>(null);
-
-  console.log("id_tokenid_token", id_token);
+  const [isInteractionInProgress, setIsInteractionInProgress] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const initialize = async () => {
@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }: any) => {
   }, []);
 
   const login = async () => {
+    if (isInteractionInProgress) return;
+    setIsInteractionInProgress(true);
     try {
       const loginResponse = await msalInstance.loginPopup();
       setAccount(loginResponse.account);
@@ -48,13 +50,28 @@ export const AuthProvider = ({ children }: any) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsInteractionInProgress(false);
     }
   };
 
   const logout = () => {
-    msalInstance.logoutPopup();
-    setAccount(null);
-    removeToken();
+    if (isInteractionInProgress) return;
+    setIsInteractionInProgress(true);
+
+    msalInstance
+      .logoutPopup()
+      .then(() => {
+        setAccount(null);
+        setToken(null);
+        removeToken();
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      })
+      .finally(() => {
+        setIsInteractionInProgress(false);
+      });
   };
 
   const acquireTokenSilently = async (account: AccountInfo) => {

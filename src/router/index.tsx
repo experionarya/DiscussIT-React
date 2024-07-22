@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "src/features/Home";
@@ -12,14 +12,7 @@ import Post from "src/features/Post/intex";
 import CreatePost from "src/features/CreatePost";
 
 function PrivatePage(): ReactElement {
-  const { account, login, id_token, token } = useAuth();
-
-  useEffect(() => {
-    console.log("token router", token);
-    if (token === null) {
-      login();
-    }
-  }, [id_token, login, token]);
+  const { account } = useAuth();
 
   return (
     <>
@@ -30,7 +23,7 @@ function PrivatePage(): ReactElement {
         <Route path="/community/category-posts" element={<Community />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/createpost" element={<CreatePost/>} />
+        <Route path="/createpost" element={<CreatePost />} />
         <Route path="/community/category-posts/replies" element={<Post />} />
       </Routes>
     </>
