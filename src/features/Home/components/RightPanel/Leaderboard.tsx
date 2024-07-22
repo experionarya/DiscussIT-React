@@ -53,21 +53,21 @@ export default function LeaderBoard(): ReactElement {
   }
 
   return (
-    <div>
+    <>
       <section className="max-w-full rounded-md bg-white shadow-sm mt-3">
-        <div className="p-2">
-          <h3 className="flex items-center gap-1 font-semibold text-slate-900">
+        <div className="p-3">
+          <h3 className="flex items-center text-lg gap-1 font-semibold text-slate-900">
             <TrophyIcon className="size-4 text-slate-400" />
             Leaderboard
           </h3>
         </div>
-        <div className="space-y-2 p-2 pt-0 max-h-64 overflow-y-scroll">
+        <div className="space-y-2 pl-3 pr-2 max-h-56 overflow-y-scroll">
           {topUsers &&
             topUsers?.map((item: TopUsersType, index: number) =>
               renderTopUsers(item, index)
             )}
         </div>
       </section>
-    </div>
+    </>
   );
 }

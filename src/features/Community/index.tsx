@@ -10,7 +10,7 @@ export default function Community(): ReactElement {
         <CommunityList />
       </div>
       <div className="grid grow grid-cols-3 gap-4">
-        <div className="col-span-2">
+        <div className="col-span-2 pl-10">
           <Post />
         </div>
         <div className="col-span-1 space-y-2 overflow-y-auto" />
