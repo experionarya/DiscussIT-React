@@ -69,7 +69,7 @@ export function CommunityDisclosure(): ReactElement {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       {disclosureItems &&
         disclosureItems.map((item: DisclosureType) => {
           return (

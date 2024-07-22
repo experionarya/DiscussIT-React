@@ -52,17 +52,18 @@ export function PostItem(): ReactElement {
           onClick={gotoPost}
         />
         <div className="flex space-x-3">
-          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button title="Up vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
             <ArrowUpIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Up vote</span>
             <span>20</span>
           </button>
-          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button title="Down vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
             <ArrowDownIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Down vote</span>
             <span>3</span>
           </button>
           <button
+          title="Comment"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={gotoPost}
           >
@@ -70,13 +71,13 @@ export function PostItem(): ReactElement {
             <span className="sr-only">Comment</span>
             <span>10</span>
           </button>
-          <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button title="Share" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
             <ShareIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Share</span>
           </button>
           <button
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            title=""
+            title="Bookmark"
           >
             <BookmarkIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Bookmark</span>
