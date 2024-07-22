@@ -8,6 +8,7 @@ export const useCommunityStore = create<any>()((set, get) => ({
   category: {},
   isLoading: false,
   communityList: [],
+  categoryByCommunity: [],
 
   getCommunityInfo: async ({
     token,
@@ -54,6 +55,18 @@ export const useCommunityStore = create<any>()((set, get) => ({
         });
         state.category = {
           communityId: get().communityList[0].id,
+          categoryId: categoryList?.[0].communityCategoryMappingID,
+          categoryName: categoryList?.[0].communityCategoryName,
+        };
+      })
+    );
+  },
+
+  setCategoryByCommunity: (categoryList: any) => {
+    set(
+      produce((state: any) => {
+        state.categoryByCommunity = [...categoryList];
+        state.category = {
           categoryId: categoryList?.[0].communityCategoryMappingID,
           categoryName: categoryList?.[0].communityCategoryName,
         };
