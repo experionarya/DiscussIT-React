@@ -35,3 +35,7 @@ export const getPostByCategory = (
 // get ctaegory by community
 export const getCategoryByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}CommunityCategoryMapping/InCommunity/${communityId}`;
+
+export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
+  `${apiBaseUrl}Thread?CommunityCategoryMappingID=${communityCategoryMappingId}
+&pageNumber=1&pageSize=100&filterOption=0&sortOption=2`;

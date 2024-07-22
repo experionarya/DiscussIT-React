@@ -14,6 +14,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { useCommunityStore } from "../../store/communityStore";
 
 import { CategoryType } from "../../types/categoryType";
+import { DisclosureType } from "../../types/communityType";
 
 export function CommunityDisclosure(): ReactElement {
   const { tokenType } = useAuth();
@@ -22,33 +23,42 @@ export function CommunityDisclosure(): ReactElement {
     React.useCallback((state: any) => state.communityList, [])
   );
 
-  const [disclosureItems, setDisclosureItems] = useState<any>([]);
+  const setCategoryByCommunity = useCommunityStore(
+    React.useCallback((state: any) => state.setCategoryByCommunity, [])
+  );
+
+  const [disclosureItems, setDisclosureItems] = useState<Array<DisclosureType>>(
+    []
+  );
 
   useEffect(() => {
     if (communityList) {
-      console.log("communityList", communityList);
       setDisclosureItems(communityList);
     }
   }, [communityList]);
 
   const handleToggle = async (id: number) => {
     setDisclosureItems((prevItems: any) =>
-      prevItems.map((item: any) => {
+      prevItems.map((item: DisclosureType) => {
         if (item.id === id) {
           return { ...item, isOpen: !item.isOpen };
         }
         return item;
       })
     );
-    const itemToLoad = disclosureItems.find((item: any) => item.id === id);
-    if (!itemToLoad.content) {
+    const itemToLoad = disclosureItems?.find(
+      (item: DisclosureType) => item.id === id
+    );
+    if (!itemToLoad?.content) {
       const fetchedContent = await fetchCategoryByCommunity({
         token: getParsedToken(),
         tokenType: tokenType,
         communityId: id,
       });
+      setCategoryByCommunity(fetchedContent);
+      console.log("categoryList 2", fetchedContent);
       setDisclosureItems((prevItems: any) =>
-        prevItems.map((item: any) => {
+        prevItems.map((item: DisclosureType) => {
           if (item.id === id) {
             return { ...item, content: fetchedContent };
           }
@@ -61,7 +71,7 @@ export function CommunityDisclosure(): ReactElement {
   return (
     <div className="space-y-3 text-sm">
       {disclosureItems &&
-        disclosureItems.map((item: any) => {
+        disclosureItems.map((item: DisclosureType) => {
           return (
             <Disclosure as="div" key={item?.id} defaultOpen={item?.isOpen}>
               {({ open }) => {
