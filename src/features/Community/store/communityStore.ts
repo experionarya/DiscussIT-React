@@ -62,11 +62,12 @@ export const useCommunityStore = create<any>()((set, get) => ({
     );
   },
 
-  setCategoryByCommunity: (categoryList: any) => {
+  setCategoryByCommunity: (categoryList: any, id: number) => {
     set(
       produce((state: any) => {
         state.categoryByCommunity = [...categoryList];
         state.category = {
+          communityId: id,
           categoryId: categoryList?.[0].communityCategoryMappingID,
           categoryName: categoryList?.[0].communityCategoryName,
         };

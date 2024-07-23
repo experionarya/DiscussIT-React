@@ -1,7 +1,10 @@
 import React, { ReactElement, useState } from "react";
-import AddCategories from "../AddCategories";
+import { BookmarkSolid } from "iconoir-react";
+
 import Popovers from "src/components/Popovers";
-import { PinSolid, BookmarkSolid } from "iconoir-react";
+
+import { AddCategories } from "../AddCategories";
+import { PreferenceList } from "./PreferenceList";
 
 export interface Data {
   category: string;
@@ -10,7 +13,7 @@ export interface Data {
 }
 
 export default function LeftPanel(): ReactElement {
-  let [isOpen, setIsOpen] = useState(false);
+  let [isOpen, setIsOpen] = useState<boolean>(false);
 
   function handleClose() {
     setIsOpen(false);
@@ -42,34 +45,8 @@ export default function LeftPanel(): ReactElement {
               Popular
             </li>
           </div>
-          <div>
-            <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
-              <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
-              <span>Pinned categories</span>
-            </h5>
-            <ul className="space-y-1 text-sm">
-              <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                Newtork security
-                <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" />
-              </li>
+          <PreferenceList handleAddCategories={handleAddCategories} />
 
-              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                User experience
-              </li>
-              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                Artificial intelligence
-              </li>
-              <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-                MongoDB
-              </li>
-              <li
-                className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-                onClick={handleAddCategories}
-              >
-                Add more categories
-              </li>
-            </ul>
-          </div>
           <div>
             <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
@@ -83,7 +60,9 @@ export default function LeftPanel(): ReactElement {
           </div>
         </aside>
       </div>
-      {isOpen ? <AddCategories isOpen={isOpen} close={handleClose} /> : null}
+      {isOpen ? (
+        <AddCategories isOpen={isOpen} handleClose={handleClose} />
+      ) : null}
     </div>
   );
 }
