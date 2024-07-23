@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -30,6 +30,9 @@ export function CommunityDisclosure(): ReactElement {
   const [disclosureItems, setDisclosureItems] = useState<Array<DisclosureType>>(
     []
   );
+  const [searchedValue, setSearchedValue] = useState<Record<string, string>>(
+    {}
+  );
 
   useEffect(() => {
     if (communityList) {
@@ -56,7 +59,7 @@ export function CommunityDisclosure(): ReactElement {
         communityId: id,
       });
       setCategoryByCommunity(fetchedContent);
-      console.log("categoryList 2", fetchedContent);
+
       setDisclosureItems((prevItems: any) =>
         prevItems.map((item: DisclosureType) => {
           if (item.id === id) {
@@ -68,10 +71,29 @@ export function CommunityDisclosure(): ReactElement {
     }
   };
 
+  //implementing search result
+  const result = useMemo(() => {
+    let tempArray: any = [];
+    disclosureItems?.map((item) => {
+      if (searchedValue[item.name] && searchedValue[item.name] !== "") {
+        const result1 = item?.content?.filter((category) =>
+          category?.communityCategoryName
+            ?.toLocaleLowerCase()
+            ?.includes(searchedValue[item?.name]?.toLocaleLowerCase())
+        );
+        tempArray?.push({ [`${item.name}`]: [...result1] });
+      } else {
+        tempArray?.push({ [`${item.name}`]: item?.content });
+      }
+    });
+
+    return tempArray;
+  }, [disclosureItems, searchedValue]);
+
   return (
     <div className="space-y-5">
       {disclosureItems &&
-        disclosureItems.map((item: DisclosureType) => {
+        disclosureItems.map((item: DisclosureType, index: number) => {
           return (
             <Disclosure as="div" key={item?.id} defaultOpen={item?.isOpen}>
               {({ open }) => {
@@ -113,27 +135,38 @@ export function CommunityDisclosure(): ReactElement {
                             type="search"
                             placeholder="Search"
                             className="text-slate-700 h-7 pl-1 outline-none bg-transparent truncate"
+                            onChange={(e) => {
+                              setSearchedValue({
+                                ...searchedValue,
+                                [item.name]: e.target.value,
+                              });
+                              e.preventDefault();
+                            }}
+                            value={searchedValue[item.name]}
                           />
                         </div>
+
                         <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2">
-                          {item?.content?.map((category: CategoryType) => (
-                            <li
-                              key={category?.communityCategoryID}
-                              className="inline-block w-full truncate cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
-                              // inline-block w-full truncate bg-slate-300/50 cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-400/50 hover:text-slate-800
-                              onClick={() =>
-                                useCommunityStore
-                                  .getState()
-                                  .setCategory(
-                                    item?.id,
-                                    category?.communityCategoryID,
-                                    category?.communityCategoryName
-                                  )
-                              }
-                            >
-                              {category?.communityCategoryName}
-                            </li>
-                          ))}
+                          {result[index][item.name]?.map(
+                            (category: CategoryType) => (
+                              <li
+                                key={category?.communityCategoryID}
+                                className="inline-block w-full truncate cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+                                // inline-block w-full truncate bg-slate-300/50 cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-400/50 hover:text-slate-800
+                                onClick={() =>
+                                  useCommunityStore
+                                    .getState()
+                                    .setCategory(
+                                      item?.id,
+                                      category?.communityCategoryID,
+                                      category?.communityCategoryName
+                                    )
+                                }
+                              >
+                                {category?.communityCategoryName}
+                              </li>
+                            )
+                          )}
                         </div>
                       </ul>
                     </DisclosurePanel>
