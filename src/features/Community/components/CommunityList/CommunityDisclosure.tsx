@@ -27,6 +27,10 @@ export function CommunityDisclosure(): ReactElement {
     React.useCallback((state: any) => state.setCategoryByCommunity, [])
   );
 
+  const categoryStore = useCommunityStore(
+    React.useCallback((state: any) => state.category, [])
+  );
+
   const [disclosureItems, setDisclosureItems] = useState<Array<DisclosureType>>(
     []
   );
@@ -58,8 +62,7 @@ export function CommunityDisclosure(): ReactElement {
         tokenType: tokenType,
         communityId: id,
       });
-      setCategoryByCommunity(fetchedContent);
-
+      setCategoryByCommunity(fetchedContent, id);
       setDisclosureItems((prevItems: any) =>
         prevItems.map((item: DisclosureType) => {
           if (item.id === id) {
@@ -102,9 +105,12 @@ export function CommunityDisclosure(): ReactElement {
                     <DisclosureButton
                       className={
                         open
-                          ? "group flex w-full rounded items-center justify-between truncate font-semibold"
-                          : // "group flex w-full rounded items-center justify-between truncate font-semibold bg-sky-200/50"
-                            "group flex w-full rounded font-semibold items-center justify-between hover:bg-slate-300/25 truncate"
+                          ? `group flex w-full rounded items-center justify-between truncate font-semibold ${
+                              item?.id === categoryStore?.communityId
+                                ? "bg-sky-200/50"
+                                : ""
+                            }`
+                          : "group flex w-full rounded font-semibold items-center justify-between hover:bg-slate-300/25 truncate"
                       }
                       onClick={() => {
                         handleToggle(item?.id);

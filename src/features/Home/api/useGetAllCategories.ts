@@ -1,16 +1,16 @@
 import { useQuery, UseQueryResult } from "react-query";
 
-import { getCommunityList } from "../../../utils/urls";
+import { getAllCategories } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-import { CommunityType } from "../types/communityType";
+import { AllCategoryType } from "src/features/Community/types/categoryType";
 
-async function fetchCommunityList({
+async function fetchAllCategoriesList({
   token,
   tokenType,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getCommunityList, {
+  const response = await fetch(getAllCategories, {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -19,7 +19,7 @@ async function fetchCommunityList({
   return response.json();
 }
 
-type APIResult = Array<CommunityType>;
+type APIResult = Array<AllCategoryType>;
 
 type TError = { message: string };
 type TVariables = {
@@ -27,12 +27,12 @@ type TVariables = {
   tokenType: string;
 };
 
-function useGetCommunityList(): UseQueryResult<APIResult, TError> {
+function useGetAllCategories(): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   return useQuery(
-    ["get_community_list"],
+    ["get_all_categories_list"],
     async () => {
-      const result = await fetchCommunityList({
+      const result = await fetchAllCategoriesList({
         token: getParsedToken(),
         tokenType,
       });
@@ -45,4 +45,4 @@ function useGetCommunityList(): UseQueryResult<APIResult, TError> {
   );
 }
 
-export { useGetCommunityList };
+export { useGetAllCategories };

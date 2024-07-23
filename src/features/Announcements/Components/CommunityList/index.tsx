@@ -1,5 +1,9 @@
 import React, { ReactElement } from "react";
+
+import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
+
 export default function CommunityList(): ReactElement {
+  const { data: communityList } = useGetCommunityList();
   return (
     <div className="fixed">
       <div className="max-h-full overflow-y-scroll">

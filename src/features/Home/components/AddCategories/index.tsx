@@ -1,34 +1,32 @@
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { ReactElement } from "react";
-import { Button } from "src/components/Button";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-export default function AddCategories({ isOpen, close }: any): ReactElement {
-  const data = [
-    "Webpack",
-    "Amazon Web Services",
-    "Kubernetes",
-    "API Management",
-    "D3.js",
-    "Async/Await",
-    "RESTful APIs",
-    "Talent Acquisition",
-    "JIRA",
-    "Workplace Culture",
-    "Budgeting",
-    "Project Scheduling",
-    "Agile Methodology",
-    "AI",
-    "Basecamp",
-  ];
+import { Button } from "src/components/Button";
+
+import { useGetAllCategories } from "../../api/useGetAllCategories";
+
+import { AllCategoryType } from "src/features/Community/types/categoryType";
+
+type AddCategoryType = {
+  isOpen: boolean;
+  handleClose: () => void;
+};
+
+export function AddCategories({
+  isOpen,
+  handleClose,
+}: AddCategoryType): ReactElement {
+  const { data: allCategories } = useGetAllCategories();
+
   return (
     <>
       <Dialog
         open={isOpen}
         as="div"
         className="relative z-10 focus:outline-none"
-        onClose={close}
+        onClose={handleClose}
       >
         <div className="fixed inset-0 bg-black opacity-65" aria-hidden="true" />
         <div className="fixed inset-0 w-screen overflow-y-auto">
@@ -40,7 +38,10 @@ export default function AddCategories({ isOpen, close }: any): ReactElement {
                     Add categories
                   </h1>
                 </DialogTitle>
-                <button onClick={close} className="col-span-1 flex justify-end">
+                <button
+                  onClick={handleClose}
+                  className="col-span-1 flex justify-end"
+                >
                   <XMarkIcon className="size-6 text-slate-400" />
                 </button>
               </div>
@@ -55,21 +56,31 @@ export default function AddCategories({ isOpen, close }: any): ReactElement {
                 />
               </div>
               <div className="max-h-80 overflow-y-scroll space-y-4 pl-7 pr-5 pt-3">
-                {data?.map((data) => (
-                  <div className="flex items-center gap-3">
-                    <input type="checkbox" className="size-4" id={data} />
-                    <label className="text-sm text-slate-700" htmlFor={data}>
-                      {data}
+                {allCategories?.map((item: AllCategoryType) => (
+                  <div
+                    className="flex items-center gap-3"
+                    key={item?.communityID}
+                  >
+                    <input
+                      type="checkbox"
+                      className="size-4"
+                      id={item?.communityID.toString()}
+                    />
+                    <label
+                      className="text-sm text-slate-700"
+                      htmlFor={item?.communityID.toString()}
+                    >
+                      {item?.communityCategoryName}
                     </label>
                   </div>
                 ))}
               </div>
               <hr className="mt-3" />
               <div className="flex gap-2 justify-end p-3">
-                <Button size="medium" variant="secondary">
+                <Button size="medium" variant="secondary" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button size="medium" variant="primary" onClick={close}>
+                <Button size="medium" variant="primary" onClick={handleClose}>
                   Add
                 </Button>
               </div>

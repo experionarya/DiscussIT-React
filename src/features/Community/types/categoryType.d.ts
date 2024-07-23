@@ -11,3 +11,9 @@ export type CategoryType = {
   modifiedBy: null | string;
   threadCount: number;
 };
+
+export type AllCategoryType = {
+  communityCategoryID: number;
+  communityCategoryName: string;
+  communityID: number;
+};

@@ -1,16 +1,14 @@
 import { useQuery, UseQueryResult } from "react-query";
 
-import { getCommunityList } from "../../../utils/urls";
+import { getPreferenceList } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-import { CommunityType } from "../types/communityType";
-
-async function fetchCommunityList({
+async function fetchPreferenceList({
   token,
   tokenType,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getCommunityList, {
+  const response = await fetch(getPreferenceList, {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -19,7 +17,7 @@ async function fetchCommunityList({
   return response.json();
 }
 
-type APIResult = Array<CommunityType>;
+type APIResult = Array<any>;
 
 type TError = { message: string };
 type TVariables = {
@@ -27,12 +25,12 @@ type TVariables = {
   tokenType: string;
 };
 
-function useGetCommunityList(): UseQueryResult<APIResult, TError> {
+function useGetPreferenceList(): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   return useQuery(
-    ["get_community_list"],
+    ["get_preference_list"],
     async () => {
-      const result = await fetchCommunityList({
+      const result = await fetchPreferenceList({
         token: getParsedToken(),
         tokenType,
       });
@@ -45,4 +43,4 @@ function useGetCommunityList(): UseQueryResult<APIResult, TError> {
   );
 }
 
-export { useGetCommunityList };
+export { useGetPreferenceList };
