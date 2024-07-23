@@ -1,23 +1,29 @@
 import React, { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
+import { ThreadType } from "src/features/Community/types/postType";
+
 dayjs.extend(utc);
 
-export function PostItem({ postItem }: any): ReactElement {
+type PostItemType = {
+  postItem: ThreadType;
+};
+
+export function PostItem({ postItem }: PostItemType): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost() {
     navigate(`/community/category-posts/replies`);
   }
-
-  console.log("postItem", postItem);
 
   const createMarkup = (data?: string) => {
     return { __html: data || "" };
@@ -43,15 +49,16 @@ export function PostItem({ postItem }: any): ReactElement {
         </div>
         <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
           <h5 className="font-semibold text-slate-900">{postItem?.title}</h5>
-          <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
-            Java
-          </button>
+          {postItem?.tagNames?.map((tagItem: string) => (
+            <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
+              {tagItem}
+            </button>
+          ))}
           <p
             className="text-slate-900"
             dangerouslySetInnerHTML={createMarkup(postItem?.content)}
           />
           <button className="text-primary-800 underline">(More)</button>
-          {/* </p> */}
         </div>
         {/* <img
           src={require(`../../../../../assets/images/Java.png`)}
@@ -60,12 +67,18 @@ export function PostItem({ postItem }: any): ReactElement {
           onClick={gotoPost}
         /> */}
         <div className="flex space-x-3">
-          <button title="Up vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button
+            title="Up vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
             <ArrowUpIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Up vote</span>
             <span>{postItem?.upVoteCount}</span>
           </button>
-          <button title="Down vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button
+            title="Down vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
             <ArrowDownIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Down vote</span>
             <span>{postItem?.downVoteCount}</span>
@@ -79,7 +92,10 @@ export function PostItem({ postItem }: any): ReactElement {
             <span className="sr-only">Comment</span>
             <span>{postItem?.replyCount}</span>
           </button>
-          <button title="Share" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button
+            title="Share"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
             <ShareIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Share</span>
           </button>

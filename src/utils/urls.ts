@@ -39,3 +39,7 @@ export const getCategoryByCommunity = (communityId: number | undefined) =>
 export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
   `${apiBaseUrl}Thread?CommunityCategoryMappingID=${communityCategoryMappingId}
 &pageNumber=1&pageSize=100&filterOption=0&sortOption=2`;
+
+export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
+
+export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
