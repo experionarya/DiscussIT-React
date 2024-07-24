@@ -1,5 +1,3 @@
-import { Bold } from "iconoir-react";
-
 export type CommunityType = {
   categoryCount: number;
   communityID: number;
