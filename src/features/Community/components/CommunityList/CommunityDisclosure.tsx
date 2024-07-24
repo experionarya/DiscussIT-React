@@ -121,7 +121,7 @@ export function CommunityDisclosure(): ReactElement {
                             className="text-slate-700 h-7 pl-1 outline-none bg-transparent truncate"
                           />
                         </div>
-                        <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2">
+                        <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2 pr-2">
                           {item?.content?.map((category: CategoryType) => (
                             <li
                               key={category?.communityCategoryID}

@@ -6,7 +6,7 @@ export default function Notifications(): ReactElement {
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-16 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44" />
       <div className="grid grow grid-cols-3">
-        <div className="col-span-2">
+        <div className="col-span-2 flex flex-col">
             <h1 className="font-semibold text-slate-900 text-lg">
               Notifications
             </h1>
@@ -24,7 +24,7 @@ export default function Notifications(): ReactElement {
                 <span>Mark all as read</span>
               </button>
             </div>
-          <div className="space-y-3 max-h-full">
+          <div className="overflow-y-auto flex flex-col grow space-y-3">
             <article className="px-4 pt-3 pb-4 bg-white rounded-md shadow-sm ">
               <div className="flex justify-between mb-1 items-start">
                 <p className="text-slate-900 leading-tight">
