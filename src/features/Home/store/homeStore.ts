@@ -23,6 +23,8 @@ export const useHomeStore = create<any>()((set, get) => ({
   userDetails: {},
   trendingTags: [],
   topUsers: [],
+  categoryList: [],
+  checkedItems: {},
 
   getHomeInfo: async ({
     token,
@@ -88,6 +90,26 @@ export const useHomeStore = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         state.topUsers = [...topUsersResp];
+      })
+    );
+  },
+
+  addToCategoryList: (data: Record<any, any>) => {
+    const trueKeys = Object.entries(data)
+      .filter(([key, value]) => value === true)
+      .map(([key, value]) => key);
+    set(
+      produce((state: any) => {
+        state.categoryList = [...trueKeys];
+      })
+    );
+  },
+
+  setCheckedItems: (event: any) => {
+    const { name, checked } = event.target;
+    set(
+      produce((state: any) => {
+        state.checkedItems = { ...state.checkedItems, [name]: checked };
       })
     );
   },

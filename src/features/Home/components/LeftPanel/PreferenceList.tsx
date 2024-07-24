@@ -1,7 +1,8 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback } from "react";
 import { PinSolid } from "iconoir-react";
 
 import { useGetPreferenceList } from "../../api/useGetPreferenceList";
+import { useHomeStore } from "../../store/homeStore";
 
 export function PreferenceList({ handleAddCategories }: any): ReactElement {
   const { data: preferenceList } = useGetPreferenceList();
@@ -10,6 +11,9 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
     if (preferenceList?.length) return "Add more categories";
     else return "Add new categories";
   }
+  const categoryList = useHomeStore(
+    useCallback((state) => state.categoryList, [])
+  );
 
   return (
     <div>
@@ -18,10 +22,12 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
         <span>Pinned categories</span>
       </h5>
       <ul className="space-y-1 text-sm">
-        {/* <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-          Newtork security
-          <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" />
-        </li> */}
+        {categoryList?.map((item: string) => (
+          <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+            {item}
+            {/* <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" /> */}
+          </li>
+        ))}
 
         {preferenceList &&
           preferenceList?.map((item: any) => (

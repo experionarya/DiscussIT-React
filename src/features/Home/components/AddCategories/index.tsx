@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useMemo, useCallback } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -6,6 +6,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Button } from "src/components/Button";
 
 import { useGetAllCategories } from "../../api/useGetAllCategories";
+
+import { useHomeStore } from "../../store/homeStore";
 
 import { AllCategoryType } from "src/features/Community/types/categoryType";
 
@@ -19,6 +21,34 @@ export function AddCategories({
   handleClose,
 }: AddCategoryType): ReactElement {
   const { data: allCategories } = useGetAllCategories();
+
+  const [categorySearchParam, setCategorySearchParam] = useState<string>("");
+
+  const addToCategoryList = useHomeStore(
+    useCallback((state) => state.addToCategoryList, [])
+  );
+  const setCheckedItems = useHomeStore(
+    useCallback((state) => state.setCheckedItems, [])
+  );
+
+  const checkedItems = useHomeStore(
+    useCallback((state) => state.checkedItems, [])
+  );
+
+  const searchedValues = useMemo(() => {
+    if (categorySearchParam && categorySearchParam !== "") {
+      const result = allCategories?.filter((item) =>
+        item?.communityCategoryName
+          ?.toLocaleLowerCase()
+          .includes(categorySearchParam?.toLocaleLowerCase())
+      );
+      return result;
+    } else return allCategories;
+  }, [allCategories, categorySearchParam]);
+
+  function handleCheckboxChange(event: any) {
+    setCheckedItems(event);
+  }
 
   return (
     <>
@@ -53,10 +83,12 @@ export function AddCategories({
                   type="text"
                   className="h-9 w-96 rounded-lg border border-stroke-weak pl-8 pr-2 outline-none"
                   placeholder="Search"
+                  onChange={(e) => setCategorySearchParam(e.target.value)}
+                  value={categorySearchParam}
                 />
               </div>
               <div className="max-h-80 overflow-y-scroll space-y-4 pl-7 pr-5 pt-3">
-                {allCategories?.map((item: AllCategoryType) => (
+                {searchedValues?.map((item: AllCategoryType) => (
                   <div
                     className="flex items-center gap-3"
                     key={item?.communityID}
@@ -65,7 +97,11 @@ export function AddCategories({
                       type="checkbox"
                       className="size-4"
                       id={item?.communityID.toString()}
+                      onChange={handleCheckboxChange}
+                      name={item?.communityCategoryName}
+                      checked={checkedItems[`${item?.communityCategoryName}`]}
                     />
+
                     <label
                       className="text-sm text-slate-700"
                       htmlFor={item?.communityID.toString()}
@@ -80,7 +116,14 @@ export function AddCategories({
                 <Button size="medium" variant="secondary" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button size="medium" variant="primary" onClick={handleClose}>
+                <Button
+                  size="medium"
+                  variant="primary"
+                  onClick={() => {
+                    addToCategoryList(checkedItems);
+                    handleClose();
+                  }}
+                >
                   Add
                 </Button>
               </div>
