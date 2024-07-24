@@ -43,3 +43,6 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
+
+export const getNotificationByCommunity = (communityId: number | undefined) =>
+  `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
