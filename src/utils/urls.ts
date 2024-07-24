@@ -44,5 +44,5 @@ export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCa
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
-export const getNotificationByCommunity = (communityId: number | undefined) =>
+export const getAnnouncementByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
