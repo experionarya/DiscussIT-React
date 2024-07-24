@@ -8,7 +8,7 @@ import { MegaphoneIcon } from "@heroicons/react/24/outline";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
-import { useGetNotificationByCommunity } from "../../api/useGetNotificationByCommunity";
+import { useGetAnnouncementByCommunity } from "../../api/useGetAnnouncementByCommunity";
 
 import { CommunityType } from "src/features/Community/types/communityType";
 import { AnnouncementType } from "../../types/announcementType";
@@ -19,7 +19,7 @@ export function Announcements(): ReactElement {
   const [communityId, setCommunityId] = useState<number | undefined>();
 
   const { data: communityList } = useGetCommunityList();
-  const { data: notificationList } = useGetNotificationByCommunity(communityId);
+  const { data: announcementList } = useGetAnnouncementByCommunity(communityId);
 
   return (
     <Popover>
@@ -87,17 +87,17 @@ export function Announcements(): ReactElement {
               </ul>
             </div>
             <div className="divide-y divide-slate-200 max-h-96 overflow-y-scroll">
-              {notificationList &&
-                notificationList?.map((notificationItem: AnnouncementType) => (
+              {announcementList &&
+                announcementList?.map((announcementItem: AnnouncementType) => (
                   <div className="px-4 py-3">
                     <h5 className="font-semibold text-sm text-slate-900 leading-tight">
-                      {notificationItem?.title}
+                      {announcementItem?.title}
                     </h5>
                     <span className="truncate text-xs leading-tight text-slate-500 inline-block">
-                      {dayjs(notificationItem?.createdAt).format("MMM D, YYYY")}
+                      {dayjs(announcementItem?.createdAt).format("MMM D, YYYY")}
                     </span>
                     <p className="text-sm text-slate-900">
-                      {notificationItem?.content}
+                      {announcementItem?.content}
                     </p>
                   </div>
                 ))}

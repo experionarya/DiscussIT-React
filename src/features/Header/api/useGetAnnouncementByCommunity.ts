@@ -29,7 +29,7 @@ type TVariables = {
   communityId: number | undefined;
 };
 
-function useGetNotificationByCommunity(
+function useGetAnnouncementByCommunity(
   communityId: number | undefined
 ): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
@@ -51,4 +51,4 @@ function useGetNotificationByCommunity(
   );
 }
 
-export { useGetNotificationByCommunity };
+export { useGetAnnouncementByCommunity };
