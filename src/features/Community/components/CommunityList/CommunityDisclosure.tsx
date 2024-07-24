@@ -105,12 +105,12 @@ export function CommunityDisclosure(): ReactElement {
                     <DisclosureButton
                       className={
                         open
-                          ? `group flex w-full rounded items-center justify-between truncate font-semibold ${
+                          ? `group flex w-full rounded items-center justify-between truncate font-semibold `
+                          : `group flex w-full rounded font-semibold items-center justify-between hover:bg-slate-300/25 truncate ${
                               item?.id === categoryStore?.communityId
                                 ? "bg-sky-200/50"
                                 : ""
                             }`
-                          : "group flex w-full rounded font-semibold items-center justify-between hover:bg-slate-300/25 truncate"
                       }
                       onClick={() => {
                         handleToggle(item?.id);
@@ -157,14 +157,18 @@ export function CommunityDisclosure(): ReactElement {
                             (category: CategoryType) => (
                               <li
                                 key={category?.communityCategoryID}
-                                className="inline-block w-full truncate cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
-                                // inline-block w-full truncate bg-slate-300/50 cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-400/50 hover:text-slate-800
+                                className={`inline-block w-full truncate ${
+                                  category?.communityCategoryMappingID ===
+                                  categoryStore?.categoryId
+                                    ? "bg-slate-300/50"
+                                    : ""
+                                } cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800`}
                                 onClick={() =>
                                   useCommunityStore
                                     .getState()
                                     .setCategory(
                                       item?.id,
-                                      category?.communityCategoryID,
+                                      category?.communityCategoryMappingID,
                                       category?.communityCategoryName
                                     )
                                 }

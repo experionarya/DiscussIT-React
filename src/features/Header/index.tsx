@@ -14,6 +14,8 @@ import { Switch } from "@headlessui/react";
 import Search from "src/features/Header/components/Search";
 import { BellIcon, MegaphoneIcon } from "@heroicons/react/24/outline";
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
   // ChevronLeftIcon,
   PencilIcon,
   // ChevronRightIcon,
@@ -111,9 +113,9 @@ export default function Header(): ReactElement {
                   title="Announcement"
                   className="relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-800 focus:text-primary-800"
                 >
-              <MegaphoneIcon className="size-6" />
+                  <MegaphoneIcon className="size-6" />
                 </PopoverButton>
-                <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2"/>
+                <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2" />
               </div>
               <PopoverPanel
                 anchor="bottom end"
@@ -130,14 +132,14 @@ export default function Header(): ReactElement {
                       scrollbarWidth: "none",
                     }}
                   >
-                    {/* <div className="flex justify-between">
-                    <button className="absolute bg-gradient-to-r from-white to-transparent">
-                      <ChevronLeftIcon className="size-6 text-gray-600" />
-                    </button>
-                    <button className="absolute bg-gradient-to-l from-white to-transparent">
-                      <ChevronRightIcon className="size-6 text-gray-600" />
-                    </button>
-                    </div> */}
+                    <div className="flex justify-between">
+                      <button className="absolute bg-gradient-to-r from-white to-transparent">
+                        <ChevronLeftIcon className="size-6 text-gray-600" />
+                      </button>
+                      <button className="absolute bg-gradient-to-l from-white to-transparent">
+                        <ChevronRightIcon className="size-6 text-gray-600" />
+                      </button>
+                    </div>
                     <li className="text-sm flex-shrink-0 font-medium flex items-center leading-none px-2 py-1 border bg-slate-300 border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
                       All
                     </li>
@@ -147,9 +149,6 @@ export default function Header(): ReactElement {
                     <li className="text-sm flex-shrink-0 font-medium flex items-center leading-none px-2 py-1 border border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
                       Experion Discussion
                     </li>
-                    {/* <li className="flex-shrink-0 max-w-full min-w-9 flex items-center px-2 border border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
-                      Experion Discussion
-                    </li>
                     <li className="flex-shrink-0 max-w-full min-w-9 flex items-center px-2 border border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
                       Experion Discussion
                     </li>
@@ -158,8 +157,11 @@ export default function Header(): ReactElement {
                     </li>
                     <li className="flex-shrink-0 max-w-full min-w-9 flex items-center px-2 border border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
                       Experion Discussion
-                    </li> */}
-                    {/* <style>{`ul::-webkit-scrollbar { display: none; }`}</style> */}
+                    </li>
+                    <li className="flex-shrink-0 max-w-full min-w-9 flex items-center px-2 border border-stroke-weak hover:bg-slate-100 rounded-full cursor-pointer">
+                      Experion Discussion
+                    </li>
+                    <style>{`ul::-webkit-scrollbar { display: none; }`}</style>
                   </ul>
                 </div>
                 <div className="divide-y divide-slate-200 max-h-96 overflow-y-scroll">
@@ -336,7 +338,11 @@ export default function Header(): ReactElement {
                           <span>Shubha's reply:</span>
                         </p>
                         <p className="text-sm text-slate-900 line-clamp-2 font-medium">
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, officia facilis. Ipsum quas laborum at praesentium numquam tempore aliquam, hic ipsam architecto mollitia consequuntur iusto vitae quam ea corporis asperiores?
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Optio, officia facilis. Ipsum quas laborum at
+                          praesentium numquam tempore aliquam, hic ipsam
+                          architecto mollitia consequuntur iusto vitae quam ea
+                          corporis asperiores?
                         </p>
                       </div>
                     </div>
@@ -384,9 +390,14 @@ export default function Header(): ReactElement {
                     <DoubleCheck className="size-4 mr-1" />
                     <span>Mark all as read</span>
                   </button>
-                  <CloseButton as={Button} onClick={goToViewAllNotification} variant="primary" size="medium">
-                  View all notifications
-        </CloseButton>
+                  <CloseButton
+                    as={Button}
+                    onClick={goToViewAllNotification}
+                    variant="primary"
+                    size="medium"
+                  >
+                    View all notifications
+                  </CloseButton>
 
                   {/* <Button
                     size="medium"
