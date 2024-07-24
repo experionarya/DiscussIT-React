@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "src/features/Home";
 import Community from "src/features/Community";
-import Announcements from "src/features/Announcements";
 import Notifications from "src/features/Notifications";
 import Header from "src/features/Header";
 import Login from "src/features/Login";
@@ -21,7 +20,6 @@ function PrivatePage(): ReactElement {
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/community/category-posts" element={<Community />} />
-        <Route path="/announcements" element={<Announcements />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/community/category-posts/replies" element={<Post />} />
