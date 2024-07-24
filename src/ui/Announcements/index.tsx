@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import CommunityList from "./Components/CommunityList";
-import Announcement from "./Components/Announcement";
+import CommunityList from "./components/CommunityList";
+import Announcement from "./components/Announcement";
 
 export default function Announcements(): ReactElement {
   return (
