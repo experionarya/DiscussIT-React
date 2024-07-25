@@ -6,6 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Button } from "src/components/Button";
 
 import { useGetAllCategories } from "../../api/useGetAllCategories";
+import { useSaveCategories } from "../../api/useSaveCategories";
 
 import { useHomeStore } from "../../store/homeStore";
 
@@ -21,6 +22,7 @@ export function AddCategories({
   handleClose,
 }: AddCategoryType): ReactElement {
   const { data: allCategories } = useGetAllCategories();
+  const { mutate: saveCategories } = useSaveCategories();
 
   const [categorySearchParam, setCategorySearchParam] = useState<string>("");
 
@@ -122,6 +124,18 @@ export function AddCategories({
                   onClick={() => {
                     addToCategoryList(checkedItems);
                     handleClose();
+                    saveCategories([
+                      {
+                        id: 0,
+                        communityCategoryID: 4,
+                        communityId: 3,
+                        communityCategoryName: "Network Security",
+                        createdBy: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        createdAt: "2024-07-19T11:04:44.610Z",
+                        modifiedBy: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        modifiedAt: "2024-07-19T11:04:44.610Z",
+                      },
+                    ]);
                   }}
                 >
                   Add
