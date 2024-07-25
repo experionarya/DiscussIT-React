@@ -42,6 +42,10 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
+export const getBookMarks = (threadId:number)=>`${apiBaseUrl}Thread/${threadId}`
+
+export const getSavedThreadsId = (userId:string)=> `${apiBaseUrl}SavedPost/${userId}`
+
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
 export const getAnnouncementByCommunity = (communityId: number | undefined) =>

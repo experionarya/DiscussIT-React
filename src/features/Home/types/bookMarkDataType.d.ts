@@ -1,0 +1,20 @@
+export type BookMark = {
+  threadID: number;
+  title: string;
+  content:string;  createdBy: string;
+  createdByUser: string;
+  createdAt: string;
+  modifiedBy: string;
+  modifiedByUser: string;
+  modifiedAt: string;
+  threadStatusName: string;
+  isAnswered: boolean;
+  upVoteCount:  number;
+  downVoteCount: number;
+  isEdited: boolean;
+  replyCount: number;
+  tagNames: Array<string>;
+  threadOwnerEmail: string;
+  communityName: string;
+  categoryName: string;
+};
