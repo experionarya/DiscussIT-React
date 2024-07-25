@@ -1,10 +1,13 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useCallback } from "react";
 import { BookmarkSolid } from "iconoir-react";
 
 import Popovers from "src/components/Popovers";
 
 import { AddCategories } from "../AddCategories";
 import { PreferenceList } from "./PreferenceList";
+
+import { useHomeStore } from "../../store/homeStore";
+import { useGetBookMark } from "../../api/useGetBookMarks";
 
 export interface Data {
   category: string;
@@ -14,6 +17,12 @@ export interface Data {
 
 export default function LeftPanel(): ReactElement {
   let [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const userDetails = useHomeStore(
+    useCallback((state: any) => state.userDetails, [])
+  );
+
+  const { data: bookMarksData } = useGetBookMark(userDetails?.score);
 
   function handleClose() {
     setIsOpen(false);
@@ -53,9 +62,9 @@ export default function LeftPanel(): ReactElement {
               <span>Bookmarks</span>
             </h5>
             <div className="text-sm space-y-2">
-              <Popovers data={data} />
-              <Popovers data={data} />
-              <Popovers data={data} />
+              <Popovers data={bookMarksData} />
+              {/* <Popovers data={data} />
+              <Popovers data={data} /> */}
             </div>
           </div>
         </aside>
