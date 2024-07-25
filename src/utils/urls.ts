@@ -46,3 +46,10 @@ export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
 export const getAnnouncementByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
+
+export const getNotifications = (userId: string) =>
+  `${apiBaseUrl}Reply/unviewed?userId=${userId}&sortDirection=desc&pageNumber=1&pageSize=100`;
+
+// mark single notification as read
+export const singleNotificationHasRead = (replyId: number) =>
+  `${apiBaseUrl}Reply/${replyId}/updateHasViewed`;
