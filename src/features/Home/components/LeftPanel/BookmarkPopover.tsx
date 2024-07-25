@@ -6,20 +6,27 @@ import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
 
-interface PopoversProps {
-  data: Data[];
-}
+import { BookMark } from "../../types/bookMarkDataType";
 
-export function Popovers({ data }: PopoversProps): ReactElement {
+export function BookMarkPopover({
+  data,
+}: {
+  data: Array<BookMark>;
+}): ReactElement {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const navigate = useNavigate();
   function goToHome() {
     navigate(`/community/category-posts/replies`);
   }
 
+  // to set inner html
+  function createMarkup(strVal: any) {
+    return { __html: strVal || "" };
+  }
+
   return (
     <>
-      {data.map((item, index) => (
+      {data?.map((item: any, index: any) => (
         <Popover key={index}>
           {({ open }) => (
             <>
@@ -30,10 +37,10 @@ export function Popovers({ data }: PopoversProps): ReactElement {
                 onClick={goToHome}
               >
                 <span className="flex text-xs text-slate-400 justify-start">
-                  {item.category}
+                  {item?.categoryName}
                 </span>
                 <span className="inline-block w-full truncate text-sm leading-tight text-slate-700">
-                  {item.heading}
+                  {item?.title}
                 </span>
               </PopoverButton>
               {hoverIndex === index && (
@@ -44,28 +51,29 @@ export function Popovers({ data }: PopoversProps): ReactElement {
                 >
                   <div className="p-2">
                     <span className="inline-block text-sm text-slate-900 font-semibold">
-                      {item.heading}
+                      {item.title}
                     </span>
-                    <span className="inline-block w-full truncate text-xs leading-tight text-slate-700">
-                      {item.description}
-                    </span>
+                    <span
+                      className="inline-block w-full truncate text-xs leading-tight text-slate-700"
+                      dangerouslySetInnerHTML={createMarkup(
+                        item?.content || ""
+                      )}
+                    ></span>
                     <div className="flex space-x-3">
                       <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                         <ArrowUpIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Up vote</span>
-                        <span>10</span>
+                        <span>{item?.upVoteCount}</span>
                       </button>
                       <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                         <ArrowDownIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Down vote</span>
-                        <span>1</span>
+                        <span>{item?.downVoteCount}</span>
                       </button>
-                      <button
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                      >
+                      <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
                         <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Comment</span>
-                        <span>10</span>
+                        <span>{item?.replyCount}</span>
                       </button>
                     </div>
                   </div>
