@@ -56,7 +56,7 @@ function useGetSavedThreads(userId: string): UseQueryResult<APIResult, TError> {
       return result;
     },
     {
-      staleTime: Infinity,
+      staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
       enabled: userId !== undefined,
     }
