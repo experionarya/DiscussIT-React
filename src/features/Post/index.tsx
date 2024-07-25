@@ -5,9 +5,11 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Button } from "src/components/Button";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
+import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/solid";
+import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
+import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
+import DialogBox from "./DialogBox";
 
 export default function Post(): ReactElement {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -20,13 +22,13 @@ export default function Post(): ReactElement {
 
   const [isTextArea, setIsTextArea] = useState(false);
   const [isReply, setIsReplay] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   function handleTextArea() {
     setIsTextArea(true);
   }
 
   function handleCancel() {
-    // setIsTextArea(false);
     setIsDiscardChanges(true);
   }
 
@@ -38,8 +40,8 @@ export default function Post(): ReactElement {
     setIsReplay(false);
   }
 
-  function close() {
-    setIsDiscardChanges(false);
+  function handleDelete() {
+    setIsDelete(true);
   }
 
   return (
@@ -83,27 +85,39 @@ export default function Post(): ReactElement {
               className="cursor-pointer"
             />
             <div className="flex space-x-3">
-              <button title="Up vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button
+                title="Up vote"
+                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              >
                 <ArrowUpIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Up vote</span>
                 <span>20</span>
               </button>
-              <button title="Down vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button
+                title="Down vote"
+                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              >
                 <ArrowDownIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Down vote</span>
                 <span>3</span>
               </button>
-              <button title="Comment" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+              <button
+                title="Comment"
+                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              >
                 <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Comment</span>
                 <span>10</span>
               </button>
-              <button title="Share" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-              <ShareIconMicro className="size-4 text-gray-600" />
-              <span className="sr-only">Share</span>
+              <button
+                title="Share"
+                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              >
+                <ShareIconMicro className="size-4 text-gray-600" />
+                <span className="sr-only">Share</span>
               </button>
               <button
-              title="Bookmark"
+                title="Bookmark"
                 className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
               >
                 <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
@@ -152,100 +166,14 @@ export default function Post(): ReactElement {
             </div>
             {isDiscardChanges ? (
               <div>
-                {/* <Dialog
-                  open={isDiscardChanges}
-                  as="div"
-                  className="relative z-10 focus:outline-none"
-                  onClose={close}
-                >
-                  <div
-                    className="fixed inset-0 bg-black opacity-65"
-                    aria-hidden="true"
-                  />
-                  <div className="fixed inset-0 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4">
-                      <DialogPanel className="w-full max-w-sm rounded-xl bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
-                        <div className="grid grid-cols-6">
-                          <DialogTitle
-                            as="h3"
-                            className="col-span-5 font-semibold text-slate-900"
-                          >
-                            Discard comment?
-                          </DialogTitle>
-                          <button
-                            onClick={close}
-                            className="col-span-1 flex justify-end"
-                          >
-                            <XMarkIcon className="size-6 text-slate-400" />
-                          </button>
-                        </div>
-                        <p className="text-slate-900 pt-5 pb-5">
-                          You have a comment in progress, are you sure you want
-                          to discard it?
-                        </p>
-                        <div className="flex gap-3 justify-end mt-4">
-                          <Button size="large" variant="secondary"
-                          onClick={close}>
-                            Cancel
-                          </Button>
-                          <Button size="large" variant="danger">
-                            Discard
-                          </Button>
-                        </div>
-                      </DialogPanel>
-                    </div>
-                  </div>
-                </Dialog> */}
-                <Dialog
-                  open={isDiscardChanges}
-                  as="div"
-                  className="relative z-10 focus:outline-none"
-                  onClose={close}
-                >
-                  <div
-                    className="fixed inset-0 bg-black opacity-65"
-                    aria-hidden="true"
-                  />
-                  <div className="fixed inset-0 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4">
-                      <DialogPanel className="w-96 rounded-lg bg-white backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
-                        <div className="grid grid-cols-6 p-5">
-                          <DialogTitle as="h3" className="col-span-5">
-                            <h1 className="font-semibold text-slate-900 flex">
-                              Discard comment?
-                            </h1>
-                          </DialogTitle>
-                          <button
-                            onClick={close}
-                            className="col-span-1 flex justify-end"
-                          >
-                            <XMarkIcon className="size-6 text-slate-400" />
-                          </button>
-                        </div>
-                        <div className="pl-5 pr-5">
-                          <p className="text-sm text-slate-700">
-                            You have a comment in progress, are you sure you
-                            want to discard it?
-                          </p>
-                        </div>
-                        <hr className="mt-3" />
-                        <div className="flex gap-2 justify-end p-3">
-                          <Button size="large" variant="secondary"
-                          onClick={close}>
-                            Cancel
-                          </Button>
-                          <Button
-                            size="large"
-                            variant="danger"
-                            onClick={close}
-                          >
-                            Add
-                          </Button>
-                        </div>
-                      </DialogPanel>
-                    </div>
-                  </div>
-                </Dialog>
+                <DialogBox
+                  title="Discard comment?"
+                  description=" You have a comment in progress, are you sure you
+                            want to discard it?"
+                  button1="Cancel"
+                  button2="Add"
+                  opened={isDiscardChanges}
+                />
               </div>
             ) : null}
             <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0">
@@ -262,6 +190,10 @@ export default function Post(): ReactElement {
                   <p className="truncate text-xs leading-tight text-slate-500 ml-1 mt-0.5">
                     .15 days
                   </p>
+                  <button className="ml-1" title="Best Answer">
+                    <CheckCircleIconMicro className="size-4 text-green-500" />
+                    <span className="sr-only">Best Answer</span>
+                  </button>
                 </div>
                 <p className="text-slate-900 dark:text-slate-300 mt-1">
                   The orange is not actually very visible in North West
@@ -270,12 +202,18 @@ export default function Post(): ReactElement {
                   land… Like the ocean or tundra.
                 </p>
                 <div className="flex mt-2 space-x-3">
-                  <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+                  <button
+                    title="Up vote"
+                    className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                  >
                     <ArrowUpIconMicro className="size-4 text-gray-600" />
                     <span className="sr-only">Up vote</span>
                     <span>10</span>
                   </button>
-                  <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+                  <button
+                    title="Down vote"
+                    className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                  >
                     <ArrowDownIconMicro className="size-4 text-gray-600" />
                     <span className="sr-only">Down vote</span>
                     <span>1</span>
@@ -285,6 +223,22 @@ export default function Post(): ReactElement {
                     onClick={handleReplay}
                   >
                     Reply
+                  </button>
+                  <button
+                    title="Edit"
+                    onClick={handleReplay}
+                    className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                  >
+                    <PencilSquareIconMicro className="size-4 text-gray-600" />
+                    <span className="sr-only">Edit</span>
+                  </button>
+                  <button
+                    title="Delete"
+                    onClick={handleDelete}
+                    className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                  >
+                    <TrashIconMicro className="size-4 text-gray-600" />
+                    <span className="sr-only">Delete</span>
                   </button>
                 </div>
                 {isReply ? (
@@ -310,6 +264,17 @@ export default function Post(): ReactElement {
                     </div>
                   </div>
                 ) : null}
+                {isDelete ? (
+                  <div>
+                    <DialogBox
+                      title="Delete Comment"
+                      description="Are sure you want delete comment?"
+                      button1="Cancel"
+                      button2="Delete"
+                      opened={isDelete}
+                    />
+                  </div>
+                ) : null}
                 <div className="flex mt-5">
                   <img
                     className="h-6 w-6 mr-2 flex-none rounded-full bg-gray-50"
@@ -324,6 +289,10 @@ export default function Post(): ReactElement {
                       <p className="truncate text-xs leading-tight text-slate-500 ml-1 mt-0.5">
                         .11 days
                       </p>
+                      <button className="ml-1" title="Mark as best answer">
+                        <CheckCircleIconMicro className="size-4 text-gray-600" />
+                        <span className="sr-only">Best Answer</span>
+                      </button>
                     </div>
                     <p>
                       most of the earth is made up of water which they are more
@@ -332,18 +301,36 @@ export default function Post(): ReactElement {
                       to be found increases
                     </p>
                     <div className="flex mt-2 space-x-3">
-                      <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+                      <button
+                        title="Up vote"
+                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      >
                         <ArrowUpIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Up vote</span>
-                        <span>8</span>
+                        <span>10</span>
                       </button>
-                      <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+                      <button
+                        title="Down vote"
+                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      >
                         <ArrowDownIconMicro className="size-4 text-gray-600" />
                         <span className="sr-only">Down vote</span>
-                        <span>3</span>
+                        <span>1</span>
                       </button>
-                      <button className="rounded-full px-1 py-0.5 text-xs hover:bg-slate-200 font-semibold text-gray-600">
+
+                      <button
+                        title="Reply"
+                        className="rounded-full px-1 py-0.5 text-xs hover:bg-slate-200 font-semibold text-gray-600"
+                        onClick={handleReplay}
+                      >
                         Reply
+                      </button>
+                      <button
+                        title="Edit"
+                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      >
+                        <PencilSquareIconMicro className="size-4 text-gray-600" />
+                        <span className="sr-only">Edit</span>
                       </button>
                     </div>
                     <div className="flex mt-5">
