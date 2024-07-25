@@ -46,7 +46,7 @@ function useGetNotifications(): UseQueryResult<APIResult, TError> {
       return result;
     },
     {
-      enabled: userId !== undefined,
+      retry: 60 * 1000,
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
     }

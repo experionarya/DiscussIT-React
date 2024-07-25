@@ -1,25 +1,15 @@
 import React, { ReactElement, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  CloseButton,
-} from "@headlessui/react";
-import { Switch } from "@headlessui/react";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { BellIcon } from "@heroicons/react/24/outline";
 
 import { PencilIcon } from "@heroicons/react/16/solid";
-import { DoubleCheck } from "iconoir-react";
 
 import { Button } from "../../components/Button";
 import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
-// import MyLink from './MyLink';
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
@@ -41,12 +31,6 @@ export default function Header(): ReactElement {
   function goToHome() {
     navigate(`/home`);
   }
-
-  function goToViewAllNotification() {
-    navigate(`/notifications`);
-  }
-
-  const [enabled, setEnabled] = useState(false);
 
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">

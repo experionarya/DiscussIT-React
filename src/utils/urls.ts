@@ -42,9 +42,11 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
-export const getBookMarks = (threadId:number)=>`${apiBaseUrl}Thread/${threadId}`
+export const getBookMarks = (threadId: number) =>
+  `${apiBaseUrl}Thread/${threadId}`;
 
-export const getSavedThreadsId = (userId:string)=> `${apiBaseUrl}SavedPost/${userId}`
+export const getSavedThreadsId = (userId: string) =>
+  `${apiBaseUrl}SavedPost/${userId}`;
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
@@ -57,3 +59,6 @@ export const getNotifications = (userId: string) =>
 // mark single notification as read
 export const singleNotificationHasRead = (replyId: number) =>
   `${apiBaseUrl}Reply/${replyId}/updateHasViewed`;
+
+// mark all notification ad read
+export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
