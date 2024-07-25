@@ -5,7 +5,8 @@ import utc from "dayjs/plugin/utc";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 import { MegaphoneIcon } from "@heroicons/react/24/outline";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
+
+import NoData from "src/components/NoData";
 
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 import { useGetAnnouncementByCommunity } from "../../api/useGetAnnouncementByCommunity";
@@ -86,8 +87,8 @@ export function Announcements(): ReactElement {
                 {/* <style>{`ul::-webkit-scrollbar { display: none; }`}</style> */}
               </ul>
             </div>
-            <div className="divide-y divide-slate-200 max-h-96 overflow-y-scroll">
-              {announcementList &&
+            <div className="divide-y divide-slate-200  overflow-y-scroll h-64">
+              {announcementList && announcementList?.length ? (
                 announcementList?.map((announcementItem: AnnouncementType) => (
                   <div className="px-4 py-3">
                     <h5 className="font-semibold text-sm text-slate-900 leading-tight">
@@ -100,7 +101,12 @@ export function Announcements(): ReactElement {
                       {announcementItem?.content}
                     </p>
                   </div>
-                ))}
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <NoData data={"No data available"} />
+                </div>
+              )}
             </div>
           </PopoverPanel>
         </>
