@@ -7,7 +7,7 @@ import Notifications from "src/features/Notifications";
 import Header from "src/features/Header";
 import Login from "src/features/Login";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
-import Post from "src/features/Post/intex";
+import Post from "src/features/Post";
 import CreatePost from "src/features/CreatePost";
 
 function PrivatePage(): ReactElement {
