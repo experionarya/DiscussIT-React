@@ -6,7 +6,7 @@ import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { AnnouncementType } from "../types/announcementType";
 
-async function fetchNotificationsByCommunity({
+async function fetchAnnouncementByCommunity({
   token,
   tokenType,
   communityId,
@@ -34,9 +34,9 @@ function useGetAnnouncementByCommunity(
 ): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   return useQuery(
-    ["get_category_by_community", communityId],
+    ["get_notification_by_community", communityId],
     async () => {
-      const result = await fetchNotificationsByCommunity({
+      const result = await fetchAnnouncementByCommunity({
         token: getParsedToken(),
         tokenType,
         communityId,

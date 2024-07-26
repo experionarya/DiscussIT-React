@@ -7,6 +7,7 @@ import {
   fetchTopUsers,
   fetchTrendingTags,
   fetchUserDetails,
+  fetchBookMarks,
 } from "./apiStore";
 
 import {
@@ -23,6 +24,7 @@ export const useHomeStore = create<any>()((set, get) => ({
   userDetails: {},
   trendingTags: [],
   topUsers: [],
+  bookMarks: [],
 
   getHomeInfo: async ({
     token,
@@ -88,6 +90,38 @@ export const useHomeStore = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         state.topUsers = [...topUsersResp];
+      })
+    );
+  },
+
+  getBookMarkedData: async ({
+    token,
+    tokenType,
+    threadId,
+  }: Partial<{
+    token: string  | null;
+    tokenType: string;
+    threadId: number;
+  }>) => {
+    const data = await fetchBookMarks({
+      token: token,
+      tokenType: tokenType,
+      threadId: threadId,
+    });
+    let tempArray = [];
+    tempArray.push(data);
+
+    set(
+      produce((state: any) => {
+        state.bookMarks = [...state.bookMarks, ...tempArray];
+      })
+    );
+  },
+
+  clearBookMarkData: () => {
+    set(
+      produce((state: any) => {
+        state.bookMarks = [];
       })
     );
   },

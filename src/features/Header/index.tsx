@@ -17,7 +17,6 @@ import {
 import { BellIcon } from "@heroicons/react/24/outline";
 
 import { PencilIcon } from "@heroicons/react/16/solid";
-import { DoubleCheck } from "iconoir-react";
 
 import { Button } from "../../components/Button";
 import Search from "src/features/Header/components/Search";
@@ -126,6 +125,7 @@ export default function Header(): ReactElement {
               <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5" />
               Create post
             </Button>
+
             <Announcements />
             <Popover>
               <div className="relative">
@@ -281,7 +281,7 @@ export default function Header(): ReactElement {
                 </div>
                 <footer className="flex justify-between items-center p-3 border-t border-slate-200">
                   <button className="text-xs text-primary-800 flex font-semibold">
-                    <DoubleCheck className="size-4 mr-1" />
+                    {/* <DoubleCheck className="size-4 mr-1" /> */}
                     <span>Mark all as read</span>
                   </button>
                   <CloseButton
