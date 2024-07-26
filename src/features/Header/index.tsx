@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
@@ -6,10 +6,14 @@ import {
   PopoverButton,
   PopoverPanel,
   CloseButton,
+  // PopoverBackdrop
 } from "@headlessui/react";
 import { Switch } from "@headlessui/react";
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import {
+  MagnifyingGlassIcon,
+  ArrowRightStartOnRectangleIcon,
+} from "@heroicons/react/24/solid";
 import { BellIcon } from "@heroicons/react/24/outline";
 
 import { PencilIcon } from "@heroicons/react/16/solid";
@@ -18,20 +22,11 @@ import { DoubleCheck } from "iconoir-react";
 import { Button } from "../../components/Button";
 import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
-// import MyLink from './MyLink';
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
 
   let [isOpen, setIsOpen] = useState(false);
-
-  function handleClose() {
-    setIsOpen(false);
-  }
-
-  function handleSearch() {
-    setIsOpen(true);
-  }
 
   function goToCreatePost() {
     navigate(`/createpost`);
@@ -44,6 +39,35 @@ export default function Header(): ReactElement {
   function goToViewAllNotification() {
     navigate(`/notifications`);
   }
+
+  function handleViewProfile() {
+    navigate(`/profile`);
+  }
+
+  const openSearch = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const closeSearch = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const handleKeyPress = useCallback(
+    (event: any) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        openSearch();
+      }
+    },
+    [openSearch]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   const [enabled, setEnabled] = useState(false);
 
@@ -83,18 +107,17 @@ export default function Header(): ReactElement {
               Communities
             </NavLink>
           </nav>
-
           <button
             type="button"
             className="group ml-auto flex h-6 w-6 items-center justify-center sm:justify-start md:ml-0 md:h-auto md:w-60 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-400 lg:w-80 xl:w-96 dark:md:ring-slate-600"
-            onClick={handleSearch}
+            onClick={openSearch}
           >
             <MagnifyingGlassIcon className="h-5 w-5 fill-slate-400" />
             <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">
               Search Discuss it
             </span>
             <kbd className="ml-auto hidden font-medium text-slate-400 md:block dark:text-sky-200/50">
-              <kbd className="font-sans">Ctrl </kbd>
+              <kbd className="font-sans">Ctrl</kbd>{" "}
               <kbd className="font-sans">K</kbd>
             </kbd>
           </button>
@@ -143,7 +166,7 @@ export default function Header(): ReactElement {
                     </Switch>
                   </div>
                 </div>
-                <div className="divide-y divide-slate-100 max-h-96 overflow-y-scroll">
+                <div className="divide-y divide-slate-100 max-h-96 min-h-52 overflow-y-scroll">
                   <div className="px-4 pt-3 pb-4">
                     <div className="flex justify-between mb-1 items-start">
                       <p className="text-slate-900 leading-tight">
@@ -257,7 +280,6 @@ export default function Header(): ReactElement {
                   </div>
                 </div>
                 <footer className="flex justify-between items-center p-3 border-t border-slate-200">
-                  {/* <hr className="mt-3" /> */}
                   <button className="text-xs text-primary-800 flex font-semibold">
                     <DoubleCheck className="size-4 mr-1" />
                     <span>Mark all as read</span>
@@ -270,35 +292,57 @@ export default function Header(): ReactElement {
                   >
                     View all notifications
                   </CloseButton>
-
-                  {/* <Button
-                    size="medium"
-                    variant="primary"
-                    onClick={goToViewAllNotification}
-                  >
-                    View all notifications
-                  </Button> */}
                 </footer>
               </PopoverPanel>
             </Popover>
-            <div className="relative flex shrink-0 rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"></div>
-            <button
-              type="button"
-              className="relative flex shrink-0 rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-              id="user-menu-button"
-              aria-expanded="false"
-              aria-haspopup="true"
-            >
-              <img
-                className="h-8 w-8 rounded-full"
-                src={require(`../../assets/images/person-2.jpg`)}
-                alt="person"
-              />
-            </button>
+            <Popover>
+              <PopoverButton
+                type="button"
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                className="rounded-full p-1"
+              >
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={require(`../../assets/images/person-2.jpg`)}
+                  alt="person"
+                />
+              </PopoverButton>
+              {/* <PopoverBackdrop className="fixed inset-0 bg-transparent overflow-hidden" /> */}
+              <PopoverPanel
+                transition
+                anchor="bottom end"
+                className="mt-6 divide-y rounded-md bg-white shadow-xl border ease-in-out"
+              >
+                <div className="px-4 py-3">
+                  <CloseButton
+                    className="flex gap-2 items-center"
+                    onClick={handleViewProfile}
+                  >
+                    <img
+                      className="size-8 rounded-full"
+                      src={require(`../../assets/images/person-2.jpg`)}
+                      alt="person"
+                    />
+                      <div className="flex flex-col items-start">
+                        <p className="text-sm font-semibold">Arjun Krishnadas Pillai</p>
+                        <p className="text-xs text-slate-500">arjunkrishnadaspillai@gmail.com</p>
+                      </div>
+                  </CloseButton>
+                </div>
+                <div className="px-4 py-3">
+                  <CloseButton className="flex gap-3">
+                    <ArrowRightStartOnRectangleIcon className="size-6" />
+                    <span className="text-sm font-semibold">Logout</span>
+                  </CloseButton>
+                </div>
+              </PopoverPanel>
+            </Popover>
           </div>
         </div>
       </div>
-      {isOpen ? <Search isOpen={isOpen} close={handleClose} /> : null}
+      {isOpen ? <Search isOpen={isOpen} close={closeSearch} /> : null}
     </header>
   );
 }
