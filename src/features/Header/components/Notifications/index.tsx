@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -54,21 +54,6 @@ export function Notifications(): ReactElement {
       }
     );
   }
-
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
-  useEffect(() => {
-    if (popoverOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    console.log("popoverOpen", popoverOpen);
-  }, [popoverOpen]);
-
-  function handleBackdropClick () {
-    setPopoverOpen(false);
-  };
   
   return (
     <Popover>
@@ -80,7 +65,6 @@ export function Notifications(): ReactElement {
               className={`relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
                 open ? "border-2 border-primary-800" : ""
               }`}
-              onClick={() => setPopoverOpen(!popoverOpen)}
             >
               <BellIcon
                 className={`size-6 ${open ? "text-primary-800" : ""}`}
@@ -90,13 +74,8 @@ export function Notifications(): ReactElement {
               {notificationList?.totalCount}
             </div>
           </div>
-          {popoverOpen && (
-            <div
-              className="fixed inset-0 bg-transparent z-40 h-full overflow-y-scroll"
-              onClick={handleBackdropClick}
-            />
-          )}{" "}
           <PopoverPanel
+            modal
             anchor="bottom end"
             className="w-96 mt-6 rounded-md bg-white shadow-xl border ease-in-out"
           >

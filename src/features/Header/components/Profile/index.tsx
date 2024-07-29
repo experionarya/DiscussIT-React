@@ -43,18 +43,30 @@ export default function Profile(): ReactElement {
                 Downvoted
               </li>
             </ul>
-            <div className="text-slate-500 pb-2">
-              <select name="sort" id="sort" className="bg-fill text-xs">
+            <div className="flex gap-5">
+              <div className="text-slate-500 pb-2">
+                <select name="filter" id="filter" className="bg-slate-200 p-0.5 rounded text-xs">
                 <option value="Replies" className="text-xs">
-                  Replies
-                </option>
-                <option value="Upvotes" className="text-xs">
-                  Upvotes
-                </option>
-                <option value="Date posted" className="text-xs">
-                  Date posted
-                </option>
-              </select>
+                    Replies
+                  </option>
+                  <option value="Upvotes" className="text-xs">
+                    Upvotes
+                  </option>
+                  <option value="Date posted" className="text-xs">
+                    Date posted
+                  </option>
+                </select>
+              </div>
+               <div className="text-slate-500 pb-2">
+                <select name="sort" id="sort" className="bg-slate-200 p-0.5 rounded text-xs">
+                  <option value="Replies" className="text-xs">
+                    Most to least
+                  </option>
+                  <option value="Upvotes" className="text-xs">
+                    Least to most
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
           {/* <div className="flex items-center justify-center h-full">
@@ -95,7 +107,6 @@ export default function Profile(): ReactElement {
                 src={require(`../../../../assets/images/Java.png`)}
                 alt="java"
                 className="cursor-pointer"
-                // onClick={gotoPost}
               />
               <div className="flex space-x-3">
                 <button

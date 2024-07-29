@@ -35,7 +35,6 @@ export default function Header(): ReactElement {
   }
 
  function handleViewProfile() {
-  setPopoverOpen(false);
   navigate(`/profile`)
  }
 
@@ -52,21 +51,6 @@ useEffect(() => {
     document.removeEventListener('keydown', handleKeyPress);
   };
 }, [handleKeyPress]);
-
-const [popoverOpen, setPopoverOpen] = useState(false);
-
-  useEffect(() => {
-    if (popoverOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    console.log("popoverOpen", popoverOpen);
-  }, [popoverOpen]);
-
-  function handleBackdropClick () {
-    setPopoverOpen(false);
-  };
 
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
@@ -135,7 +119,6 @@ const [popoverOpen, setPopoverOpen] = useState(false);
                 aria-expanded="false"
                 aria-haspopup="true"
                 className="rounded-full p-1"
-                onClick={() => setPopoverOpen(!popoverOpen)}
               >
                 <img
                   className="h-8 w-8 rounded-full"
@@ -143,14 +126,9 @@ const [popoverOpen, setPopoverOpen] = useState(false);
                   alt="person"
                 />
               </PopoverButton>
-              {popoverOpen && (
-            <div
-              className="fixed inset-0 bg-transparent z-40 h-full overflow-y-scroll"
-              onClick={handleBackdropClick}
-            />
-          )}{" "}
               <PopoverPanel
                 transition
+                modal
                 anchor="bottom end"
                 className="mt-6 divide-y rounded-md bg-white shadow-xl border ease-in-out"
               >
