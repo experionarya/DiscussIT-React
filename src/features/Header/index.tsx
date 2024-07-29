@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { CloseButton, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
@@ -10,6 +11,7 @@ import { Button } from "../../components/Button";
 import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
+import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
@@ -31,6 +33,10 @@ export default function Header(): ReactElement {
   function goToHome() {
     navigate(`/home`);
   }
+
+ function handleViewProfile() {
+  navigate(`/profile`)
+ }
 
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
@@ -92,19 +98,50 @@ export default function Header(): ReactElement {
             <Announcements />
             <Notifications />
 
-            <button
-              type="button"
-              className="relative flex shrink-0 rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-              id="user-menu-button"
-              aria-expanded="false"
-              aria-haspopup="true"
-            >
-              <img
-                className="h-8 w-8 rounded-full"
-                src={require(`../../assets/images/person-2.jpg`)}
-                alt="person"
-              />
-            </button>
+            <Popover>
+              <PopoverButton
+                type="button"
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                className="rounded-full p-1"
+              >
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={require(`../../assets/images/person-2.jpg`)}
+                  alt="person"
+                />
+              </PopoverButton>
+              {/* <PopoverBackdrop className="fixed inset-0 bg-transparent overflow-hidden" /> */}
+              <PopoverPanel
+                transition
+                anchor="bottom end"
+                className="mt-6 divide-y rounded-md bg-white shadow-xl border ease-in-out"
+              >
+                <div className="px-4 py-3">
+                  <CloseButton
+                    className="flex gap-2 items-center"
+                    onClick={handleViewProfile}
+                  >
+                    <img
+                      className="size-8 rounded-full"
+                      src={require(`../../assets/images/person-2.jpg`)}
+                      alt="person"
+                    />
+                      <div className="flex flex-col items-start">
+                        <p className="text-sm font-semibold">Arjun Krishnadas Pillai</p>
+                        <p className="text-xs text-slate-500">arjunkrishnadaspillai@gmail.com</p>
+                      </div>
+                  </CloseButton>
+                </div>
+                <div className="px-4 py-3">
+                  <CloseButton className="flex gap-3">
+                    <ArrowRightStartOnRectangleIcon className="size-6" />
+                    <span className="text-sm font-semibold">Logout</span>
+                  </CloseButton>
+                </div>
+              </PopoverPanel>
+            </Popover>
           </div>
         </div>
       </div>
