@@ -13,9 +13,34 @@ export default function Post(): ReactElement {
 
   return (
     <>
-      <h1 className="font-semibold pb-3 text-lg text-slate-900">
-        {posts?.categoryName}
-      </h1>
+        <h1 className="font-semibold text-lg pb-3 text-slate-900">
+          {posts?.categoryName}
+        </h1>
+        <div className="flex gap-5">
+          <div className="text-slate-500 pb-2">
+            <select name="filter" id="filter" className="bg-slate-200 p-0.5 rounded text-xs">
+              <option value="Replies" className="text-xs">
+                Replies
+              </option>
+              <option value="Upvotes" className="text-xs">
+                Upvotes
+              </option>
+              <option value="Date posted" className="text-xs">
+                Date posted
+              </option>
+            </select>
+          </div>
+          <div className="text-slate-500 pb-2">
+            <select name="sort" id="sort" className="bg-slate-200 p-0.5 rounded text-xs">
+              <option value="Replies" className="text-xs">
+                Most to least
+              </option>
+              <option value="Upvotes" className="text-xs">
+                Least to most
+              </option>
+            </select>
+          </div>
+        </div>
       <div className="space-y-3">
         {posts?.threads?.map((item: ThreadType) => (
           <PostItem postItem={item} />

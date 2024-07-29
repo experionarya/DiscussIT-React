@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -22,21 +22,6 @@ export function Announcements(): ReactElement {
   const { data: communityList } = useGetCommunityList();
   const { data: announcementList } = useGetAnnouncementByCommunity(communityId);
 
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
-  useEffect(() => {
-    if (popoverOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    console.log("popoverOpen", popoverOpen);
-  }, [popoverOpen]);
-
-  function handleBackdropClick () {
-    setPopoverOpen(false);
-  };
-
   return (
     <Popover>
       {({ open }) => (
@@ -48,7 +33,6 @@ export function Announcements(): ReactElement {
               className={`relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
                 open ? "border-2 border-primary-800" : ""
               }`}
-              onClick={() => setPopoverOpen(!popoverOpen)}
             >
               <MegaphoneIcon
                 className={`size-6 ${open ? "text-primary-800" : ""}`}
@@ -56,14 +40,9 @@ export function Announcements(): ReactElement {
             </PopoverButton>
             <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2" />
           </div>
-          {popoverOpen && (
-            <div
-              className="fixed inset-0 bg-transparent z-40 h-full overflow-y-scroll"
-              onClick={handleBackdropClick}
-            />
-          )}{" "}
           <PopoverPanel
             anchor="bottom end"
+            modal
             className="w-96 mt-6 rounded-md bg-white shadow-xl border ease-in-out"
           >
             <div className="px-4 pt-3 space-y-3 border-b border-slate-200 pb-3">
