@@ -12,7 +12,7 @@ export default function Post(): ReactElement {
   const { data: posts } = useGetAllPosts(category?.categoryId);
 
   return (
-    <>
+    <div className="space-y-2">
         <h1 className="font-semibold text-lg pb-3 text-slate-900">
           {posts?.categoryName}
         </h1>
@@ -46,6 +46,6 @@ export default function Post(): ReactElement {
           <PostItem postItem={item} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

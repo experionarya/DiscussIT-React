@@ -10,6 +10,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import Post from "src/features/Post";
 import CreatePost from "src/features/CreatePost";
 import Profile from "src/features/Header/components/Profile";
+import TagsDetailPage from "src/features/Home/components/RightPanel/TagsDetailPage";
 
 function PrivatePage(): ReactElement {
   const { account } = useAuth();
@@ -25,6 +26,7 @@ function PrivatePage(): ReactElement {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/community/category-posts/replies" element={<Post />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/tags-deatil-page" element={<TagsDetailPage />} />
       </Routes>
     </>
   );
