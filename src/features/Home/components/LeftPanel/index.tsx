@@ -64,7 +64,7 @@ export default function LeftPanel(): ReactElement {
   return (
     <div className="fixed">
       <div className="overflow-y-scroll">
-        <aside className="min-w-40 max-w-52 space-y-8 pl-2">
+        <aside className="min-w-40 max-w-52 space-y-5 pl-2">
           <div className="space-y-1 text-sm">
             <li className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50">
               All posts
@@ -80,7 +80,7 @@ export default function LeftPanel(): ReactElement {
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>
-            <div className="text-sm space-y-2">
+            <div className="text-sm space-y-2 max-h-56 overflow-y-scroll">
               <BookMarkPopover data={bookMarks} />
             </div>
           </div>

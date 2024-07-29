@@ -108,7 +108,7 @@ export function CommunityDisclosure(): ReactElement {
                           ? `group flex w-full rounded items-center justify-between truncate font-semibold `
                           : `group flex w-full rounded font-semibold items-center justify-between hover:bg-slate-300/25 truncate ${
                               item?.id === categoryStore?.communityId
-                                ? "bg-sky-200/50"
+                                ? "bg-sky-200/50 text-primary-800"
                                 : ""
                             }`
                       }
@@ -152,7 +152,7 @@ export function CommunityDisclosure(): ReactElement {
                           />
                         </div>
 
-                        <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2">
+                        <div className="max-h-64 overflow-y-auto overflow-x-hidden space-y-2 pr-2">
                           {result[index][item.name]?.map(
                             (category: CategoryType) => (
                               <li
@@ -160,7 +160,7 @@ export function CommunityDisclosure(): ReactElement {
                                 className={`inline-block w-full truncate ${
                                   category?.communityCategoryMappingID ===
                                   categoryStore?.categoryId
-                                    ? "bg-slate-300/50"
+                                    ? "bg-sky-200/50"
                                     : ""
                                 } cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800`}
                                 onClick={() =>

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { CloseButton, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
@@ -18,13 +18,13 @@ export default function Header(): ReactElement {
 
   let [isOpen, setIsOpen] = useState(false);
 
-  function handleClose() {
-    setIsOpen(false);
-  }
-
-  function handleSearch() {
+  const openSearch = useCallback(() => {
     setIsOpen(true);
-  }
+  }, []);
+
+  const closeSearch = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   function goToCreatePost() {
     navigate(`/createpost`);
@@ -35,8 +35,38 @@ export default function Header(): ReactElement {
   }
 
  function handleViewProfile() {
+  setPopoverOpen(false);
   navigate(`/profile`)
  }
+
+ const handleKeyPress = useCallback((event: any) => {
+  if (event.ctrlKey && event.key === 'k') {
+    event.preventDefault();
+    openSearch();
+  }
+}, [openSearch]);
+
+useEffect(() => {
+  document.addEventListener('keydown', handleKeyPress);
+  return () => {
+    document.removeEventListener('keydown', handleKeyPress);
+  };
+}, [handleKeyPress]);
+
+const [popoverOpen, setPopoverOpen] = useState(false);
+
+  useEffect(() => {
+    if (popoverOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    console.log("popoverOpen", popoverOpen);
+  }, [popoverOpen]);
+
+  function handleBackdropClick () {
+    setPopoverOpen(false);
+  };
 
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
@@ -78,7 +108,7 @@ export default function Header(): ReactElement {
           <button
             type="button"
             className="group ml-auto flex h-6 w-6 items-center justify-center sm:justify-start md:ml-0 md:h-auto md:w-60 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-400 lg:w-80 xl:w-96 dark:md:ring-slate-600"
-            onClick={handleSearch}
+            onClick={openSearch}
           >
             <MagnifyingGlassIcon className="h-5 w-5 fill-slate-400" />
             <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">
@@ -89,7 +119,7 @@ export default function Header(): ReactElement {
               <kbd className="font-sans">K</kbd>
             </kbd>
           </button>
-          <div className="ml-auto hidden gap-4 md:flex">
+          <div className="ml-auto hidden gap-4 md:flex items-center">
             <Button size="medium" variant="primary" onClick={goToCreatePost}>
               <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5" />
               Create post
@@ -105,6 +135,7 @@ export default function Header(): ReactElement {
                 aria-expanded="false"
                 aria-haspopup="true"
                 className="rounded-full p-1"
+                onClick={() => setPopoverOpen(!popoverOpen)}
               >
                 <img
                   className="h-8 w-8 rounded-full"
@@ -112,7 +143,12 @@ export default function Header(): ReactElement {
                   alt="person"
                 />
               </PopoverButton>
-              {/* <PopoverBackdrop className="fixed inset-0 bg-transparent overflow-hidden" /> */}
+              {popoverOpen && (
+            <div
+              className="fixed inset-0 bg-transparent z-40 h-full overflow-y-scroll"
+              onClick={handleBackdropClick}
+            />
+          )}{" "}
               <PopoverPanel
                 transition
                 anchor="bottom end"
@@ -145,7 +181,7 @@ export default function Header(): ReactElement {
           </div>
         </div>
       </div>
-      {isOpen ? <Search isOpen={isOpen} close={handleClose} /> : null}
+      {isOpen ? <Search isOpen={isOpen} close={closeSearch} /> : null}
     </header>
   );
 }

@@ -46,7 +46,7 @@ export function BookMarkPopover({
               {hoverIndex === index && (
                 <PopoverPanel
                   static
-                  className="absolute z-10 divide-y -mt-40 -ml-10 max-w-64 divide-white/5 rounded-md bg-white shadow-lg text-sm/6 ease-in-out cursor-pointer"
+                  className="absolute z-10 divide-y -mt-32 -ml-10 max-w-64 divide-white/5 rounded-md bg-white shadow-lg text-sm/6 ease-in-out cursor-pointer"
                   onClick={goToHome}
                 >
                   <div className="p-2">
