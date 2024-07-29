@@ -1,7 +1,9 @@
 import React, { ReactElement, useState, useMemo, useCallback } from "react";
+import { useQueryClient } from "react-query";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import dayjs from "dayjs";
 
 import { Button } from "src/components/Button";
 
@@ -11,6 +13,8 @@ import { useSaveCategories } from "../../api/useSaveCategories";
 import { useHomeStore } from "../../store/homeStore";
 
 import { AllCategoryType } from "src/features/Community/types/categoryType";
+import { QueryClient } from "react-query";
+import { useGetPreferenceList } from "../../api/useGetPreferenceList";
 
 type AddCategoryType = {
   isOpen: boolean;
@@ -23,6 +27,9 @@ export function AddCategories({
 }: AddCategoryType): ReactElement {
   const { data: allCategories } = useGetAllCategories();
   const { mutate: saveCategories } = useSaveCategories();
+  const { data: preferenceList, refetch } = useGetPreferenceList();
+
+  const queryClient = useQueryClient();
 
   const [categorySearchParam, setCategorySearchParam] = useState<string>("");
 
@@ -33,6 +40,10 @@ export function AddCategories({
     useCallback((state) => state.setCheckedItems, [])
   );
 
+  const userDetails = useHomeStore(
+    useCallback((state) => state.userDetails, [])
+  );
+  console.log("userDetails", userDetails);
   const checkedItems = useHomeStore(
     useCallback((state) => state.checkedItems, [])
   );
@@ -50,6 +61,33 @@ export function AddCategories({
 
   function handleCheckboxChange(event: any) {
     setCheckedItems(event);
+  }
+
+  function saveCategoryList() {
+    const filteredData = allCategories?.filter(
+      (item) => checkedItems[item.communityCategoryID]
+    );
+    const formattedData = filteredData?.map((item) => ({
+      ...item,
+      createdAt: dayjs().utc().format(),
+      createdBy: userDetails?.userID,
+      modifiedAt: dayjs().utc().format(),
+      modifiedBy: userDetails?.userID,
+      id: 0,
+    }));
+
+    // saveCategories(filteredData);
+    saveCategories(formattedData, {
+      onSuccess: () => {
+        refetch();
+        queryClient.invalidateQueries("get_preference_list", {
+          refetchInactive: true,
+        });
+        queryClient.invalidateQueries("get_preference_list", {
+          refetchActive: true,
+        });
+      },
+    });
   }
 
   return (
@@ -100,8 +138,10 @@ export function AddCategories({
                       className="size-4"
                       id={item?.communityID.toString()}
                       onChange={handleCheckboxChange}
-                      name={item?.communityCategoryName}
-                      checked={checkedItems[`${item?.communityCategoryName}`]}
+                      name={item?.communityCategoryID?.toString()}
+                      checked={
+                        checkedItems[`${item?.communityCategoryID?.toString()}`]
+                      }
                     />
 
                     <label
@@ -123,19 +163,8 @@ export function AddCategories({
                   variant="primary"
                   onClick={() => {
                     addToCategoryList(checkedItems);
+                    saveCategoryList();
                     handleClose();
-                    saveCategories([
-                      {
-                        id: 0,
-                        communityCategoryID: 4,
-                        communityId: 3,
-                        communityCategoryName: "Network Security",
-                        createdBy: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        createdAt: "2024-07-19T11:04:44.610Z",
-                        modifiedBy: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        modifiedAt: "2024-07-19T11:04:44.610Z",
-                      },
-                    ]);
                   }}
                 >
                   Add

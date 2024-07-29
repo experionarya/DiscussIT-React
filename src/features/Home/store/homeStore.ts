@@ -113,4 +113,12 @@ export const useHomeStore = create<any>()((set, get) => ({
       })
     );
   },
+  
+  setCheckedItemsFromApi: (value: any) => {
+    set(
+      produce((state: any) => {
+        state.checkedItems = {...value};
+      })
+    );
+  },
 }));

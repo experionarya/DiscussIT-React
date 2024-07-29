@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, UseQueryResult } from "react-query";
+import { useMutation, UseMutationResult, useQueryClient, UseQueryResult } from "react-query";
 
 import { saveAllCategories } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
@@ -9,15 +9,15 @@ import { AllCategoryType } from "src/features/Community/types/categoryType";
 async function saveCategories({
   token,
   tokenType,
-  params
+  params,
 }: TVariables): Promise<APIResult> {
   const response = await fetch(saveAllCategories, {
     method: "POST",
     headers: {
-        Authorization: `${tokenType} ${token}`,
-        // 'Content-Type': 'application/json',
-      },
-      body: JSON.stringify( params),
+      Authorization: `${tokenType} ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
   });
   return response.json();
 }
@@ -28,22 +28,26 @@ type TError = { message: string };
 type TVariables = {
   token: string | null;
   tokenType: string;
-  params:any
+  params: any;
 };
 
-function useSaveCategories(): UseMutationResult< any,
-TError,
-any,
-unknown> {
+function useSaveCategories(): UseMutationResult<any, TError, any, unknown> {
   const { tokenType } = useAuth();
+  const queryClient= useQueryClient()
   return useMutation(async (params: any) => {
-    const result = await saveCategories({
-      token:getParsedToken(),
-      tokenType:tokenType,
+   await saveCategories({
+      token: getParsedToken(),
+      tokenType: tokenType,
       params: params,
     });
-return result;
-
+    // console.log("on succes");
+    // queryClient.invalidateQueries("get_preference_list",{
+    //   refetchActive: true,
+    // });
+    // queryClient.invalidateQueries("get_preference_list",{
+    //   refetchInactive: true,
+    // });
+    // return result;
   });
 }
 
