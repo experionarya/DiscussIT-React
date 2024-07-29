@@ -43,7 +43,7 @@ export default function Profile(): ReactElement {
                 Downvoted
               </li>
             </ul>
-            <div className="flex gap-5">
+            <div className="flex gap-5 pb-1">
               <div className="text-slate-500 pb-2">
                 <select name="filter" id="filter" className="bg-slate-200 p-0.5 rounded text-xs">
                 <option value="Replies" className="text-xs">
