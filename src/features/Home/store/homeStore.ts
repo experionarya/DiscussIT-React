@@ -32,7 +32,8 @@ export const useHomeStore = create<any>()((set, get) => ({
     token,
     tokenType,
     id_token,
-  }: Partial<{ token: string; tokenType: string; id_token: string }>) => {
+    savedPosts
+  }: Partial<{ token: string; tokenType: string; id_token: string ,savedPosts:Array<any>}>) => {
     set(
       produce((state: any) => {
         state.home.isLoading = true;
@@ -89,6 +90,16 @@ export const useHomeStore = create<any>()((set, get) => ({
       tokenType: tokenType,
     });
 
+    //calling the individual post apis
+    savedPosts?.forEach((post) => {
+      const parsedToken = getParsedToken();
+      if (parsedToken && tokenType && post?.threadID)
+        get().getBookMarkedData({
+          tokenType: tokenType,
+          threadId: post?.threadID,
+        });
+    });
+
     set(
       produce((state: any) => {
         state.topUsers = [...topUsersResp];
@@ -97,21 +108,20 @@ export const useHomeStore = create<any>()((set, get) => ({
   },
 
   getBookMarkedData: async ({
-    token,
     tokenType,
     threadId,
   }: Partial<{
-    token: string | null;
     tokenType: string;
     threadId: number;
   }>) => {
     const data = await fetchBookMarks({
-      token: token,
+      token: getParsedToken(),
       tokenType: tokenType,
       threadId: threadId,
     });
     let tempArray = [];
     tempArray.push(data);
+    console.log("temp array",tempArray)
 
     set(
       produce((state: any) => {

@@ -35,19 +35,19 @@ function useSaveCategories(): UseMutationResult<any, TError, any, unknown> {
   const { tokenType } = useAuth();
   const queryClient= useQueryClient()
   return useMutation(async (params: any) => {
-   await saveCategories({
+   const result = await saveCategories({
       token: getParsedToken(),
       tokenType: tokenType,
       params: params,
-    });
-    // console.log("on succes");
-    // queryClient.invalidateQueries("get_preference_list",{
-    //   refetchActive: true,
-    // });
-    // queryClient.invalidateQueries("get_preference_list",{
-    //   refetchInactive: true,
-    // });
-    // return result;
+    })
+    return result;
+   
+  },{
+    onSettled:()=>{
+      queryClient.invalidateQueries("get_preference_list", {
+        refetchInactive: true,
+      });
+    }
   });
 }
 

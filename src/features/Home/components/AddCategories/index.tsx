@@ -28,9 +28,6 @@ export function AddCategories({
 }: AddCategoryType): ReactElement {
   const { data: allCategories } = useGetAllCategories();
   const { mutate: saveCategories } = useSaveCategories();
-  const { data: preferenceList, refetch } = useGetPreferenceList();
-
-  const queryClient = useQueryClient();
 
   const [categorySearchParam, setCategorySearchParam] = useState<string>("");
 
@@ -39,10 +36,6 @@ export function AddCategories({
   );
   const setCheckedItems = useHomeStore(
     useCallback((state) => state.setCheckedItems, [])
-  );
-
-  const userDetails = useHomeStore(
-    useCallback((state) => state.userDetails, [])
   );
 
   const checkedItems = useHomeStore(
@@ -77,18 +70,7 @@ export function AddCategories({
       id: 0,
     }));
 
-    // saveCategories(filteredData);
-    saveCategories(formattedData, {
-      onSuccess: () => {
-        refetch();
-        queryClient.invalidateQueries("get_preference_list", {
-          refetchInactive: true,
-        });
-        queryClient.invalidateQueries("get_preference_list", {
-          refetchActive: true,
-        });
-      },
-    });
+    saveCategories(formattedData);
   }
 
   return (

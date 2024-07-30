@@ -5,6 +5,8 @@ import MiddlePanel from "../Home/components/MiddlePanel";
 import RightPanel from "../Home/components/RightPanel";
 import LeftPanel from "../Home/components/LeftPanel";
 
+import { useGetSavedThreads } from "./api/useGetSavedThreads";
+
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 import { useHomeStore } from "./store/homeStore";
@@ -16,6 +18,12 @@ export default function Home(): ReactElement {
     React.useCallback((state: any) => state.getHomeInfo, [])
   );
 
+  const userDetails = useHomeStore(
+    React.useCallback((state: any) => state.userDetails, [])
+  );
+
+  const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
+
   useQuery(
     ["get_micro_information", { id_token: id_token, token: token }],
     () => {
@@ -23,6 +31,7 @@ export default function Home(): ReactElement {
         token: token,
         tokenType: tokenType,
         id_token: id_token,
+        savedPosts: savedPosts,
       });
     },
     { staleTime: Infinity }
