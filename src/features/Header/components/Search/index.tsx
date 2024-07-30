@@ -3,6 +3,7 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 export default function Search({ isOpen, close }: any): ReactElement {
+  
   return (
     <>
       <Dialog open={isOpen} as="div" onClose={close}>

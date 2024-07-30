@@ -4,7 +4,9 @@ import {
   getTrendingTags,
   getUserDetails,
   microsoftInfo,
+ getBookMarks
 } from "src/utils/urls";
+
 import { ExternalLoginType } from "../types/externalLoginType";
 import { UserDetailsParamsType } from "src/types/userDetailsTypes";
 
@@ -89,4 +91,26 @@ export async function fetchTopUsers({
     });
     return response.json();
   }
+}
+
+export async function fetchBookMarks({
+  token,
+  tokenType,
+  threadId
+}: {
+  token: string | undefined | null;
+  tokenType: string | undefined;
+  threadId: number | undefined;
+}): Promise<any> {
+  if(threadId){
+    const response = await fetch(getBookMarks(threadId), {
+      method: "GET",
+      headers: {
+        Authorization: `${tokenType} ${token}`,
+      },
+    });
+    return response.json();
+  }
+
+
 }

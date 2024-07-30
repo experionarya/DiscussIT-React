@@ -7,6 +7,7 @@ import {
   fetchTopUsers,
   fetchTrendingTags,
   fetchUserDetails,
+  fetchBookMarks,
 } from "./apiStore";
 
 import {
@@ -25,6 +26,7 @@ export const useHomeStore = create<any>()((set, get) => ({
   topUsers: [],
   categoryList: [],
   checkedItems: {},
+  bookMarks: [],
 
   getHomeInfo: async ({
     token,
@@ -94,13 +96,26 @@ export const useHomeStore = create<any>()((set, get) => ({
     );
   },
 
-  addToCategoryList: (data: Record<any, any>) => {
-    const trueKeys = Object.entries(data)
-      .filter(([key, value]) => value === true)
-      .map(([key, value]) => key);
+  getBookMarkedData: async ({
+    token,
+    tokenType,
+    threadId,
+  }: Partial<{
+    token: string | null;
+    tokenType: string;
+    threadId: number;
+  }>) => {
+    const data = await fetchBookMarks({
+      token: token,
+      tokenType: tokenType,
+      threadId: threadId,
+    });
+    let tempArray = [];
+    tempArray.push(data);
+
     set(
       produce((state: any) => {
-        state.categoryList = [...trueKeys];
+        state.bookMarks = [...state.bookMarks, ...tempArray];
       })
     );
   },
@@ -113,12 +128,29 @@ export const useHomeStore = create<any>()((set, get) => ({
       })
     );
   },
-  
+
   setCheckedItemsFromApi: (value: any) => {
     set(
       produce((state: any) => {
-        state.checkedItems = {...value};
+        state.checkedItems = { ...value };
+      }))
+  },
+  
+  clearBookMarkData: () => {
+    set(
+      produce((state: any) => {
+        state.bookMarks = [];
       })
     );
   },
+
+  addToCategoryList: (data: Record<any, any>) => {
+    const trueKeys = Object.entries(data)
+      .filter(([key, value]) => value === true)
+      .map(([key, value]) => key);
+    set(
+      produce((state: any) => {
+        state.categoryList = [...trueKeys];
+      }))
+  }
 }));

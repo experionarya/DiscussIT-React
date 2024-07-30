@@ -5,10 +5,17 @@ import { useHomeStore } from "../../store/homeStore";
 
 import { TrendingTagType } from "../../types/trendingTags";
 
+import { useNavigate } from "react-router-dom";
+
 export default function TrendingTags(): ReactElement {
   const trendingTags = useHomeStore(
     React.useCallback((state: any) => state.trendingTags, [])
   );
+  const navigate = useNavigate();
+
+  function goToTagsDetailPage() {
+    navigate(`/tags-deatil-page`);
+  }
 
   function renderTags(item: TrendingTagType) {
     return (
@@ -16,6 +23,7 @@ export default function TrendingTags(): ReactElement {
         <span
           key={item?.tagId}
           className="inline-flex cursor-pointer items-center m-1 rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
+          onClick={goToTagsDetailPage}
         >
           {item?.tagName}
           <span className="text-xs ml-2">({item?.tagCount})</span>
