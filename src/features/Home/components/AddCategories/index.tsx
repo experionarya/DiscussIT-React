@@ -11,6 +11,7 @@ import { useGetAllCategories } from "../../api/useGetAllCategories";
 import { useSaveCategories } from "../../api/useSaveCategories";
 
 import { useHomeStore } from "../../store/homeStore";
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { AllCategoryType } from "src/features/Community/types/categoryType";
 import { QueryClient } from "react-query";
@@ -43,7 +44,7 @@ export function AddCategories({
   const userDetails = useHomeStore(
     useCallback((state) => state.userDetails, [])
   );
-  console.log("userDetails", userDetails);
+
   const checkedItems = useHomeStore(
     useCallback((state) => state.checkedItems, [])
   );
@@ -70,9 +71,9 @@ export function AddCategories({
     const formattedData = filteredData?.map((item) => ({
       ...item,
       createdAt: dayjs().utc().format(),
-      createdBy: userDetails?.userID,
+      createdBy: getUserIdFromToken(),
       modifiedAt: dayjs().utc().format(),
-      modifiedBy: userDetails?.userID,
+      modifiedBy: getUserIdFromToken(),
       id: 0,
     }));
 
