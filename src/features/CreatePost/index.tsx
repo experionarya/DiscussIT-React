@@ -1,9 +1,55 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback, useMemo } from "react";
 import { Button } from "src/components/Button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { PencilIcon } from "@heroicons/react/24/solid";
+
+import { useGetCommunityList } from "../Community/api/useGetCommunityList";
+import { useGetCategoryByCommunity } from "../Community/api/useGetCategoryByCommunity";
+import { useCreateNewPost } from "./api/useCreateNewPost";
+
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+
+import { useCreatePostStore } from "./store/createPostStore";
+
 export default function CreatePost(): ReactElement {
+  const { data } = useGetCommunityList();
+  const { mutate: createNewPost } = useCreateNewPost();
+
+  const postDetails = useCreatePostStore(
+    useCallback((state) => state.postDetails, [])
+  );
+  const setPostDetails = useCreatePostStore(
+    useCallback((state) => state.setPostDetails, [])
+  );
+
+  const { data: categoryList } = useGetCategoryByCommunity(
+    postDetails?.Community
+  );
+
+  const dropdownOptions = useMemo(() => {
+    if (data) {
+      return data?.map((item) => ({
+        name: item?.communityName,
+        value: item?.communityID,
+      }));
+    }
+  }, [data]);
+
+  const categoryOptions = useMemo(() => {
+    if (categoryList) {
+      return categoryList?.map((item) => ({
+        name: item?.communityCategoryName,
+        value: item?.communityCategoryMappingID,
+      }));
+    }
+  }, [categoryList]);
+
+  function savePost() {
+    let postValue = { ...postDetails, userId: getUserIdFromToken() };
+    createNewPost(postValue);
+  }
+
   return (
     <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5" />
@@ -26,11 +72,15 @@ export default function CreatePost(): ReactElement {
                   name="community"
                   id="community"
                   className="h-9 w-72 rounded-lg px-3 border border-stroke-weak outline-none"
+                  onChange={(e) => {
+                    console.log("eee", e.target.value);
+                    setPostDetails("Community", parseInt(e.target.value));
+                  }}
+                  value={postDetails?.Community?.toString()}
                 >
-                  <option value="PM-hub">PM-hub</option>
-                  <option value="Experion discussion">
-                    Experion discussion
-                  </option>
+                  {dropdownOptions?.map((item) => (
+                    <option value={item?.value}>{item?.name}</option>
+                  ))}
                 </select>
               </div>
               <div className="space-y-1">
@@ -41,21 +91,14 @@ export default function CreatePost(): ReactElement {
                   name="category"
                   id="category"
                   className="h-9 w-72 rounded-lg border px-3 border-stroke-weak outline-none"
+                  onChange={(e) => {
+                    setPostDetails("Category", parseInt(e.target.value));
+                  }}
+                  value={postDetails?.Category?.toString()}
                 >
-                  <option value="Java Programming">Java Programming</option>
-                  <option value="Webpack">Webpack</option>
-                  <option value="Amazon Web Services">
-                    Amazon Web Services
-                  </option>
-                  <option value="Kubernetes">Kubernetes</option>
-                  <option value="API Management">API Management</option>
-                  <option value="D3.js">D3.js</option>
-                  <option value="Async/Await">Async/Await</option>
-                  <option value="RESTful APIs">RESTful APIs</option>
-                  <option value="Talent Acquisition">Talent Acquisition</option>
-                  <option value="JIRA">JIRA</option>
-                  <option value="Workplace Culture">Workplace Culture</option>
-                  <option value="Budgeting">Budgeting</option>
+                  {categoryOptions?.map((item) => (
+                    <option value={item?.value}>{item?.name}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -67,6 +110,10 @@ export default function CreatePost(): ReactElement {
                 type="text"
                 id="tag"
                 className="h-9 w-full pl-2 rounded-lg border border-stroke-weak outline-none"
+                onChange={(e) => {
+                  setPostDetails("Title", e.target.value);
+                }}
+                value={postDetails?.Title}
               />
             </div>
             <div className="space-y-1">
@@ -77,6 +124,10 @@ export default function CreatePost(): ReactElement {
                 id="description"
                 className="w-full pl-2 rounded-lg border border-stroke-weak outline-none"
                 rows={5}
+                onChange={(e) => {
+                  setPostDetails("Description", e.target.value);
+                }}
+                value={postDetails?.Description}
               />
             </div>
             <div className="space-y-1">
@@ -88,6 +139,10 @@ export default function CreatePost(): ReactElement {
                   type="text"
                   id="tag"
                   className="h-9 w-full pl-2 pr-10 rounded-lg border border-stroke-weak outline-none"
+                  onChange={(e) => {
+                    setPostDetails("TagStatus", e.target.value);
+                  }}
+                  value={postDetails?.TagStatus}
                 />
                 <Tooltip.Provider>
                   <Tooltip.Root>
@@ -134,7 +189,13 @@ export default function CreatePost(): ReactElement {
               <Button size="medium" variant="secondary">
                 Saved draft
               </Button>
-              <Button size="medium" variant="primary">
+              <Button
+                size="medium"
+                variant="primary"
+                onClick={() => {
+                  savePost();
+                }}
+              >
                 Post
               </Button>
             </div>

@@ -62,3 +62,11 @@ export const singleNotificationHasRead = (replyId: number) =>
 
 // mark all notification ad read
 export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
+
+//save post
+export const savePost = (
+  communityMappingId: number,
+  userId: number,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
