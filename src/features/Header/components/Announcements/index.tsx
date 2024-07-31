@@ -31,7 +31,7 @@ export function Announcements(): ReactElement {
               type="button"
               title="Announcements"
               className={`relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
-                open ? "border-2 border-primary-800" : ""
+                open ? "border-2 border-primary-800" : "border-2 border-white"
               }`}
             >
               <MegaphoneIcon
@@ -40,10 +40,12 @@ export function Announcements(): ReactElement {
             </PopoverButton>
             <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2" />
           </div>
+
           <PopoverPanel
             anchor="bottom end"
             modal
-            className="w-96 mt-6 rounded-md bg-white shadow-xl border ease-in-out"
+            transition
+            className="w-96 mt-6 rounded-md bg-white shadow-xl border transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
           >
             <div className="px-4 pt-3 space-y-3 border-b border-slate-200 pb-3">
               <h1 className="font-semibold text-slate-900 flex text-lg">

@@ -8,7 +8,7 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
 export default function Profile(): ReactElement {
   return (
-    <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5" />
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10">
@@ -32,6 +32,9 @@ export default function Profile(): ReactElement {
             <ul className="flex flex-nowrap gap-4 items-center w-full pb-3">
               <li className="text-sm flex-shrink-0 font-medium flex items-center leading-none px-5 py-2 border border-stroke-weak hover:bg-slate-200 rounded-full cursor-pointer bg-slate-300">
                 My Post
+              </li>
+              <li className="text-sm flex-shrink-0 font-medium flex items-center leading-none px-5 py-2 border border-stroke-weak hover:bg-slate-200 rounded-full cursor-pointer">
+                Bookmarks
               </li>
               <li className="text-sm flex-shrink-0 font-medium flex items-center leading-none px-5 py-2 border border-stroke-weak hover:bg-slate-200 rounded-full cursor-pointer">
                 Drafts
@@ -152,7 +155,7 @@ export default function Profile(): ReactElement {
             </article>
           </div>
         </div>
-        <div className="col-span-1 space-y-2 overflow-y-auto" />
+        <div className="col-span-1" />
       </div>
     </div>
   );
