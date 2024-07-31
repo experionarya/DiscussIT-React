@@ -66,4 +66,4 @@ export const getPostDetails = (threadId: number) =>
 
 // get the replies by thread
 export const getPrimaryRepliesOfThread = (threadId: number) =>
-  `${apiBaseUrl}Reply/PrimaryRepliesOfThread/${threadId}?page=1&pageSize=6`;
+  `${apiBaseUrl}Reply/PrimaryRepliesOfThread/${threadId}`;

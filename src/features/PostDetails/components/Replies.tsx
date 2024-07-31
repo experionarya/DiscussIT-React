@@ -8,6 +8,7 @@ import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
 import { Button } from "src/components/Button";
 import DialogBox from "./DialogBox";
+import { usePostDetailsStore } from "../store/postDetailsStore";
 
 export function Replies(): ReactElement {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -30,6 +31,10 @@ export function Replies(): ReactElement {
   function handleDelete() {
     setIsDelete(true);
   }
+
+  const primaryReplies = usePostDetailsStore(
+    React.useCallback((state: any) => state.primaryReplies, [])
+  );
   return (
     <>
       <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0">
