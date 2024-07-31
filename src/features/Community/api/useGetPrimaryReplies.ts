@@ -8,8 +8,9 @@ import { CommunityType } from "../types/communityType";
 async function fetchPrimaryReplies({
   token,
   tokenType,
+  threadId,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getPrimaryRepliesOfThread, {
+  const response = await fetch(getPrimaryRepliesOfThread(threadId), {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -24,9 +25,12 @@ type TError = { message: string };
 type TVariables = {
   token: string | null;
   tokenType: string;
+  threadId: number;
 };
 
-function useGetPrimaryReplies(): UseQueryResult<APIResult, TError> {
+function useGetPrimaryReplies(
+  threadId: number
+): UseQueryResult<APIResult, TError> {
   const { token, tokenType } = useAuth();
   return useQuery(
     ["get_primary_replies_thread"],
@@ -34,6 +38,7 @@ function useGetPrimaryReplies(): UseQueryResult<APIResult, TError> {
       const result = await fetchPrimaryReplies({
         token,
         tokenType,
+        threadId,
       });
       return result;
     },

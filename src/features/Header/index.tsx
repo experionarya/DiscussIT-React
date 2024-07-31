@@ -1,7 +1,12 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { CloseButton, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import {
+  CloseButton,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+} from "@headlessui/react";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
@@ -34,28 +39,41 @@ export default function Header(): ReactElement {
     navigate(`/home`);
   }
 
- function handleViewProfile() {
-  navigate(`/profile`)
- }
-
- const handleKeyPress = useCallback((event: any) => {
-  if (event.ctrlKey && event.key === 'k') {
-    event.preventDefault();
-    openSearch();
+  function handleViewProfile() {
+    navigate(`/profile`);
   }
-}, [openSearch]);
 
-useEffect(() => {
-  document.addEventListener('keydown', handleKeyPress);
-  return () => {
-    document.removeEventListener('keydown', handleKeyPress);
-  };
-}, [handleKeyPress]);
+  const handleKeyPress = useCallback(
+    (event: any) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        openSearch();
+      }
+    },
+    [openSearch]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   return (
-    <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 grow items-center gap-5 md:gap-10">
+    <header className="sticky top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="flex h-16 grow items-center gap-5 md:gap-10">
+        <button type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white md:hidden" aria-controls="mobile-menu" aria-expanded="false">
+          <span className="absolute -inset-0.5"></span>
+          <span className="sr-only">Open main menu</span>
+          <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
           <div className="flex flex-shrink-0 items-center ml-2">
             <img
               src="https://discussit-dev.experionglobal.dev/assets/images/Logo.png"
@@ -130,7 +148,7 @@ useEffect(() => {
                 transition
                 modal
                 anchor="bottom end"
-                className="mt-6 divide-y rounded-md bg-white shadow-xl border ease-in-out"
+                className="mt-6 divide-y rounded-md bg-white shadow-xl border transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
               >
                 <div className="px-4 py-3">
                   <CloseButton
@@ -142,10 +160,14 @@ useEffect(() => {
                       src={require(`../../assets/images/person-2.jpg`)}
                       alt="person"
                     />
-                      <div className="flex flex-col items-start">
-                        <p className="text-sm font-semibold">Arjun Krishnadas Pillai</p>
-                        <p className="text-xs text-slate-500">arjunkrishnadaspillai@gmail.com</p>
-                      </div>
+                    <div className="flex flex-col items-start">
+                      <p className="text-sm font-semibold">
+                        Arjun Krishnadas Pillai
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        arjunkrishnadaspillai@gmail.com
+                      </p>
+                    </div>
                   </CloseButton>
                 </div>
                 <div className="px-4 py-3">
