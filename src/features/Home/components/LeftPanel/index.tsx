@@ -60,11 +60,11 @@ export default function LeftPanel(): ReactElement {
   function handleAddCategories() {
     setIsOpen(true);
   }
-
+  
   return (
     <div className="fixed">
       <div className="overflow-y-scroll">
-        <aside className="min-w-40 max-w-52 space-y-5 pl-2">
+        <aside className="min-w-40 max-w-52 space-y-4 pl-2">
           <div className="space-y-1 text-sm">
             <li className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50">
               All posts
@@ -74,14 +74,19 @@ export default function LeftPanel(): ReactElement {
             </li>
           </div>
           <PreferenceList handleAddCategories={handleAddCategories} />
-
           <div>
             <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>
-            <div className="text-sm space-y-2 max-h-56 overflow-y-scroll">
-              <BookMarkPopover data={bookMarks} />
+            <div className="text-sm space-y-2 w-full overflow-x-hidden pr-2">
+              <BookMarkPopover data={bookMarks}/>
+              <button
+          className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
+          // onClick={}
+        >
+          View all bookmarks
+        </button>
             </div>
           </div>
         </aside>

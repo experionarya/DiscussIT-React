@@ -63,7 +63,7 @@ export function Notifications(): ReactElement {
             <PopoverButton
               type="button"
               className={`relative rounded-full p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
-                open ? "border-2 border-primary-800" : ""
+                open ? "border-2 border-primary-800" : "border-2 border-white"
               }`}
             >
               <BellIcon
@@ -76,8 +76,9 @@ export function Notifications(): ReactElement {
           </div>
           <PopoverPanel
             modal
+            transition
             anchor="bottom end"
-            className="w-96 mt-6 rounded-md bg-white shadow-xl border ease-in-out"
+            className="w-96 mt-6 rounded-md bg-white shadow-xl border transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
           >
             <div className="px-4 py-3 flex justify-between items-center border-b border-slate-200">
               <h1 className="font-semibold text-slate-900 text-lg">
