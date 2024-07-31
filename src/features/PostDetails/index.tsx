@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
+import { useLocation } from "react-router-dom";
 
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
@@ -12,18 +13,27 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export default function PostDetails(): ReactElement {
+  const location = useLocation();
+
   const { tokenType } = useAuth();
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
   );
 
+  const postDetails = usePostDetailsStore(
+    React.useCallback((state: any) => state.postDetails, [])
+  );
+
+  const threadId = location.search.split("threadId=")[1];
+
   useQuery(
-    ["get_post_details", {}],
+    ["get_post_details", { threadId: threadId }],
     () => {
       getPostDetailsInfo({
         token: getParsedToken(),
         tokenType: tokenType,
+        threadId: threadId,
       });
     },
     { staleTime: Infinity }
@@ -39,7 +49,7 @@ export default function PostDetails(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4 pl-10">
         <div className="col-span-2 space-y-2">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
-            <Thread />
+            <Thread postDetails={postDetails} />
             <Comments />
             <Replies />
 

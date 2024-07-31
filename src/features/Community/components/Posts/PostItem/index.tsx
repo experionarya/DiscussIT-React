@@ -22,7 +22,9 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost() {
-    navigate(`/community/category-posts/replies`);
+    navigate(
+      `/community/category-posts/replies?threadId=${postItem?.threadID}`
+    );
   }
 
   const createMarkup = (data?: string) => {
@@ -50,11 +52,11 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
         <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
           <h5 className="font-semibold text-slate-900">{postItem?.title}</h5>
           <div className="flex gap-2">
-          {postItem?.tagNames?.map((tagItem: string) => (
-            <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
-              {tagItem}
-            </button>
-          ))}
+            {postItem?.tagNames?.map((tagItem: string) => (
+              <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
+                {tagItem}
+              </button>
+            ))}
           </div>
           <p
             className="text-slate-900"
