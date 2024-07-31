@@ -47,6 +47,8 @@ export const getSavedThreadsId = (userId: string) =>
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
+export const saveAllCategories= `${apiBaseUrl}CommunityCategory/save_preference`;
+
 export const getAnnouncementByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
 

@@ -1,10 +1,12 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback } from "react";
 import { PinSolid } from "iconoir-react";
 
 import { useGetPreferenceList } from "../../api/useGetPreferenceList";
+import { useHomeStore } from "../../store/homeStore";
 
 export function PreferenceList({ handleAddCategories }: any): ReactElement {
   const { data: preferenceList } = useGetPreferenceList();
+  console.log("preferenceList::::", preferenceList);
 
   function getButtonLabel() {
     if (preferenceList?.length) return "Add more categories";
@@ -31,11 +33,11 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
           ))}
       </ul>
       <button
-          className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-          onClick={handleAddCategories}
-        >
-          {getButtonLabel()}
-        </button>
+        className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
+        onClick={handleAddCategories}
+      >
+        {getButtonLabel()}
+      </button>
     </div>
   );
 }
