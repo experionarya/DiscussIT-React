@@ -17,7 +17,7 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
         <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
         <span>Pinned categories</span>
       </h5>
-      <ul className="space-y-1 text-sm max-h-56 overflow-y-scroll">
+      <ul className="space-y-1 text-sm max-h-52 overflow-y-scroll">
         {/* <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
           Newtork security
           <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" />

@@ -26,9 +26,15 @@ export function PostItem(): ReactElement {
             <p className="text-sm font-semibold leading-tight text-slate-900">
               Subha Lakshmi
             </p>
-            <p className="truncate text-xs leading-tight text-slate-500">
-              October 15, 2024
-            </p>
+            <div className="flex">
+              <p className="truncate text-xs  text-slate-500">
+                PM-hub/Java Programming
+              </p>
+              <span className="text-[9px] text-slate-400 pl-2 pr-1">●</span>
+              <p className="truncate text-xs text-slate-500">
+                October 15, 2024
+              </p>
+            </div>
           </div>
         </div>
         <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
