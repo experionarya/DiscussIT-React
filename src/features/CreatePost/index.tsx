@@ -4,6 +4,9 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { PencilIcon } from "@heroicons/react/24/solid";
 
+import TextEditor from "src/components/TextEditor";
+import { ReactSelect } from "src/components/ReactSelect";
+
 import { useGetCommunityList } from "../Community/api/useGetCommunityList";
 import { useGetCategoryByCommunity } from "../Community/api/useGetCategoryByCommunity";
 import { useCreateNewPost } from "./api/useCreateNewPost";
@@ -11,6 +14,7 @@ import { useCreateNewPost } from "./api/useCreateNewPost";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { useCreatePostStore } from "./store/createPostStore";
+import { useHomeStore } from "../Home/store/homeStore";
 
 export default function CreatePost(): ReactElement {
   const { data } = useGetCommunityList();
@@ -22,6 +26,19 @@ export default function CreatePost(): ReactElement {
   const setPostDetails = useCreatePostStore(
     useCallback((state) => state.setPostDetails, [])
   );
+
+  const trendingTags = useHomeStore(
+    useCallback((state) => state.trendingTags, [])
+  );
+
+  const tagOptions = useMemo(() => {
+    return trendingTags?.map((item: any) => ({
+      value: item?.tagId,
+      label: item?.tagName,
+    }));
+  }, [trendingTags]);
+
+  console.log("trendingTags", trendingTags);
 
   const { data: categoryList } = useGetCategoryByCommunity(
     postDetails?.Community
@@ -120,12 +137,22 @@ export default function CreatePost(): ReactElement {
               <label htmlFor="description" className="font-medium">
                 Description
               </label>
-              <textarea
+              {/* <textarea
                 id="description"
                 className="w-full pl-2 rounded-lg border border-stroke-weak outline-none"
                 rows={5}
                 onChange={(e) => {
                   setPostDetails("Description", e.target.value);
+                }}
+                value={postDetails?.Description}
+              /> */}
+
+              <TextEditor
+                id="description"
+                //className="w-full pl-2 h-44 rounded-lg border border-stroke-weak outline-none"
+                onChange={(e: any) => {
+                  console.log("eee", e);
+                  setPostDetails("Description", e);
                 }}
                 value={postDetails?.Description}
               />
@@ -135,7 +162,7 @@ export default function CreatePost(): ReactElement {
                 Tag
               </label>
               <div className="relative w-full">
-                <input
+                {/* <input
                   type="text"
                   id="tag"
                   className="h-9 w-full pl-2 pr-10 rounded-lg border border-stroke-weak outline-none"
@@ -143,6 +170,16 @@ export default function CreatePost(): ReactElement {
                     setPostDetails("TagStatus", e.target.value);
                   }}
                   value={postDetails?.TagStatus}
+                /> */}
+                <ReactSelect
+                  options={tagOptions}
+                  id="tag"
+                  setSelectedOptions={
+                    (e) => console.log("eeeeeeeeeeee", e)
+                    // setPostDetails("TagStatus", e.target.value);
+                  }
+                  // value={postDetails?.TagStatus}
+                  isSearchable={true}
                 />
                 <Tooltip.Provider>
                   <Tooltip.Root>
