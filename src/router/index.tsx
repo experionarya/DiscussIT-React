@@ -16,7 +16,7 @@ function PrivatePage(): ReactElement {
   const { account } = useAuth();
 
   return (
-    <>
+    <div className="flex w-full flex-col">
       {account !== null && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
@@ -31,7 +31,7 @@ function PrivatePage(): ReactElement {
         <Route path="/profile" element={<Profile />} />
         <Route path="/tags-deatil-page" element={<TagsDetailPage />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
