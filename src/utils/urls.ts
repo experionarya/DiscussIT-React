@@ -60,5 +60,9 @@ export const getNotifications = (userId: string) =>
 export const singleNotificationHasRead = (replyId: number) =>
   `${apiBaseUrl}Reply/${replyId}/updateHasViewed`;
 
-// mark all notification ad read
+// mark all notification as read
 export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
+
+// post details by thread id
+export const getPostDetails = (threadId: number) =>
+  `${apiBaseUrl}Thread/${threadId}`;
