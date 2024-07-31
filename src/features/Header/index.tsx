@@ -1,7 +1,12 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { CloseButton, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import {
+  CloseButton,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+} from "@headlessui/react";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
@@ -34,23 +39,26 @@ export default function Header(): ReactElement {
     navigate(`/home`);
   }
 
- function handleViewProfile() {
-  navigate(`/profile`)
- }
-
- const handleKeyPress = useCallback((event: any) => {
-  if (event.ctrlKey && event.key === 'k') {
-    event.preventDefault();
-    openSearch();
+  function handleViewProfile() {
+    navigate(`/profile`);
   }
-}, [openSearch]);
 
-useEffect(() => {
-  document.addEventListener('keydown', handleKeyPress);
-  return () => {
-    document.removeEventListener('keydown', handleKeyPress);
-  };
-}, [handleKeyPress]);
+  const handleKeyPress = useCallback(
+    (event: any) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        openSearch();
+      }
+    },
+    [openSearch]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   return (
     <header className="fixed w-full top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
@@ -130,7 +138,7 @@ useEffect(() => {
                 transition
                 modal
                 anchor="bottom end"
-                className="mt-6 divide-y rounded-md bg-white shadow-xl border ease-in-out"
+                className="mt-6 divide-y rounded-md bg-white shadow-xl border transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
               >
                 <div className="px-4 py-3">
                   <CloseButton
@@ -142,10 +150,14 @@ useEffect(() => {
                       src={require(`../../assets/images/person-2.jpg`)}
                       alt="person"
                     />
-                      <div className="flex flex-col items-start">
-                        <p className="text-sm font-semibold">Arjun Krishnadas Pillai</p>
-                        <p className="text-xs text-slate-500">arjunkrishnadaspillai@gmail.com</p>
-                      </div>
+                    <div className="flex flex-col items-start">
+                      <p className="text-sm font-semibold">
+                        Arjun Krishnadas Pillai
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        arjunkrishnadaspillai@gmail.com
+                      </p>
+                    </div>
                   </CloseButton>
                 </div>
                 <div className="px-4 py-3">
