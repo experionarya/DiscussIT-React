@@ -40,9 +40,9 @@ export default function PostDetails(): ReactElement {
   );
 
   return (
-    <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
-        <button className="size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center">
+        <button className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center">
           <ArrowLeftIcon className="size-5" />
         </button>
       </div>
