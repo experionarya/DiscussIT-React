@@ -17,6 +17,8 @@ export const buttonSizeClasses = {
   large: "px-10 py-2",
 };
 
+export const disabledClass =
+  "disabled:pointer-events-none disabled:cursor-not-allowed  disabled:opacity-50";
 export const buttonBaseClasses =
   "inline-flex items-center rounded-md text-sm shadow-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
 
@@ -46,7 +48,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           sizeClass,
           variantClass,
           userClasses,
-          buttonBaseClasses
+          buttonBaseClasses,
+          disabledClass
         )}
         ref={ref}
         {...rest}

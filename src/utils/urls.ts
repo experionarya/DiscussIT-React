@@ -47,7 +47,7 @@ export const getSavedThreadsId = (userId: string) =>
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
-export const saveAllCategories= `${apiBaseUrl}CommunityCategory/save_preference`;
+export const saveAllCategories = `${apiBaseUrl}CommunityCategory/save_preference`;
 
 export const getAnnouncementByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
@@ -62,6 +62,13 @@ export const singleNotificationHasRead = (replyId: number) =>
 // mark all notification as read
 export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
 
+//save post
+export const savePost = (
+  communityMappingId: number,
+  userId: number,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
 // post details by thread id
 export const getPostDetails = (threadId: number) =>
   `${apiBaseUrl}Thread/${threadId}`;
