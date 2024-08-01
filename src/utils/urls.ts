@@ -39,6 +39,9 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
+export const globalSearch = (searchParam: string) =>
+  `${apiBaseUrl}Thread/SearchThreadsByTitle?searchTerm=${searchParam}&pageNumber=1&pageSize=10`;
+
 export const getBookMarks = (threadId: number) =>
   `${apiBaseUrl}Thread/${threadId}`;
 
