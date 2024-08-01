@@ -15,10 +15,12 @@ export default function TextEditor({
   value,
   onChange,
   id,
+  className,
 }: {
   value: any;
   onChange: any;
   id: string;
+  className?: any;
 }) {
   const quillRef = useRef(null);
   console.log("quill ref", quillRef);
@@ -85,7 +87,6 @@ export default function TextEditor({
       onChange={onChange}
       modules={modules}
       formats={formats}
-      style={{ height: "200px" }}
     />
   );
 }

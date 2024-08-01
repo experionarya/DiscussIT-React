@@ -1,5 +1,10 @@
 @tailwind base;
 @tailwind components;
+
+.ql-container.ql-snow {
+  height: 200px;
+}
+
 @tailwind utilities;
 
 @layer base {

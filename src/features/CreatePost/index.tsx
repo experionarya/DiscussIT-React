@@ -9,12 +9,17 @@ import { ReactSelect } from "src/components/ReactSelect";
 
 import { useGetCommunityList } from "../Community/api/useGetCommunityList";
 import { useGetCategoryByCommunity } from "../Community/api/useGetCategoryByCommunity";
-import { useCreateNewPost } from "./api/useCreateNewPost";
+import { useCreateNewPost, useGetTagList } from "./api/index";
 
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+import {
+  contentWarning,
+  tagWarning,
+  titleWarning,
+  format,
+} from "./utils/postConstants";
 
 import { useCreatePostStore } from "./store/createPostStore";
-import { useHomeStore } from "../Home/store/homeStore";
 
 export default function CreatePost(): ReactElement {
   const { data } = useGetCommunityList();
@@ -27,38 +32,47 @@ export default function CreatePost(): ReactElement {
     useCallback((state) => state.setPostDetails, [])
   );
 
-  const trendingTags = useHomeStore(
-    useCallback((state) => state.trendingTags, [])
+  const showWarning = useCreatePostStore(
+    useCallback((state) => state.showWarning, [])
   );
 
+  const { data: categoryList } = useGetCategoryByCommunity(
+    postDetails?.Community ? postDetails?.Community : 1
+  );
+
+  const { data: trendingTags } = useGetTagList();
+
+  //tag options
   const tagOptions = useMemo(() => {
-    return trendingTags?.map((item: any) => ({
+    const value = trendingTags?.map((item: any) => ({
       value: item?.tagId,
       label: item?.tagName,
     }));
+
+    return value;
   }, [trendingTags]);
 
-  console.log("trendingTags", trendingTags);
-
-  const { data: categoryList } = useGetCategoryByCommunity(
-    postDetails?.Community
-  );
-
+  //community
   const dropdownOptions = useMemo(() => {
     if (data) {
-      return data?.map((item) => ({
+      const value = data?.map((item) => ({
         name: item?.communityName,
         value: item?.communityID,
       }));
+      value?.unshift({ name: "Select one", value: -1 });
+      return value;
     }
   }, [data]);
 
+  //category
   const categoryOptions = useMemo(() => {
     if (categoryList) {
-      return categoryList?.map((item) => ({
+      const value = categoryList?.map((item) => ({
         name: item?.communityCategoryName,
         value: item?.communityCategoryMappingID,
       }));
+      value?.unshift({ name: "Select one", value: -1 });
+      return value;
     }
   }, [categoryList]);
 
@@ -67,12 +81,25 @@ export default function CreatePost(): ReactElement {
     createNewPost(postValue);
   }
 
+  //check disbaled
+  function isDisabled() {
+    if (
+      showWarning(postDetails, "Title") ||
+      showWarning(postDetails, "Description") ||
+      showWarning(postDetails, "TagStatus") ||
+      postDetails?.Community !== "-1" ||
+      postDetails?.Category !== "-1"
+    ) {
+      return true;
+    }
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5" />
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 space-y-2 pl-10">
-          <form className="w-full space-y-5 overflow-hidden rounded-md p-4 bg-white shadow-sm">
+          <form className="w-full space-y-5 rounded-md p-4 bg-white shadow-sm">
             <h1 className="font-semibold text-xl text-slate-900 flex items-center gap-2">
               <span className="size-10 bg-primary-100 rounded-full flex items-center justify-center">
                 {" "}
@@ -132,59 +159,47 @@ export default function CreatePost(): ReactElement {
                 }}
                 value={postDetails?.Title}
               />
+              {showWarning(postDetails, "Title") && (
+                <p className="text-red-500">{titleWarning}</p>
+              )}
             </div>
             <div className="space-y-1">
               <label htmlFor="description" className="font-medium">
                 Description
               </label>
-              {/* <textarea
-                id="description"
-                className="w-full pl-2 rounded-lg border border-stroke-weak outline-none"
-                rows={5}
-                onChange={(e) => {
-                  setPostDetails("Description", e.target.value);
-                }}
-                value={postDetails?.Description}
-              /> */}
-
               <TextEditor
                 id="description"
-                //className="w-full pl-2 h-44 rounded-lg border border-stroke-weak outline-none"
                 onChange={(e: any) => {
                   console.log("eee", e);
                   setPostDetails("Description", e);
                 }}
                 value={postDetails?.Description}
               />
+              {showWarning(postDetails, "Description") && (
+                <p className="text-red-500">{contentWarning}</p>
+              )}
             </div>
             <div className="space-y-1">
               <label htmlFor="tag" className="font-medium block">
                 Tag
               </label>
               <div className="relative w-full">
-                {/* <input
-                  type="text"
-                  id="tag"
-                  className="h-9 w-full pl-2 pr-10 rounded-lg border border-stroke-weak outline-none"
-                  onChange={(e) => {
-                    setPostDetails("TagStatus", e.target.value);
-                  }}
-                  value={postDetails?.TagStatus}
-                /> */}
                 <ReactSelect
                   options={tagOptions}
                   id="tag"
-                  setSelectedOptions={
-                    (e) => console.log("eeeeeeeeeeee", e)
-                    // setPostDetails("TagStatus", e.target.value);
-                  }
-                  // value={postDetails?.TagStatus}
+                  setSelectedOptions={(e) => setPostDetails("TagStatus", e)}
                   isSearchable={true}
+                  menuPlacement="top"
+                  components={{
+                    DropdownIndicator: () => null,
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                  }}
                 />
                 <Tooltip.Provider>
                   <Tooltip.Root>
                     <Tooltip.Trigger asChild>
-                      <button className="absolute top-1/2 transform -translate-y-1/2 right-2">
+                      <button className="absolute top-1/4 transform -translate-y-1/2 right-2">
                         <InformationCircleIcon className="h-6 w-6 text-gray-500" />
                       </button>
                     </Tooltip.Trigger>
@@ -220,6 +235,9 @@ export default function CreatePost(): ReactElement {
                     </Tooltip.Portal>
                   </Tooltip.Root>
                 </Tooltip.Provider>
+                {showWarning(postDetails, "TagStatus") && (
+                  <p className=" text-red-500">{tagWarning}</p>
+                )}
               </div>
             </div>
             <div className="flex justify-end items-center gap-3">
@@ -232,6 +250,7 @@ export default function CreatePost(): ReactElement {
                 onClick={() => {
                   savePost();
                 }}
+                disabled={isDisabled()}
               >
                 Post
               </Button>

@@ -16,7 +16,7 @@ async function createNewPost({
   const bodyParam = {
     Title: params?.Title,
     Content: params?.Description,
-    Tags: [params?.TagStatus],
+    Tags: params?.TagStatus?.map((item: any, index: number) => item?.label),
   };
   const response = await fetch(
     savePost(params?.Category, params?.userId, params?.Community),

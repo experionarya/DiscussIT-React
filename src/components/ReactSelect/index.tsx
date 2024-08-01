@@ -1,5 +1,5 @@
 import React from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
 type MultiSelectInput = {
   options: Array<{ value: string; label: string }> | undefined;
@@ -7,6 +7,8 @@ type MultiSelectInput = {
   id: string;
   setSelectedOptions: (e: any) => void;
   isSearchable: boolean;
+  menuPlacement: any;
+  components: any;
 };
 
 function ReactSelect({
@@ -15,6 +17,8 @@ function ReactSelect({
   size,
   id,
   isSearchable,
+  menuPlacement,
+  components,
 }: MultiSelectInput) {
   return (
     <Select
@@ -26,12 +30,8 @@ function ReactSelect({
       onChange={(e: any) => {
         setSelectedOptions(e);
       }}
-      //   classNamePrefix="multiselect-dropdown"
-      //   className={
-      //     size === 'small'
-      //       ? 'multiselect-dropdown multiselect-dropdown--small'
-      //       : 'multiselect-dropdown'
-      //   }
+      menuPlacement={menuPlacement}
+      components={components}
     />
   );
 }
