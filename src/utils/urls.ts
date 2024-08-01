@@ -12,9 +12,6 @@ export const externalLoginDetails = `${apiBaseUrl}Login/ExternalLogin`;
 //leaderboard api
 export const getTopLeaders = `${apiBaseUrl}users/TopUsersByScore/15`;
 
-//
-export const getPrimaryRepliesOfThread = `${apiBaseUrl}Reply/PrimaryRepliesOfThread/11?page=1&pageSize=6`;
-
 //user details
 export const getUserDetails = (userId: string) =>
   `${apiBaseUrl}users/${userId}`;
@@ -50,6 +47,8 @@ export const getSavedThreadsId = (userId: string) =>
 
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
+export const saveAllCategories = `${apiBaseUrl}CommunityCategory/save_preference`;
+
 export const getAnnouncementByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}Notice/communityID?communityID=${communityId}`;
 
@@ -60,7 +59,7 @@ export const getNotifications = (userId: string) =>
 export const singleNotificationHasRead = (replyId: number) =>
   `${apiBaseUrl}Reply/${replyId}/updateHasViewed`;
 
-// mark all notification ad read
+// mark all notification as read
 export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
 
 //save post
@@ -70,3 +69,10 @@ export const savePost = (
   communityID: number
 ) =>
   `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
+// post details by thread id
+export const getPostDetails = (threadId: number) =>
+  `${apiBaseUrl}Thread/${threadId}`;
+
+// get the replies by thread
+export const getPrimaryRepliesOfThread = (threadId: number) =>
+  `${apiBaseUrl}Reply/PrimaryRepliesOfThread/${threadId}`;

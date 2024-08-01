@@ -1,8 +1,10 @@
+import { useCallback } from "react";
 import { useQuery, UseQueryResult } from "react-query";
 
 import { getPreferenceList } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+import { useHomeStore } from "../store/homeStore";
 
 async function fetchPreferenceList({
   token,
@@ -27,13 +29,34 @@ type TVariables = {
 
 function useGetPreferenceList(): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
+  const setCheckedItemsFromApi = useHomeStore(
+    useCallback((state) => state.setCheckedItemsFromApi, [])
+  );
   return useQuery(
-    ["get_preference_list"],
+   "get_preference_list",
     async () => {
       const result = await fetchPreferenceList({
         token: getParsedToken(),
         tokenType,
       });
+      const allCommunityIds = result?.map(item=>item?.communityCategoryID)
+      const communityPresence = allCommunityIds.reduce((acc, id) => {
+        acc[id] = false;
+        return acc;
+      }, {});
+      
+      // Update the presence to true for IDs present in the original array
+      result?.forEach(item => {
+        if (communityPresence.hasOwnProperty(item?.
+          communityCategoryID
+          )) {
+          communityPresence[item?.communityCategoryID] = true;
+        }
+      });
+      setCheckedItemsFromApi({...communityPresence})
+
+      console.log('communityPresence',communityPresence)
+      
       return result;
     },
     {
