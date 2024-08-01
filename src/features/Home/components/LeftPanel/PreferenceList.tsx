@@ -26,8 +26,11 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
         </li> */}
 
         {preferenceList &&
-          preferenceList?.map((item: any) => (
-            <li className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+          preferenceList?.map((item: any, index: number) => (
+            <li
+              className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+              key={`${index}${item?.communityCategoryID}`}
+            >
               {item?.communityCategoryName}
             </li>
           ))}

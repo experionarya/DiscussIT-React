@@ -39,6 +39,9 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
+export const globalSearch = (searchParam: string) =>
+  `${apiBaseUrl}Thread/SearchThreadsByTitle?searchTerm=${searchParam}&pageNumber=1&pageSize=10`;
+
 export const getBookMarks = (threadId: number) =>
   `${apiBaseUrl}Thread/${threadId}`;
 
@@ -62,6 +65,13 @@ export const singleNotificationHasRead = (replyId: number) =>
 // mark all notification as read
 export const markAllNotificationHasRead = `${apiBaseUrl}Reply/updateAllHasViewed`;
 
+//save post
+export const savePost = (
+  communityMappingId: number,
+  userId: number,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
 // post details by thread id
 export const getPostDetails = (threadId: number) =>
   `${apiBaseUrl}Thread/${threadId}`;
