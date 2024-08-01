@@ -79,3 +79,7 @@ export const getPostDetails = (threadId: number) =>
 // get the replies by thread
 export const getPrimaryRepliesOfThread = (threadId: number) =>
   `${apiBaseUrl}Reply/PrimaryRepliesOfThread/${threadId}`;
+
+//get the inner replies
+export const getInnerReplies = (threadId: number, replyId: number) =>
+  `${apiBaseUrl}Reply/GetRepliesByParentReplyId/${threadId}?parentReplyID=${replyId}`;
