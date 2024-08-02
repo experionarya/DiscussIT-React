@@ -99,3 +99,7 @@ export const deleteReply = (
 // replace deleted comment with content
 export const replaceDeletedContent = (replyId: number, userId: string) =>
   `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}`;
+
+// update thread vote
+export const updateThreadVote = (communityId: number) =>
+  `${apiBaseUrl}ThreadVote/vote?communityID=${communityId}`;
