@@ -16,7 +16,6 @@ import {
   contentWarning,
   tagWarning,
   titleWarning,
-  format,
 } from "./utils/postConstants";
 
 import { useCreatePostStore } from "./store/createPostStore";
@@ -31,6 +30,7 @@ export default function CreatePost(): ReactElement {
   const setPostDetails = useCreatePostStore(
     useCallback((state) => state.setPostDetails, [])
   );
+  console.log("postDetails", postDetails);
 
   const showWarning = useCreatePostStore(
     useCallback((state) => state.showWarning, [])
@@ -87,11 +87,110 @@ export default function CreatePost(): ReactElement {
       showWarning(postDetails, "Title") ||
       showWarning(postDetails, "Description") ||
       showWarning(postDetails, "TagStatus") ||
-      postDetails?.Community !== "-1" ||
-      postDetails?.Category !== "-1"
+      postDetails?.Community === -1 ||
+      postDetails?.Category === -1 ||
+      postDetails?.Category === undefined ||
+      postDetails?.Community === undefined
     ) {
       return true;
     }
+  }
+
+  function renderSelectDropDowns({
+    label,
+    key,
+    name,
+    id,
+    dropdownOptions,
+  }: {
+    label: string;
+    key: string;
+    name: string;
+    id: string;
+    dropdownOptions: Array<{ value: number; name: string }> | undefined;
+  }) {
+    return (
+      <div className="space-y-1">
+        <label htmlFor={id} className="font-medium block">
+          {label}
+        </label>
+        <select
+          name={name}
+          id={id}
+          className="h-9 w-72 rounded-lg px-3 border border-stroke-weak outline-none"
+          onChange={(e) => {
+            setPostDetails(key, parseInt(e.target.value));
+          }}
+          value={(postDetails && postDetails[`${key}`]?.toString()) ?? ""}
+        >
+          {dropdownOptions?.map((item) => (
+            <option value={item?.value}>{item?.name}</option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
+  function renderReactSelectWithTooltip() {
+    return (
+      <div className="space-y-1">
+        <label htmlFor="tag" className="font-medium block">
+          Tag
+        </label>
+        <div className="relative w-full">
+          <ReactSelect
+            options={tagOptions}
+            id="tag"
+            setSelectedOptions={(e) => setPostDetails("TagStatus", e)}
+            isSearchable={true}
+            menuPlacement="top"
+            components={{
+              DropdownIndicator: () => null,
+              IndicatorSeparator: () => null,
+              ClearIndicator: () => null,
+            }}
+          />
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button className="absolute top-1/4 transform -translate-y-1/2 right-2">
+                  <InformationCircleIcon className="h-6 w-6 text-gray-500" />
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content
+                  className="rounded-md data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none bg-white px-[15px] py-[10px] text-[15px] leading-none shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity]"
+                  sideOffset={5}
+                  side="bottom"
+                >
+                  <ul className="text-sm marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-700">
+                    <li>
+                      Tags should be descriptive and related to your post
+                      content.
+                    </li>
+                    <li>Avoid using single characters or numbers as tags.</li>
+                    <li>Use relevant keywords to enhance searchability.</li>
+                    <li>
+                      Check for suggestions provided below for accurate and
+                      popular tags.
+                    </li>
+                    <li>
+                      Ensure that tags accurately represent the main topics or
+                      themes of your post.
+                    </li>
+                    <li>You cannot add invalid or inappropriate tags.</li>
+                  </ul>
+                  <Tooltip.Arrow className="fill-white" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
+          {showWarning(postDetails, "TagStatus") && (
+            <p className=" text-red-500">{tagWarning}</p>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -108,43 +207,20 @@ export default function CreatePost(): ReactElement {
               Create Post
             </h1>
             <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <label htmlFor="community" className="font-medium block">
-                  Community
-                </label>
-                <select
-                  name="community"
-                  id="community"
-                  className="h-9 w-72 rounded-lg px-3 border border-stroke-weak outline-none"
-                  onChange={(e) => {
-                    console.log("eee", e.target.value);
-                    setPostDetails("Community", parseInt(e.target.value));
-                  }}
-                  value={postDetails?.Community?.toString()}
-                >
-                  {dropdownOptions?.map((item) => (
-                    <option value={item?.value}>{item?.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-1">
-                <label htmlFor="category" className="font-medium block">
-                  Category
-                </label>
-                <select
-                  name="category"
-                  id="category"
-                  className="h-9 w-72 rounded-lg border px-3 border-stroke-weak outline-none"
-                  onChange={(e) => {
-                    setPostDetails("Category", parseInt(e.target.value));
-                  }}
-                  value={postDetails?.Category?.toString()}
-                >
-                  {categoryOptions?.map((item) => (
-                    <option value={item?.value}>{item?.name}</option>
-                  ))}
-                </select>
-              </div>
+              {renderSelectDropDowns({
+                id: "community",
+                name: "community",
+                key: "Community",
+                dropdownOptions: dropdownOptions,
+                label: "Community",
+              })}
+              {renderSelectDropDowns({
+                id: "category",
+                name: "category",
+                key: "Category",
+                dropdownOptions: categoryOptions,
+                label: "Category",
+              })}
             </div>
             <div className="space-y-1">
               <label htmlFor="title" className="font-medium block">
@@ -179,67 +255,7 @@ export default function CreatePost(): ReactElement {
                 <p className="text-red-500">{contentWarning}</p>
               )}
             </div>
-            <div className="space-y-1">
-              <label htmlFor="tag" className="font-medium block">
-                Tag
-              </label>
-              <div className="relative w-full">
-                <ReactSelect
-                  options={tagOptions}
-                  id="tag"
-                  setSelectedOptions={(e) => setPostDetails("TagStatus", e)}
-                  isSearchable={true}
-                  menuPlacement="top"
-                  components={{
-                    DropdownIndicator: () => null,
-                    IndicatorSeparator: () => null,
-                    ClearIndicator: () => null,
-                  }}
-                />
-                <Tooltip.Provider>
-                  <Tooltip.Root>
-                    <Tooltip.Trigger asChild>
-                      <button className="absolute top-1/4 transform -translate-y-1/2 right-2">
-                        <InformationCircleIcon className="h-6 w-6 text-gray-500" />
-                      </button>
-                    </Tooltip.Trigger>
-                    <Tooltip.Portal>
-                      <Tooltip.Content
-                        className="rounded-md data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none bg-white px-[15px] py-[10px] text-[15px] leading-none shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity]"
-                        sideOffset={5}
-                        side="bottom"
-                      >
-                        <ul className="text-sm marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-700">
-                          <li>
-                            Tags should be descriptive and related to your post
-                            content.
-                          </li>
-                          <li>
-                            Avoid using single characters or numbers as tags.
-                          </li>
-                          <li>
-                            Use relevant keywords to enhance searchability.
-                          </li>
-                          <li>
-                            Check for suggestions provided below for accurate
-                            and popular tags.
-                          </li>
-                          <li>
-                            Ensure that tags accurately represent the main
-                            topics or themes of your post.
-                          </li>
-                          <li>You cannot add invalid or inappropriate tags.</li>
-                        </ul>
-                        <Tooltip.Arrow className="fill-white" />
-                      </Tooltip.Content>
-                    </Tooltip.Portal>
-                  </Tooltip.Root>
-                </Tooltip.Provider>
-                {showWarning(postDetails, "TagStatus") && (
-                  <p className=" text-red-500">{tagWarning}</p>
-                )}
-              </div>
-            </div>
+            {renderReactSelectWithTooltip()}
             <div className="flex justify-end items-center gap-3">
               <Button size="medium" variant="secondary">
                 Saved draft

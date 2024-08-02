@@ -39,6 +39,9 @@ export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
+export const globalSearch = (searchParam: string) =>
+  `${apiBaseUrl}Thread/SearchThreadsByTitle?searchTerm=${searchParam}&pageNumber=1&pageSize=10`;
+
 export const getBookMarks = (threadId: number) =>
   `${apiBaseUrl}Thread/${threadId}`;
 
@@ -76,3 +79,7 @@ export const getPostDetails = (threadId: number) =>
 // get the replies by thread
 export const getPrimaryRepliesOfThread = (threadId: number) =>
   `${apiBaseUrl}Reply/PrimaryRepliesOfThread/${threadId}`;
+
+//get the inner replies
+export const getInnerReplies = (threadId: number, replyId: number) =>
+  `${apiBaseUrl}Reply/GetRepliesByParentReplyId/${threadId}?parentReplyID=${replyId}`;
