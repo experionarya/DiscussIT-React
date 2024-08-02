@@ -87,3 +87,15 @@ export const getInnerReplies = (threadId: number, replyId: number) =>
 // update the vote
 export const updateVote = (communityId: number) =>
   `${apiBaseUrl}ReplyVote/vote?communityID=${communityId}`;
+
+// delete reply
+export const deleteReply = (
+  replyId: number,
+  userId: string,
+  communityId: number
+) =>
+  `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}&communityID=${communityId}`;
+
+// replace deleted comment with content
+export const replaceDeletedContent = (replyId: number, userId: string) =>
+  `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}`;

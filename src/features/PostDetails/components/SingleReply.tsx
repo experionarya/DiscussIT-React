@@ -9,7 +9,9 @@ import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/s
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
 import { Button } from "src/components/Button";
-import DialogBox from "./DialogBox";
+import DialogBox from "../../../components/DialogBox";
+
+import { useDeleteReply, useReplaceDeletedComment } from "../api";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
 import {
@@ -50,7 +52,14 @@ export function SingleReply({
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
   const [isReply, setIsReplay] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
+
+  const getPostDetailsInfo = usePostDetailsStore(
+    React.useCallback((state: any) => state.getPostDetailsInfo, [])
+  );
+
+  const { mutate: deleteReply } = useDeleteReply();
+  const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
 
   const createMarkup = (data?: string) => {
     return { __html: data || "" };
@@ -103,7 +112,34 @@ export function SingleReply({
   }
 
   function handleDelete() {
-    setIsDelete(true);
+    setIsDeleteConfirm(true);
+  }
+
+  function handleDeleteComments() {
+    const communityId = parseInt(localStorage.getItem("communityId") || "");
+    const params = {
+      replyId: reply?.replyID,
+      userId: userId,
+      communityId: communityId,
+    };
+
+    deleteReply({ ...params });
+    replaceDeletedComment(
+      { replyId: reply?.replyID, userId: userId },
+      {
+        onSuccess: () => {
+          getPostDetailsInfo({
+            token: getParsedToken(),
+            tokenType: tokenType,
+            threadId: reply?.threadID,
+          });
+        },
+      }
+    );
+  }
+
+  function handleDeleteConfirmClose() {
+    setIsDeleteConfirm(false);
   }
 
   function getDays() {
@@ -149,14 +185,16 @@ export function SingleReply({
             </div>
           </div>
         ) : null}
-        {isDelete ? (
+        {isDeleteConfirm ? (
           <div>
             <DialogBox
               title="Delete Comment"
-              description="Are sure you want delete comment?"
+              description="Are you sure you want to delete this comment?"
               button1="Cancel"
               button2="Delete"
-              opened={isDelete}
+              opened={isDeleteConfirm}
+              handleClose={handleDeleteConfirmClose}
+              handleAction={handleDeleteComments}
             />
           </div>
         ) : null}
