@@ -1,12 +1,15 @@
-import React, { ReactElement, useCallback } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 import { PinSolid } from "iconoir-react";
 
-import { useGetPreferenceList } from "../../api/useGetPreferenceList";
-import { useHomeStore } from "../../store/homeStore";
+import { useGetPreferenceList, useGetPostByCategories } from "../../api/index";
 
 export function PreferenceList({ handleAddCategories }: any): ReactElement {
+  const [communityId, setCommunityId] = useState<number | undefined>(undefined);
   const { data: preferenceList } = useGetPreferenceList();
-  console.log("preferenceList::::", preferenceList);
+  const { data } = useGetPostByCategories({
+    communityCategoryId: communityId,
+    count: 5,
+  });
 
   function getButtonLabel() {
     if (preferenceList?.length) return "Add more categories";
@@ -28,8 +31,9 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
         {preferenceList &&
           preferenceList?.map((item: any, index: number) => (
             <li
-              className="flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+              className="flex w-full  cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
               key={`${index}${item?.communityCategoryID}`}
+              onClick={() => setCommunityId(item?.communityCategoryID)}
             >
               {item?.communityCategoryName}
             </li>
