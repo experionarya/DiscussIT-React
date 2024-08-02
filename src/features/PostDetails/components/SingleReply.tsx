@@ -12,7 +12,10 @@ import { Button } from "src/components/Button";
 import DialogBox from "./DialogBox";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
-import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+import {
+  getParsedToken,
+  getUserIdFromToken,
+} from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
 
@@ -34,6 +37,7 @@ export function SingleReply({
   votes,
 }: IndividualReplyType): ReactElement {
   const { tokenType } = useAuth();
+  const userId = getUserIdFromToken();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -112,6 +116,11 @@ export function SingleReply({
     if (reply?.childReplyCount === 1) return `${reply?.childReplyCount} Reply`;
     else if (reply?.childReplyCount > 1)
       return `${reply?.childReplyCount} Replies`;
+  }
+
+  function isHideEditDelete() {
+    if (userId === reply?.createdBy) return true;
+    else return false;
   }
 
   function renderPostActions() {
@@ -205,22 +214,27 @@ export function SingleReply({
             >
               Reply
             </button>
-            <button
-              title="Edit"
-              onClick={handleReplay}
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            >
-              <PencilSquareIconMicro className="size-4 text-gray-600" />
-              <span className="sr-only">Edit</span>
-            </button>
-            <button
-              title="Delete"
-              onClick={handleDelete}
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            >
-              <TrashIconMicro className="size-4 text-gray-600" />
-              <span className="sr-only">Delete</span>
-            </button>
+            {isHideEditDelete() && (
+              <>
+                <button
+                  title="Edit"
+                  onClick={handleReplay}
+                  className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                >
+                  <PencilSquareIconMicro className="size-4 text-gray-600" />
+                  <span className="sr-only">Edit</span>
+                </button>
+                <button
+                  title="Delete"
+                  onClick={handleDelete}
+                  className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                >
+                  <TrashIconMicro className="size-4 text-gray-600" />
+                  <span className="sr-only">Delete</span>
+                </button>
+              </>
+            )}
+
             {reply?.childReplyCount !== 0 ? (
               <Button
                 onClick={() => {
