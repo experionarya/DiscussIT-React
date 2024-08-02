@@ -94,3 +94,23 @@ export const getPrimaryRepliesOfThread = (threadId: number) =>
 //get the inner replies
 export const getInnerReplies = (threadId: number, replyId: number) =>
   `${apiBaseUrl}Reply/GetRepliesByParentReplyId/${threadId}?parentReplyID=${replyId}`;
+
+// update the vote
+export const updateVote = (communityId: number) =>
+  `${apiBaseUrl}ReplyVote/vote?communityID=${communityId}`;
+
+// delete reply
+export const deleteReply = (
+  replyId: number,
+  userId: string,
+  communityId: number
+) =>
+  `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}&communityID=${communityId}`;
+
+// replace deleted comment with content
+export const replaceDeletedContent = (replyId: number, userId: string) =>
+  `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}`;
+
+// update thread vote
+export const updateThreadVote = (communityId: number) =>
+  `${apiBaseUrl}ThreadVote/vote?communityID=${communityId}`;

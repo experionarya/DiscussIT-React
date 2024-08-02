@@ -1,10 +1,11 @@
 import React, { ReactElement, useRef, useState } from "react";
 
 import { Button } from "src/components/Button";
-import DialogBox from "./DialogBox";
+import DialogBox from "../../../components/DialogBox";
 
 export function Comments(): ReactElement {
   const [isTextArea, setIsTextArea] = useState(false);
+  const [isDiscardChanges, setIsDiscardChanges] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -18,11 +19,13 @@ export function Comments(): ReactElement {
     setIsTextArea(true);
   }
 
-  function handleCancel() {
+  function handleAddComments() {
     setIsDiscardChanges(true);
   }
 
-  const [isDiscardChanges, setIsDiscardChanges] = useState(false);
+  function handleClose() {
+    setIsDiscardChanges(false);
+  }
 
   return (
     <>
@@ -52,7 +55,7 @@ export function Comments(): ReactElement {
               onInput={autoResize}
             />
             <div className="flex gap-1 justify-end m-1">
-              <Button size="medium" variant="secondary" onClick={handleCancel}>
+              <Button size="medium" variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
               <Button size="medium" variant="primary">
@@ -71,6 +74,8 @@ export function Comments(): ReactElement {
             button1="Cancel"
             button2="Add"
             opened={isDiscardChanges}
+            handleClose={handleClose}
+            handleAction={handleAddComments}
           />
         </div>
       ) : null}

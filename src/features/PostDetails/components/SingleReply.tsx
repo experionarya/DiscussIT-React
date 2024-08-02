@@ -9,10 +9,15 @@ import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/s
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
 import { Button } from "src/components/Button";
-import DialogBox from "./DialogBox";
+import DialogBox from "../../../components/DialogBox";
+
+import { useDeleteReply, useReplaceDeletedComment } from "../api";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
-import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+import {
+  getParsedToken,
+  getUserIdFromToken,
+} from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
 
@@ -21,15 +26,44 @@ import { ReplyType, SingleReplyType } from "../types/replies";
 dayjs.extend(utc);
 
 type IndividualReplyType = {
-  key: number;
   reply: SingleReplyType;
+  onUpvote: (replyID: number) => any;
+  onDownvote: (replyID: number) => any;
+  votes: { upvoted: boolean; downvoted: boolean };
 };
 
-export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
+export function SingleReply({
+  reply,
+  onUpvote,
+  onDownvote,
+  votes,
+}: IndividualReplyType): ReactElement {
   const { tokenType } = useAuth();
+  const userId = getUserIdFromToken();
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
 
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
+  const [isReply, setIsReplay] = useState(false);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
+
+  const getPostDetailsInfo = usePostDetailsStore(
+    React.useCallback((state: any) => state.getPostDetailsInfo, [])
+  );
+
+  const { mutate: deleteReply } = useDeleteReply();
+  const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
+
+  const createMarkup = (data?: string) => {
+    return { __html: data || "" };
+  };
 
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};
@@ -69,20 +103,6 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
     setShowReplies(!showReplies);
   };
 
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
-  };
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-  const [isReply, setIsReplay] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
-
   function handleReplay() {
     setIsReplay(true);
   }
@@ -92,7 +112,51 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
   }
 
   function handleDelete() {
-    setIsDelete(true);
+    setIsDeleteConfirm(true);
+  }
+
+  function handleDeleteComments() {
+    const communityId = parseInt(localStorage.getItem("communityId") || "");
+    const params = {
+      replyId: reply?.replyID,
+      userId: userId,
+      communityId: communityId,
+    };
+
+    deleteReply({ ...params });
+    replaceDeletedComment(
+      { replyId: reply?.replyID, userId: userId },
+      {
+        onSuccess: () => {
+          getPostDetailsInfo({
+            token: getParsedToken(),
+            tokenType: tokenType,
+            threadId: reply?.threadID,
+          });
+        },
+      }
+    );
+  }
+
+  function handleDeleteConfirmClose() {
+    setIsDeleteConfirm(false);
+  }
+
+  function getDays() {
+    const day = dayjs().diff(reply?.createdAt, "day");
+    if (day === 1) return `.${day} day`;
+    else return `.${day} days`;
+  }
+
+  function getChildRepliesLabel() {
+    if (reply?.childReplyCount === 1) return `${reply?.childReplyCount} Reply`;
+    else if (reply?.childReplyCount > 1)
+      return `${reply?.childReplyCount} Replies`;
+  }
+
+  function isHideEditDelete() {
+    if (userId === reply?.createdBy) return true;
+    else return false;
   }
 
   function renderPostActions() {
@@ -121,25 +185,21 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
             </div>
           </div>
         ) : null}
-        {isDelete ? (
+        {isDeleteConfirm ? (
           <div>
             <DialogBox
               title="Delete Comment"
-              description="Are sure you want delete comment?"
+              description="Are you sure you want to delete this comment?"
               button1="Cancel"
               button2="Delete"
-              opened={isDelete}
+              opened={isDeleteConfirm}
+              handleClose={handleDeleteConfirmClose}
+              handleAction={handleDeleteComments}
             />
           </div>
         ) : null}
       </>
     );
-  }
-
-  function getDays() {
-    const day = dayjs().diff(reply?.createdAt, "day");
-    if (day === 1) return `${day} day`;
-    else return `${day} days`;
   }
 
   return (
@@ -171,6 +231,7 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
             <button
               title="Up vote"
               className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              onClick={() => onUpvote(reply.replyID)}
             >
               <ArrowUpIconMicro className="size-4 text-gray-600" />
               <span className="sr-only">Up vote</span>
@@ -179,6 +240,7 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
             <button
               title="Down vote"
               className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+              onClick={() => onDownvote(reply.replyID)}
             >
               <ArrowDownIconMicro className="size-4 text-gray-600" />
               <span className="sr-only">Down vote</span>
@@ -190,29 +252,34 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
             >
               Reply
             </button>
-            <button
-              title="Edit"
-              onClick={handleReplay}
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            >
-              <PencilSquareIconMicro className="size-4 text-gray-600" />
-              <span className="sr-only">Edit</span>
-            </button>
-            <button
-              title="Delete"
-              onClick={handleDelete}
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            >
-              <TrashIconMicro className="size-4 text-gray-600" />
-              <span className="sr-only">Delete</span>
-            </button>
+            {isHideEditDelete() && (
+              <>
+                <button
+                  title="Edit"
+                  onClick={handleReplay}
+                  className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                >
+                  <PencilSquareIconMicro className="size-4 text-gray-600" />
+                  <span className="sr-only">Edit</span>
+                </button>
+                <button
+                  title="Delete"
+                  onClick={handleDelete}
+                  className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                >
+                  <TrashIconMicro className="size-4 text-gray-600" />
+                  <span className="sr-only">Delete</span>
+                </button>
+              </>
+            )}
+
             {reply?.childReplyCount !== 0 ? (
               <Button
                 onClick={() => {
                   handleToggleReplies();
                 }}
               >
-                Repliess
+                {getChildRepliesLabel()}
               </Button>
             ) : null}
           </div>
@@ -221,7 +288,13 @@ export function SingleReply({ key, reply }: IndividualReplyType): ReactElement {
 
           {showReplies && reply?.childReplyCount !== 0
             ? children?.map((innerItem: SingleReplyType) => (
-                <SingleReply key={innerItem.replyID} reply={innerItem} />
+                <SingleReply
+                  key={innerItem.replyID}
+                  reply={innerItem}
+                  onUpvote={onUpvote}
+                  onDownvote={onDownvote}
+                  votes={votes}
+                />
               ))
             : null}
         </div>

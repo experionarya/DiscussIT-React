@@ -163,15 +163,19 @@ export function CommunityDisclosure(): ReactElement {
                                     ? "bg-sky-200/50"
                                     : ""
                                 } cursor-pointer rounded py-1 pl-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800`}
-                                onClick={() =>
+                                onClick={() => {
                                   useCommunityStore
                                     .getState()
                                     .setCategory(
                                       item?.id,
                                       category?.communityCategoryMappingID,
                                       category?.communityCategoryName
-                                    )
-                                }
+                                    );
+                                  localStorage.setItem(
+                                    "communityId",
+                                    item?.id.toString()
+                                  );
+                                }}
                               >
                                 {category?.communityCategoryName}
                               </li>
