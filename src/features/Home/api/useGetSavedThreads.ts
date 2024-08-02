@@ -1,8 +1,5 @@
 import { useCallback } from "react";
-import {
-  useQuery,
-  UseQueryResult,
-} from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 
 import { getSavedThreadsId } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
@@ -42,7 +39,7 @@ function useGetSavedThreads(userId: string): UseQueryResult<APIResult, TError> {
 
   //to clear book mark data when new api is called
   const clearBookMarkData = useHomeStore(
-    useCallback((state: any) => state.getBookMarkedData, [])
+    useCallback((state: any) => state.clearBookMarkData, [])
   );
   return useQuery(
     ["get_saved_post_list"],
