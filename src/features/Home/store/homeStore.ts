@@ -17,6 +17,8 @@ import {
   setParsedToken,
 } from "src/utils/authenticationHelper/tokenHandler";
 
+import { BookMark } from "../types/bookMarkDataType";
+
 export const useHomeStore = create<any>()((set, get) => ({
   home: {
     isLoading: false,
@@ -27,13 +29,19 @@ export const useHomeStore = create<any>()((set, get) => ({
   categoryList: [],
   checkedItems: {},
   bookMarks: [],
+  allPosts: [],
 
   getHomeInfo: async ({
     token,
     tokenType,
     id_token,
-    savedPosts
-  }: Partial<{ token: string; tokenType: string; id_token: string ,savedPosts:Array<any>}>) => {
+    savedPosts,
+  }: Partial<{
+    token: string;
+    tokenType: string;
+    id_token: string;
+    savedPosts: Array<any>;
+  }>) => {
     set(
       produce((state: any) => {
         state.home.isLoading = true;
@@ -121,7 +129,7 @@ export const useHomeStore = create<any>()((set, get) => ({
     });
     let tempArray = [];
     tempArray.push(data);
-    console.log("temp array",tempArray)
+    console.log("temp array", tempArray);
 
     set(
       produce((state: any) => {
@@ -143,13 +151,23 @@ export const useHomeStore = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         state.checkedItems = { ...value };
-      }))
+      })
+    );
   },
-  
+
   clearBookMarkData: () => {
     set(
       produce((state: any) => {
         state.bookMarks = [];
+      })
+    );
+  },
+
+  setAllPost: (data: Array<BookMark>) => {
+    console.log("data", data);
+    set(
+      produce((state: any) => {
+        state.allPosts = [...data];
       })
     );
   },
@@ -161,6 +179,7 @@ export const useHomeStore = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         state.categoryList = [...trueKeys];
-      }))
-  }
+      })
+    );
+  },
 }));
