@@ -14,8 +14,6 @@ import { useHomeStore } from "../../store/homeStore";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { AllCategoryType } from "src/features/Community/types/categoryType";
-import { QueryClient } from "react-query";
-import { useGetPreferenceList } from "../../api/useGetPreferenceList";
 
 type AddCategoryType = {
   isOpen: boolean;

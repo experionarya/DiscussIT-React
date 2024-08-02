@@ -6,7 +6,7 @@ import { AddCategories } from "../AddCategories";
 import { PreferenceList } from "./PreferenceList";
 import { BookMarkPopover } from "./BookmarkPopover";
 
-import { useGetSavedThreads } from "../../api/useGetSavedThreads";
+import { useGetSavedThreads, useGetAllPosts } from "../../api/index";
 
 import { useHomeStore } from "../../store/homeStore";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
@@ -34,6 +34,11 @@ export default function LeftPanel(): ReactElement {
   );
 
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
+  const [filterByValue, setFilterByValue] = useState<string>("newest");
+  const { data: postDetails } = useGetAllPosts({
+    filterBy: filterByValue,
+    count: 5,
+  });
   const { tokenType } = useAuth();
 
   //calling the book mark apis\
@@ -60,17 +65,35 @@ export default function LeftPanel(): ReactElement {
   function handleAddCategories() {
     setIsOpen(true);
   }
-  
+
   return (
     <div className="fixed">
       <div className="overflow-y-scroll">
         <aside className="min-w-40 max-w-52 space-y-4 pl-2">
           <div className="space-y-1 text-sm">
-            <li className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50">
-              All posts
+            <li
+              className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50"
+              onClick={() => {
+                setFilterByValue("newest");
+              }}
+            >
+              Newest
             </li>
-            <li className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
+            <li
+              onClick={() => {
+                setFilterByValue("popular");
+              }}
+              className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+            >
               Popular
+            </li>
+            <li
+              onClick={() => {
+                setFilterByValue("all posts");
+              }}
+              className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+            >
+              All post
             </li>
           </div>
           <PreferenceList handleAddCategories={handleAddCategories} />
@@ -80,13 +103,13 @@ export default function LeftPanel(): ReactElement {
               <span>Bookmarks</span>
             </h5>
             <div className="text-sm space-y-2 w-full overflow-x-hidden pr-2">
-              <BookMarkPopover data={bookMarks}/>
+              <BookMarkPopover data={bookMarks} />
               <button
-          className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-          // onClick={}
-        >
-          View all bookmarks
-        </button>
+                className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
+                // onClick={}
+              >
+                View all bookmarks
+              </button>
             </div>
           </div>
         </aside>

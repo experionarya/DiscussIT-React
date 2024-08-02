@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
@@ -6,12 +7,18 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
-export function PostItem(): ReactElement {
+import { BookMark } from "src/features/Home/types/bookMarkDataType";
+
+export function PostItem({ item }: { item: BookMark }): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost() {
     navigate(`/community/category-posts/replies`);
   }
+
+  const createMarkup = (data?: string) => {
+    return { __html: data || "" };
+  };
 
   return (
     <>
@@ -24,32 +31,34 @@ export function PostItem(): ReactElement {
           />
           <div className="min-w-0 flex-auto">
             <p className="text-sm font-semibold leading-tight text-slate-900">
-              Subha Lakshmi
+              {item?.createdByUser}
             </p>
             <div className="flex">
               <p className="truncate text-xs  text-slate-500">
-                PM-hub/Java Programming
+                {item?.communityName}/{item?.categoryName}
               </p>
               <span className="text-[9px] text-slate-400 pl-2 pr-1">●</span>
               <p className="truncate text-xs text-slate-500">
-                October 15, 2024
+                {dayjs(item?.createdAt).format("MMM D, YYYY")}
               </p>
             </div>
           </div>
         </div>
         <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
-          <h5 className="font-bold text-slate-900">
-            How to handle exceptions in Java?
-          </h5>
-          <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
-            Java
-          </button>
-          <p className="text-slate-900">
-            What are some best practices for handling exceptions in Java
-            applications to ensure robust error handling and graceful
-            degradation?
-            <button className="text-primary-800 underline">(More)</button>
-          </p>
+          <h5 className="font-bold text-slate-900">{item?.title}</h5>
+          {item?.tagNames?.map((tagItem, index) => (
+            <button
+              key={`${index}${tagItem}`}
+              className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
+            >
+              {tagItem}
+            </button>
+          ))}
+          <p
+            className="text-slate-900"
+            dangerouslySetInnerHTML={createMarkup(item?.content)}
+          />
+          <button className="text-primary-800 underline">(More)</button>
         </div>
         <img
           src={require(`../../../../assets/images/Java.png`)}
@@ -58,26 +67,35 @@ export function PostItem(): ReactElement {
           onClick={gotoPost}
         />
         <div className="flex space-x-3">
-          <button title="Up vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button
+            title="Up vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
             <ArrowUpIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Up vote</span>
-            <span>20</span>
-          </button>
-          <button title="Down vote" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-            <ArrowDownIconMicro className="size-4 text-gray-600" />
-            <span className="sr-only">Down vote</span>
-            <span>3</span>
+            <span>{item?.upVoteCount}</span>
           </button>
           <button
-          title="Comment"
+            title="Down vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
+            <ArrowDownIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Down vote</span>
+            <span>{item?.downVoteCount}</span>
+          </button>
+          <button
+            title="Comment"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={gotoPost}
           >
             <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Comment</span>
-            <span>10</span>
+            <span>{item?.replyCount}</span>
           </button>
-          <button title="Share" className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
+          <button
+            title="Share"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
             <ShareIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Share</span>
           </button>
