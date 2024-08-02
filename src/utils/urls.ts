@@ -83,3 +83,7 @@ export const getPrimaryRepliesOfThread = (threadId: number) =>
 //get the inner replies
 export const getInnerReplies = (threadId: number, replyId: number) =>
   `${apiBaseUrl}Reply/GetRepliesByParentReplyId/${threadId}?parentReplyID=${replyId}`;
+
+// update the vote
+export const updateVote = (communityId: number) =>
+  `${apiBaseUrl}ReplyVote/vote?communityID=${communityId}`;

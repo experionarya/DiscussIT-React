@@ -20,3 +20,13 @@ export type ReplyType = {
 };
 
 export type SingleReplyType = Omit<ReplyType, "children">;
+
+export type UpdateVoteType = {
+  downvoteCount: number;
+  isDeleted: boolean;
+  isUpVote: boolean;
+  replyId: number;
+  upvoteCount: number;
+  userId: string;
+  communityId: number;
+};

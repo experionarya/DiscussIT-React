@@ -1,0 +1,1 @@
+export { useUpdateVote } from "./useUpdateVote";
