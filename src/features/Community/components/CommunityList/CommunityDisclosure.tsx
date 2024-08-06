@@ -177,7 +177,8 @@ export function CommunityDisclosure(): ReactElement {
                                   );
                                 }}
                               >
-                                {category?.communityCategoryName}
+                                {category?.communityCategoryName} 
+                                <span className="px-1 text-xs">(15)</span>
                               </li>
                             )
                           )}
