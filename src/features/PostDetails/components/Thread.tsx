@@ -129,9 +129,15 @@ export function Thread({ postDetails }: PostThreadType): ReactElement {
           <p className="text-sm font-semibold leading-tight text-slate-900">
             {threads?.createdByUser}
           </p>
-          <p className="truncate text-xs leading-tight text-slate-500">
-            {dayjs(threads?.createdAt).format("MMM D, YYYY")}
-          </p>
+          <div className="flex">
+            <p className="truncate text-xs  text-slate-500">
+              {threads?.communityName}/{threads?.categoryName}
+            </p>
+            <span className="text-[9px] text-slate-400 pl-2 pr-1">●</span>
+            <p className="truncate text-xs text-slate-500">
+              {dayjs(threads?.createdAt).format("MMM D, YYYY")}
+            </p>
+          </div>
         </div>
       </div>
       <div className="space-y-1 cursor-pointer">

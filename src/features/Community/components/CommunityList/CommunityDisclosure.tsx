@@ -45,6 +45,7 @@ export function CommunityDisclosure(): ReactElement {
   }, [communityList]);
 
   const handleToggle = async (id: number) => {
+    localStorage.setItem("communityId", id.toString());
     setDisclosureItems((prevItems: any) =>
       prevItems.map((item: DisclosureType) => {
         if (item.id === id) {
@@ -62,11 +63,15 @@ export function CommunityDisclosure(): ReactElement {
         tokenType: tokenType,
         communityId: id,
       });
-      setCategoryByCommunity(fetchedContent, id);
+      const sortedFetchedContent = fetchedContent?.sort(
+        (a: { threadCount: number }, b: { threadCount: number }) =>
+          b.threadCount - a.threadCount
+      );
+      setCategoryByCommunity(sortedFetchedContent, id);
       setDisclosureItems((prevItems: any) =>
         prevItems.map((item: DisclosureType) => {
           if (item.id === id) {
-            return { ...item, content: fetchedContent };
+            return { ...item, content: sortedFetchedContent };
           }
           return item;
         })
@@ -177,8 +182,8 @@ export function CommunityDisclosure(): ReactElement {
                                   );
                                 }}
                               >
-                                {category?.communityCategoryName} 
-                                <span className="px-1 text-xs">(15)</span>
+                                {category?.communityCategoryName}
+                                <span className="px-1 text-xs">{`(${category?.threadCount})`}</span>
                               </li>
                             )
                           )}

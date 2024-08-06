@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
@@ -14,6 +14,7 @@ import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export default function PostDetails(): ReactElement {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { tokenType } = useAuth();
 
@@ -42,7 +43,10 @@ export default function PostDetails(): ReactElement {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
-        <button className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center">
+        <button
+          className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center"
+          onClick={() => navigate(`/community/category-posts`)}
+        >
           <ArrowLeftIcon className="size-5" />
         </button>
       </div>

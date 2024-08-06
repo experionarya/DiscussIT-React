@@ -10,6 +10,8 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
+import { trimHTMLContent } from "src/utils/common";
+
 import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
@@ -60,9 +62,13 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
           </div>
           <p
             className="text-slate-900"
-            dangerouslySetInnerHTML={createMarkup(postItem?.content)}
+            dangerouslySetInnerHTML={createMarkup(
+              trimHTMLContent(postItem?.content)
+            )}
           />
-          <button className="text-primary-800 underline">(More)</button>
+          {postItem?.content?.length > 100 && (
+            <button className="text-primary-800 underline">(More)</button>
+          )}
         </div>
         {/* <img
           src={require(`../../../../../assets/images/Java.png`)}
@@ -70,7 +76,7 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
           className="cursor-pointer"
           onClick={gotoPost}
         /> */}
-        <div className="flex space-x-3">
+        <div className="flex space-x-3" onClick={gotoPost}>
           <button
             title="Up vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
