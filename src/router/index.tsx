@@ -28,6 +28,10 @@ function PrivatePage(): ReactElement {
           path="/community/category-posts/replies"
           element={<PostDetails />}
         />
+        <Route
+          path="/home/category-posts/edit-posts"
+          element={<CreatePost />}
+        />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tags/tag-threads/:tagName" element={<TagsDetailPage />} />
       </Routes>

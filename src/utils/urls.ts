@@ -118,3 +118,11 @@ export const updateThreadVote = (communityId: number) =>
 // tags details
 export const getTrendingTagsDetails = (tagName: string) =>
   `${apiBaseUrl}Thread/displaySearchedThreads?searchTerm=${tagName}&pageNumber=1&pageSize=40&filterOption=0&sortOption=2&searchType=1`;
+
+//update post details
+export const editPostDetails = (
+  threadId: number,
+  modifierId: number,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread/${threadId}?ModifierId=${modifierId}&communityID=${communityID}`;

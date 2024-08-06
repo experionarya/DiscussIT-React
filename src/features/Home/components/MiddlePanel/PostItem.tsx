@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
@@ -20,6 +21,10 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
 
   function gotoPost() {
     navigate(`/community/category-posts/replies`);
+  }
+
+  function onEdit(id: number) {
+    navigate(`category-posts/edit-posts?threadID=${id}`);
   }
 
   return (
@@ -66,12 +71,12 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             <button className="text-primary-800 underline">(More)</button>
           )}
         </div>
-        <img
+        {/* <img
           src={require(`../../../../assets/images/Java.png`)}
           alt="java"
           className="cursor-pointer"
           onClick={gotoPost}
-        />
+        /> */}
         <div className="flex space-x-3">
           <button
             title="Up vote"
@@ -111,6 +116,14 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           >
             <BookmarkIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Bookmark</span>
+          </button>
+          <button
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            title="Edit"
+            onClick={() => onEdit(item?.threadID)}
+          >
+            <PencilIcon className="size-4 text-gray-600" />
+            <span className="sr-only">Edit</span>
           </button>
         </div>
       </article>
