@@ -2,7 +2,7 @@ import { useMutation, UseMutationResult, useQueryClient } from "react-query";
 
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
-import { savePost } from "src/utils/urls";
+import { savePost, editPostDetails } from "src/utils/urls";
 
 async function createNewPost({
   token,
@@ -14,21 +14,24 @@ async function createNewPost({
   token: string | null;
 }): Promise<TResult> {
   const bodyParam = {
-    Title: params?.Title,
-    Content: params?.Description,
-    Tags: params?.TagStatus?.map((item: any, index: number) => item?.label),
+    Title: params?.title,
+    Content: params?.content,
+    Tags: params?.tagNames?.map((item: any, index: number) => item?.label),
   };
-  const response = await fetch(
-    savePost(params?.Category, params?.userId, params?.Community),
-    {
-      method: "POST",
-      headers: {
-        Authorization: `${tokenType} ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyParam),
-    }
-  );
+  const url =
+    params?.userMode !== "Edit"
+      ? savePost(params?.Category, params?.userId, params?.Community)
+      : editPostDetails(params?.threadId, params?.userId, params?.communityId);
+
+  const method = params.userMode === "Edit" ? "PUT" : "POST";
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `${tokenType} ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bodyParam),
+  });
   return response.json();
 }
 
@@ -36,9 +39,12 @@ type TVariables = {
   Community: number;
   userId: number;
   Category: number;
-  Title: any;
-  TagStatus: any;
-  Description: any;
+  title: any;
+  tagNames: any;
+  content: any;
+  userMode: string;
+  threadId: number;
+  communityId: number;
 };
 
 type TError = string;
@@ -55,7 +61,6 @@ function useCreateNewPost(): UseMutationResult<
   const { tokenType } = useAuth();
 
   return useMutation(async (params: TVariables) => {
-    console.log("params", params);
     const response = await createNewPost({
       token: getParsedToken(),
       tokenType,
