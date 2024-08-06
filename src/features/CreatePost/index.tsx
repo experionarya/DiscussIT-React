@@ -5,7 +5,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "src/components/Button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -48,6 +48,8 @@ export default function CreatePost(): ReactElement {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("threadID");
+
+  const navigate = useNavigate();
 
   //for setting the user mode
   useEffect(() => {
@@ -118,7 +120,11 @@ export default function CreatePost(): ReactElement {
       )?.value,
     };
 
-    createNewPost(postValue);
+    createNewPost(postValue, {
+      onSuccess: () => {
+        navigate(`/home`);
+      },
+    });
   }
 
   //check disbaled
