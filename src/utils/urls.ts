@@ -114,3 +114,11 @@ export const replaceDeletedContent = (replyId: number, userId: string) =>
 // update thread vote
 export const updateThreadVote = (communityId: number) =>
   `${apiBaseUrl}ThreadVote/vote?communityID=${communityId}`;
+
+//update post details
+export const editPostDetails = (
+  threadId: number,
+  modifierId: number,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread/${threadId}?ModifierId=${modifierId}&communityID=${communityID}`;

@@ -20,6 +20,10 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
     return { __html: data || "" };
   };
 
+  function onEdit(id: number) {
+    navigate(`category-posts/edit-posts?threadID=${id}`);
+  }
+
   return (
     <>
       <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
@@ -60,12 +64,12 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           />
           <button className="text-primary-800 underline">(More)</button>
         </div>
-        <img
+        {/* <img
           src={require(`../../../../assets/images/Java.png`)}
           alt="java"
           className="cursor-pointer"
           onClick={gotoPost}
-        />
+        /> */}
         <div className="flex space-x-3">
           <button
             title="Up vote"
@@ -106,6 +110,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             <BookmarkIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Bookmark</span>
           </button>
+          <button onClick={() => onEdit(item?.threadID)}>Edit</button>
         </div>
       </article>
     </>

@@ -9,6 +9,7 @@ type MultiSelectInput = {
   isSearchable: boolean;
   menuPlacement: any;
   components: any;
+  value?: any;
 };
 
 function ReactSelect({
@@ -19,6 +20,7 @@ function ReactSelect({
   isSearchable,
   menuPlacement,
   components,
+  value,
 }: MultiSelectInput) {
   return (
     <Select
@@ -32,6 +34,7 @@ function ReactSelect({
       }}
       menuPlacement={menuPlacement}
       components={components}
+      value={value}
     />
   );
 }
