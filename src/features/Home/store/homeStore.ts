@@ -18,6 +18,7 @@ import {
 } from "src/utils/authenticationHelper/tokenHandler";
 
 import { BookMark } from "../types/bookMarkDataType";
+import { TrendingTagType } from "../types/trendingTags";
 
 export const useHomeStore = create<any>()((set, get) => ({
   home: {
@@ -89,7 +90,10 @@ export const useHomeStore = create<any>()((set, get) => ({
 
     set(
       produce((state: any) => {
-        state.trendingTags = [...trendingTagsResp];
+        const temp = trendingTagsResp?.filter(
+          (item: TrendingTagType) => item?.tagCount >= 3
+        );
+        state.trendingTags = [...temp];
       })
     );
 

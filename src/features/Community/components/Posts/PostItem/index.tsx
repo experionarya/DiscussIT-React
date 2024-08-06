@@ -10,7 +10,11 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-import { trimHTMLContent } from "src/utils/common";
+import {
+  createMarkup,
+  getHtmlTextLength,
+  trimHTMLContent,
+} from "src/utils/common";
 
 import { ThreadType } from "src/features/Community/types/postType";
 
@@ -28,10 +32,6 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
       `/community/category-posts/replies?threadId=${postItem?.threadID}`
     );
   }
-
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
-  };
 
   return (
     <>
@@ -66,7 +66,7 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
               trimHTMLContent(postItem?.content)
             )}
           />
-          {postItem?.content?.length > 100 && (
+          {getHtmlTextLength(postItem?.content) > 100 && (
             <button className="text-primary-800 underline">(More)</button>
           )}
         </div>

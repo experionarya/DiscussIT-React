@@ -6,6 +6,7 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { useNavigate } from "react-router-dom";
 
 import { BookMark } from "../../types/bookMarkDataType";
+import { createMarkup } from "src/utils/common";
 
 export function BookMarkPopover({
   data,
@@ -19,10 +20,6 @@ export function BookMarkPopover({
 
   function goToPost() {
     navigate(`/community/category-posts/replies`);
-  }
-
-  function createMarkup(strVal: any) {
-    return { __html: strVal || "" };
   }
 
   const handleMouseEnter = (index: number) => {
