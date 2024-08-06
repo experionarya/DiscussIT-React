@@ -14,7 +14,7 @@ export default function TrendingTags(): ReactElement {
   const navigate = useNavigate();
 
   function goToTagsDetailPage() {
-    navigate(`/tags-deatil-page`);
+    navigate(`/tags-detail-page`);
   }
 
   function renderTags(item: TrendingTagType) {

@@ -29,7 +29,7 @@ function PrivatePage(): ReactElement {
           element={<PostDetails />}
         />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/tags-deatil-page" element={<TagsDetailPage />} />
+        <Route path="/tags-detail-page" element={<TagsDetailPage />} />
       </Routes>
     </div>
   );
