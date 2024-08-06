@@ -1,7 +1,11 @@
 import React, { ReactElement, useCallback } from "react";
 import { PostItem } from "src/features/Community/components/Posts/PostItem";
+import NoData from "src/components/NoData";
+
 import { useCommunityStore } from "../../store/communityStore";
+
 import { useGetAllPosts } from "../../api/useGetAllPosts";
+
 import { ThreadType } from "../../types/postType";
 
 export default function Post(): ReactElement {
@@ -9,16 +13,23 @@ export default function Post(): ReactElement {
     useCallback((state) => state?.category, [])
   );
 
-  const { data: posts } = useGetAllPosts(category?.categoryId);
+  const { data: posts, isLoading: isPostLoading } = useGetAllPosts(
+    category?.categoryId
+  );
 
   return (
     <div className="space-y-2">
-        <h1 className="font-semibold text-lg pb-3 text-slate-900">
-          {posts?.categoryName}
-        </h1>
+      <h1 className="font-semibold text-lg pb-3 text-slate-900">
+        {posts?.categoryName}
+      </h1>
+      {posts?.threads && posts?.threads.length > 0 && (
         <div className="flex gap-5">
           <div className="text-slate-500 pb-2">
-            <select name="filter" id="filter" className="bg-slate-200 p-0.5 rounded text-xs">
+            <select
+              name="filter"
+              id="filter"
+              className="bg-slate-200 p-0.5 rounded text-xs"
+            >
               <option value="Replies" className="text-xs">
                 Replies
               </option>
@@ -31,7 +42,11 @@ export default function Post(): ReactElement {
             </select>
           </div>
           <div className="text-slate-500 pb-2">
-            <select name="sort" id="sort" className="bg-slate-200 p-0.5 rounded text-xs">
+            <select
+              name="sort"
+              id="sort"
+              className="bg-slate-200 p-0.5 rounded text-xs"
+            >
               <option value="Replies" className="text-xs">
                 Most to least
               </option>
@@ -41,10 +56,16 @@ export default function Post(): ReactElement {
             </select>
           </div>
         </div>
+      )}
+
       <div className="space-y-3">
-        {posts?.threads?.map((item: ThreadType) => (
-          <PostItem postItem={item} />
-        ))}
+        {!isPostLoading && posts?.threads && posts?.threads.length > 0
+          ? posts?.threads?.map((item: ThreadType) => (
+              <PostItem postItem={item} />
+            ))
+          : !isPostLoading && (
+              <NoData data="No Posts Yet. Be the First one to post." />
+            )}
       </div>
     </div>
   );

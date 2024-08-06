@@ -49,7 +49,14 @@ export const useCommunityStore = create<any>()((set, get) => ({
         state.categoryByCommunity = [...categoryList];
         state.communityList = get().communityList?.map((item: any) => {
           if (item?.id === categoryList[0]?.communityID) {
-            return { ...item, isOpen: true, content: categoryList };
+            return {
+              ...item,
+              isOpen: true,
+              content: categoryList?.sort(
+                (a: { threadCount: number }, b: { threadCount: number }) =>
+                  b.threadCount - a.threadCount
+              ),
+            };
           }
           return item;
         });

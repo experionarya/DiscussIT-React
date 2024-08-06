@@ -7,6 +7,8 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
+import { trimHTMLContent } from "src/utils/common";
+
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 
 export function PostItem({ item }: { item: BookMark }): ReactElement {
@@ -60,9 +62,13 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           ))}
           <p
             className="text-slate-900"
-            dangerouslySetInnerHTML={createMarkup(item?.content)}
+            dangerouslySetInnerHTML={createMarkup(
+              trimHTMLContent(item?.content)
+            )}
           />
-          <button className="text-primary-800 underline">(More)</button>
+          {item?.content?.length > 100 && (
+            <button className="text-primary-800 underline">(More)</button>
+          )}
         </div>
         {/* <img
           src={require(`../../../../assets/images/Java.png`)}
