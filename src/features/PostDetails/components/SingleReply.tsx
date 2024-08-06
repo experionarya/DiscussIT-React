@@ -22,6 +22,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
+import { createMarkup } from "src/utils/common";
 
 dayjs.extend(utc);
 
@@ -60,10 +61,6 @@ export function SingleReply({
 
   const { mutate: deleteReply } = useDeleteReply();
   const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
-
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
-  };
 
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};

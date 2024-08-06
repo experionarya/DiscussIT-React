@@ -12,6 +12,7 @@ import { ThreadType } from "src/features/Community/types/postType";
 import { useUpdateThreadVote } from "../api/useUpdateThreadVote";
 
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+import { createMarkup } from "src/utils/common";
 
 dayjs.extend(utc);
 
@@ -111,10 +112,6 @@ export function Thread({ postDetails }: PostThreadType): ReactElement {
       communityId: communityId,
     };
     updateVoteByThread({ ...params });
-  };
-
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
   };
 
   return (

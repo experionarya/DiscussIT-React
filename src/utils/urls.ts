@@ -114,3 +114,7 @@ export const replaceDeletedContent = (replyId: number, userId: string) =>
 // update thread vote
 export const updateThreadVote = (communityId: number) =>
   `${apiBaseUrl}ThreadVote/vote?communityID=${communityId}`;
+
+// tags details
+export const getTrendingTagsDetails = (tagName: string) =>
+  `${apiBaseUrl}Thread/displaySearchedThreads?searchTerm=${tagName}&pageNumber=1&pageSize=40&filterOption=0&sortOption=2&searchType=1`;

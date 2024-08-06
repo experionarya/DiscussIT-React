@@ -7,7 +7,11 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
-import { trimHTMLContent } from "src/utils/common";
+import {
+  createMarkup,
+  getHtmlTextLength,
+  trimHTMLContent,
+} from "src/utils/common";
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 
@@ -17,10 +21,6 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
   function gotoPost() {
     navigate(`/community/category-posts/replies`);
   }
-
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
-  };
 
   return (
     <>
@@ -62,7 +62,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
               trimHTMLContent(item?.content)
             )}
           />
-          {item?.content?.length > 100 && (
+          {getHtmlTextLength(item?.content) > 100 && (
             <button className="text-primary-800 underline">(More)</button>
           )}
         </div>
