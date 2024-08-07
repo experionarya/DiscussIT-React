@@ -22,7 +22,7 @@ dayjs.extend(utc);
 export default function TagsDetailPage(): ReactElement {
   const navigate = useNavigate();
   const { tagName } = useParams<{ tagName: string }>() || "";
-  const appendedParam = `#${tagName}`;
+  const appendedParam = `# ${tagName}`;
   const encodedQueryParam = encodeURIComponent(appendedParam);
   const { data: tagsDetails } = useGetTrendingTagsDetails(
     encodedQueryParam || ""
@@ -33,7 +33,7 @@ export default function TagsDetailPage(): ReactElement {
   }
 
   return (
-    <div className="mt-16 mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44" />
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 space-y-2 pl-10">
@@ -73,8 +73,8 @@ export default function TagsDetailPage(): ReactElement {
               </select>
             </div>
           </div>
+          <div className="space-y-3">
           {tagsDetails?.searchThreadDtoList?.map((item) => (
-            <div className="space-y-3">
               <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
                 <div className="flex min-w-0 gap-x-2">
                   <img
@@ -92,13 +92,14 @@ export default function TagsDetailPage(): ReactElement {
                   </div>
                 </div>
                 <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
-                  <h5 className="font-bold text-slate-900">{item?.title}</h5>
+                  <h5 className="font-semibold text-slate-900">{item?.title}</h5>
+                  <div className="flex gap-2">
                   {item?.tagNames?.map((tagNameItem: string) => (
                     <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
                       {tagNameItem}
                     </button>
                   ))}
-
+                  </div>
                   <p
                     className="text-slate-900"
                     dangerouslySetInnerHTML={createMarkup(
@@ -159,8 +160,8 @@ export default function TagsDetailPage(): ReactElement {
                   </button>
                 </div>
               </article>
-            </div>
           ))}
+            </div>
         </div>
         <div className="col-span-1" />
       </div>
