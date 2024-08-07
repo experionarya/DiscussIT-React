@@ -164,7 +164,7 @@ export default function CreatePost(): ReactElement {
         <select
           name={name}
           id={id}
-          className="h-9 w-72 rounded-lg px-3 border border-stroke-weak outline-none"
+          className="h-9 w-72 rounded-lg px-3 border border-black/20 outline-none"
           onChange={(e) => {
             setPostDetails(key, parseInt(e.target.value));
           }}
@@ -203,7 +203,7 @@ export default function CreatePost(): ReactElement {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <button className="absolute top-1/4 transform -translate-y-1/2 right-2">
+                <button className="absolute top-5 transform -translate-y-1/2 right-2">
                   <InformationCircleIcon className="h-6 w-6 text-gray-500" />
                 </button>
               </Tooltip.Trigger>
@@ -236,7 +236,7 @@ export default function CreatePost(): ReactElement {
             </Tooltip.Root>
           </Tooltip.Provider>
           {showWarning(postDetails, "tagNames") && (
-            <p className=" text-red-500">{tagWarning}</p>
+            <p className="text-slate-900 text-sm py-2">{tagWarning}</p>
           )}
         </div>
       </div>
@@ -247,7 +247,7 @@ export default function CreatePost(): ReactElement {
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5" />
       <div className="grid grow grid-cols-3 gap-4">
-        <div className="col-span-2 space-y-2 pl-10">
+        <div className="col-span-2 space-y-2 pl-10 pb-7">
           <form className="w-full space-y-5 rounded-md p-4 bg-white shadow-sm">
             <h1 className="font-semibold text-xl text-slate-900 flex items-center gap-2">
               <span className="size-10 bg-primary-100 rounded-full flex items-center justify-center">
@@ -281,14 +281,14 @@ export default function CreatePost(): ReactElement {
               <input
                 type="text"
                 id="tag"
-                className="h-9 w-full pl-2 rounded-lg border border-stroke-weak outline-none"
+                className="h-9 w-full pl-2 rounded-lg border border-black/20 outline-none"
                 onChange={(e) => {
                   setPostDetails("title", e.target.value);
                 }}
                 value={postDetails?.title}
               />
               {showWarning(postDetails, "title") && (
-                <p className="text-red-500">{titleWarning}</p>
+                <p className="text-red-500 text-sm">{titleWarning}</p>
               )}
             </div>
             <div className="space-y-1">
@@ -303,7 +303,7 @@ export default function CreatePost(): ReactElement {
                 value={postDetails?.content}
               />
               {showWarning(postDetails, "content") && (
-                <p className="text-red-500">{contentWarning}</p>
+                <p className="text-red-500 text-sm">{contentWarning}</p>
               )}
             </div>
             {renderReactSelectWithTooltip()}
