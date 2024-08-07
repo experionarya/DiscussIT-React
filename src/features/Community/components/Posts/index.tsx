@@ -64,8 +64,10 @@ export default function Post(): ReactElement {
               <PostItem postItem={item} />
             ))
           : !isPostLoading && (
-              <NoData data="No Posts Yet. Be the First one to post." />
-            )}
+              <div className="pt-36">
+                <NoData data="No Posts Yet. Be the First one to post." />
+              </div>
+           )} 
       </div>
     </div>
   );
