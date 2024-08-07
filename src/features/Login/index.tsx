@@ -54,33 +54,22 @@ export default function Login() {
               }}
               className="col-span-1 h-screen flex items-end"
             >
-              <div className="bg-black opacity-50 w-full h-screen flex items-end">
+              <div className="bg-primary-950/50 w-full h-screen flex items-end">
                 <div className="hidden lg:relative lg:block lg:p-14 lg:pb-28">
                   <div className="block text-white">
                     <span className="sr-only">Home</span>
-                    {/* <img
-                      src={require(`src/assets/images/logo.png`)}
-                      alt="logo"
-                      className="h-10"
-                    /> */}
-                    {/* <img
-                      src={require(`src/assets/images/white-logo.png`)}
-                      alt="logo"
-                      className="h-10"
-                    /> */}
                   </div>
                   <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                     Welcome to Discuss It
                   </h2>
                   <p className="mt-4 leading-relaxed text-white">
-                    Everyone has transferable commodity knowledge. Sharing your
-                    unique expertise and making introductions for someone
-                    creates a lasting legacy.
+                    Share your insights, ask questions, and grow together. Your
+                    knowledge makes Experion Technologies a better place.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-span-1 h-screen bg-fill">
+            <div className="col-span-1 h-screen bg-white">
               <div className="flex grow flex-col md:h-svh md:w-full">
                 <div className="flex flex-col grow items-center justify-center gap-10">
                   <img
