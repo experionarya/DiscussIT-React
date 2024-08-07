@@ -1,4 +1,11 @@
-import React, { ReactElement, useCallback, useMemo } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "src/components/Button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -17,12 +24,15 @@ import {
   tagWarning,
   titleWarning,
 } from "./utils/postConstants";
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 import { useCreatePostStore } from "./store/createPostStore";
+import { useQuery } from "react-query";
 
 export default function CreatePost(): ReactElement {
   const { data } = useGetCommunityList();
   const { mutate: createNewPost } = useCreateNewPost();
+  const [userMode, updateUserMode] = useState<string>("");
 
   const postDetails = useCreatePostStore(
     useCallback((state) => state.postDetails, [])
@@ -30,7 +40,26 @@ export default function CreatePost(): ReactElement {
   const setPostDetails = useCreatePostStore(
     useCallback((state) => state.setPostDetails, [])
   );
-  console.log("postDetails", postDetails);
+
+  const getPostDetails = useCreatePostStore(
+    useCallback((state) => state.getPostDetails, [])
+  );
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("threadID");
+
+  const navigate = useNavigate();
+
+  //for setting the user mode
+  useEffect(() => {
+    if (location?.pathname.split("/").includes("edit-posts"))
+      updateUserMode && updateUserMode("Edit");
+    if (location?.pathname.split("/").includes("createpost"))
+      updateUserMode && updateUserMode("Create");
+  }, [location?.pathname, updateUserMode]);
+
+  const { tokenType } = useAuth();
 
   const showWarning = useCreatePostStore(
     useCallback((state) => state.showWarning, [])
@@ -76,21 +105,39 @@ export default function CreatePost(): ReactElement {
     }
   }, [categoryList]);
 
+  useQuery(["edit-post", id, userMode, tagOptions], () => {
+    getPostDetails(id, userMode, tokenType, tagOptions);
+  });
+
   function savePost() {
-    let postValue = { ...postDetails, userId: getUserIdFromToken() };
-    createNewPost(postValue);
+    let postValue = {
+      ...postDetails,
+      userId: getUserIdFromToken(),
+      userMode: userMode,
+      threadId: id,
+      communityId: dropdownOptions?.find(
+        (item) => item?.name === postDetails?.communityName
+      )?.value,
+    };
+
+    createNewPost(postValue, {
+      onSuccess: () => {
+        navigate(`/home`);
+      },
+    });
   }
 
   //check disbaled
   function isDisabled() {
     if (
-      showWarning(postDetails, "Title") ||
-      showWarning(postDetails, "Description") ||
-      showWarning(postDetails, "TagStatus") ||
-      postDetails?.Community === -1 ||
-      postDetails?.Category === -1 ||
-      postDetails?.Category === undefined ||
-      postDetails?.Community === undefined
+      showWarning(postDetails, "title") ||
+      showWarning(postDetails, "content") ||
+      showWarning(postDetails, "tagNames") ||
+      ((postDetails?.Community === -1 ||
+        postDetails?.Category === -1 ||
+        postDetails?.Category === undefined ||
+        postDetails?.Community === undefined) &&
+        userMode !== "Edit")
     ) {
       return true;
     }
@@ -141,7 +188,10 @@ export default function CreatePost(): ReactElement {
           <ReactSelect
             options={tagOptions}
             id="tag"
-            setSelectedOptions={(e) => setPostDetails("TagStatus", e)}
+            setSelectedOptions={(e) => {
+              setPostDetails("tagNames", e);
+            }}
+            value={postDetails?.tagNames}
             isSearchable={true}
             menuPlacement="top"
             components={{
@@ -185,7 +235,7 @@ export default function CreatePost(): ReactElement {
               </Tooltip.Portal>
             </Tooltip.Root>
           </Tooltip.Provider>
-          {showWarning(postDetails, "TagStatus") && (
+          {showWarning(postDetails, "tagNames") && (
             <p className=" text-red-500">{tagWarning}</p>
           )}
         </div>
@@ -204,24 +254,26 @@ export default function CreatePost(): ReactElement {
                 {" "}
                 <PencilIcon className="size-6 text-primary-700" />
               </span>
-              Create Post
+              {userMode === "Edit" ? "Edit Post" : "Create Post"}
             </h1>
-            <div className="flex items-center justify-between">
-              {renderSelectDropDowns({
-                id: "community",
-                name: "community",
-                key: "Community",
-                dropdownOptions: dropdownOptions,
-                label: "Community",
-              })}
-              {renderSelectDropDowns({
-                id: "category",
-                name: "category",
-                key: "Category",
-                dropdownOptions: categoryOptions,
-                label: "Category",
-              })}
-            </div>
+            {userMode !== "Edit" && (
+              <div className="flex items-center justify-between">
+                {renderSelectDropDowns({
+                  id: "community",
+                  name: "community",
+                  key: "communityName",
+                  dropdownOptions: dropdownOptions,
+                  label: "Community",
+                })}
+                {renderSelectDropDowns({
+                  id: "category",
+                  name: "category",
+                  key: "categoryName",
+                  dropdownOptions: categoryOptions,
+                  label: "Category",
+                })}
+              </div>
+            )}
             <div className="space-y-1">
               <label htmlFor="title" className="font-medium block">
                 Title
@@ -231,11 +283,11 @@ export default function CreatePost(): ReactElement {
                 id="tag"
                 className="h-9 w-full pl-2 rounded-lg border border-stroke-weak outline-none"
                 onChange={(e) => {
-                  setPostDetails("Title", e.target.value);
+                  setPostDetails("title", e.target.value);
                 }}
-                value={postDetails?.Title}
+                value={postDetails?.title}
               />
-              {showWarning(postDetails, "Title") && (
+              {showWarning(postDetails, "title") && (
                 <p className="text-red-500">{titleWarning}</p>
               )}
             </div>
@@ -246,12 +298,11 @@ export default function CreatePost(): ReactElement {
               <TextEditor
                 id="description"
                 onChange={(e: any) => {
-                  console.log("eee", e);
-                  setPostDetails("Description", e);
+                  setPostDetails("content", e);
                 }}
-                value={postDetails?.Description}
+                value={postDetails?.content}
               />
-              {showWarning(postDetails, "Description") && (
+              {showWarning(postDetails, "content") && (
                 <p className="text-red-500">{contentWarning}</p>
               )}
             </div>
@@ -268,7 +319,7 @@ export default function CreatePost(): ReactElement {
                 }}
                 disabled={isDisabled()}
               >
-                Post
+                {userMode === "Edit" ? "Edit" : "Post"}
               </Button>
             </div>
           </form>

@@ -1,4 +1,9 @@
-import { useMutation, UseMutationResult, useQueryClient, UseQueryResult } from "react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+  UseQueryResult,
+} from "react-query";
 
 import { saveAllCategories } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
@@ -33,22 +38,24 @@ type TVariables = {
 
 function useSaveCategories(): UseMutationResult<any, TError, any, unknown> {
   const { tokenType } = useAuth();
-  const queryClient= useQueryClient()
-  return useMutation(async (params: any) => {
-   const result = await saveCategories({
-      token: getParsedToken(),
-      tokenType: tokenType,
-      params: params,
-    })
-    return result;
-   
-  },{
-    onSettled:()=>{
-      queryClient.invalidateQueries("get_preference_list", {
-        refetchInactive: true,
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (params: any) => {
+      const result = await saveCategories({
+        token: getParsedToken(),
+        tokenType: tokenType,
+        params: params,
       });
+      return result;
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries("get_preference_list", {
+          refetchInactive: true,
+        });
+      },
     }
-  });
+  );
 }
 
 export { useSaveCategories };

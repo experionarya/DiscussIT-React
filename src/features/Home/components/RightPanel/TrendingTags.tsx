@@ -13,8 +13,8 @@ export default function TrendingTags(): ReactElement {
   );
   const navigate = useNavigate();
 
-  function goToTagsDetailPage() {
-    navigate(`/tags-deatil-page`);
+  function goToTagsDetailPage(tagName: string) {
+    navigate(`/tags/tag-threads/${tagName}`);
   }
 
   function renderTags(item: TrendingTagType) {
@@ -23,7 +23,7 @@ export default function TrendingTags(): ReactElement {
         <span
           key={item?.tagId}
           className="inline-flex cursor-pointer items-center m-1 rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
-          onClick={goToTagsDetailPage}
+          onClick={() => goToTagsDetailPage(item?.tagName)}
         >
           {item?.tagName}
           <span className="text-xs ml-2">({item?.tagCount})</span>

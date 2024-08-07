@@ -16,6 +16,7 @@ import {
 } from "../../api";
 
 import { ReplyType } from "../../types/notificationType";
+import { createMarkup } from "src/utils/common";
 
 dayjs.extend(utc);
 
@@ -36,10 +37,6 @@ export function Notifications(): ReactElement {
     mutate: readAllNotification,
   } = useReadAllNotification();
 
-  const createMarkup = (data?: string) => {
-    return { __html: data || "" };
-  };
-
   function handleMarkAllAsRead() {
     const replyIds =
       notificationList?.replies?.map((item: ReplyType) => item?.childReplyID) ||
@@ -54,7 +51,7 @@ export function Notifications(): ReactElement {
       }
     );
   }
-  
+
   return (
     <Popover>
       {({ open }) => (

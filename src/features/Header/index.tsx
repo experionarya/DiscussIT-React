@@ -17,12 +17,26 @@ import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import DialogBox from "src/components/DialogBox";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
 
   let [isOpen, setIsOpen] = useState(false);
 
+  const [isLogOut, setIsLogOut] = useState(false);
+
+  function handleLogOutDialogBox() {
+    setIsLogOut(true);
+  }
+
+  function handleClose() {
+    setIsLogOut(false);
+  }
+
+  function handleLogOut() {
+
+  }
   const openSearch = useCallback(() => {
     setIsOpen(true);
   }, []);
@@ -198,7 +212,7 @@ export default function Header(): ReactElement {
                   </CloseButton>
                 </div>
                 <div className="px-4 py-3">
-                  <CloseButton className="flex gap-3">
+                  <CloseButton className="flex gap-3" onClick={handleLogOutDialogBox}>
                     <ArrowRightStartOnRectangleIcon className="size-6" />
                     <span className="text-sm font-semibold">Logout</span>
                   </CloseButton>
@@ -209,6 +223,19 @@ export default function Header(): ReactElement {
         </div>
       </div>
       {isOpen ? <Search isOpen={isOpen} close={closeSearch} /> : null}
+      {isLogOut ? (
+        <div>
+          <DialogBox
+            title="Please Confirm Logout"
+            description="Are you sure you want to log out? You will be signed out of your account."
+            button1="Cancel"
+            button2="Logout"
+            opened={isLogOut}
+            handleClose={handleClose}
+            handleAction={handleLogOut}
+          />
+        </div>
+      ) : null}
     </header>
   );
 }

@@ -3,6 +3,12 @@ import { produce } from "immer";
 
 import { format } from "../utils/postConstants";
 
+import { fetchBookMarks } from "src/features/Home/store/apiStore";
+
+import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+
+// import { BookMark } from "../types/bookMarkDataType";
+
 export const useCreatePostStore = create<any>()((set, get) => ({
   postDetails: null,
 
@@ -14,33 +20,57 @@ export const useCreatePostStore = create<any>()((set, get) => ({
     );
   },
   showWarning: (postDetails: any, param: string) => {
-    if (param === "Title") {
+    if (param === "title") {
       if (
-        postDetails?.Title?.length > 100 ||
-        postDetails?.Title?.length < 5 ||
-        postDetails?.Title?.charAt(0) === "#"
+        postDetails?.title?.length > 100 ||
+        postDetails?.title?.length < 5 ||
+        postDetails?.title?.charAt(0) === "#"
       ) {
         return true;
       }
-    } else if (param === "Description") {
+    } else if (param === "content") {
       if (
-        postDetails?.Description?.length > 1000 ||
-        postDetails?.Description?.length < 20 ||
-        postDetails?.Description?.charAt(0) === "#"
+        postDetails?.content?.length > 1000 ||
+        postDetails?.content?.length < 20 ||
+        postDetails?.content?.charAt(0) === "#"
       ) {
         return true;
       }
-    } else if (param === "TagStatus") {
-      const value = postDetails?.TagStatus?.map(
+    } else if (param === "tagNames") {
+      const value = postDetails?.tagNames?.map(
         (item: any, index: number) => item?.label
       );
       const valueString = value?.toString();
       if (
         valueString?.match(format) ||
-        postDetails?.TagStatus?.length === undefined
+        postDetails?.tagNames?.length === undefined
       ) {
         return true;
       }
+    }
+  },
+  getPostDetails: async (
+    id: number,
+    userMode: string,
+    tokenType: string,
+    tagOptions: Array<{ value: number; label: string }>
+  ) => {
+    if (userMode === "Edit" && tokenType) {
+      const response = await fetchBookMarks({
+        token: getParsedToken(),
+        tokenType: tokenType,
+        threadId: id,
+      });
+      const tagArray = tagOptions?.filter((item) => {
+        if (item?.label.includes(response?.tagNames)) return item;
+      });
+
+      set(
+        produce((state: any) => {
+          state.postDetails = { ...response };
+          state.postDetails.tagNames = tagArray;
+        })
+      );
     }
   },
 }));
