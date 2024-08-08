@@ -18,6 +18,7 @@ import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import DialogBox from "src/components/DialogBox";
+import Avatar from "src/components/Avatar";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
@@ -179,11 +180,12 @@ export default function Header(): ReactElement {
                 aria-haspopup="true"
                 className="rounded-full p-1"
               >
-                <img
+                {/* <img
                   className="h-8 w-8 rounded-full"
                   src={require(`../../assets/images/person-2.jpg`)}
                   alt="person"
-                />
+                /> */}
+                <Avatar userName="V"/>
               </PopoverButton>
               <PopoverPanel
                 transition

@@ -58,7 +58,7 @@ export default function Post(): ReactElement {
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="space-y-3 pb-7">
         {!isPostLoading && posts?.threads && posts?.threads.length > 0
           ? posts?.threads?.map((item: ThreadType) => (
               <PostItem postItem={item} />
