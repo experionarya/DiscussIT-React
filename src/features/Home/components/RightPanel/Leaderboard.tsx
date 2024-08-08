@@ -17,7 +17,13 @@ export default function LeaderBoard(): ReactElement {
       <div
         key={index}
         className={`flex min-w-0 items-center gap-x-2 rounded-md ${
-          index < 3 ? "bg-amber-100/80" : ""
+          index === 0
+            ? "bg-amber-100/85"
+            : index === 1
+            ? "bg-amber-100/60"
+            : index === 2
+            ? "bg-amber-100/40"
+            : ""
         } px-2 py-1`}
       >
         <img

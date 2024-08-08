@@ -67,9 +67,9 @@ export function Notifications(): ReactElement {
                 className={`size-6 ${open ? "text-primary-800" : ""}`}
               />
             </PopoverButton>
-            <div className="bg-red-600 size-1 p-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2">
+            {notificationList?.totalCount ? <div className="bg-red-600 size-1 p-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2">
               {notificationList?.totalCount}
-            </div>
+            </div> : null}
           </div>
           <PopoverPanel
             modal
