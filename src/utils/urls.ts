@@ -51,15 +51,20 @@ export const getSavedThreadsId = (userId: string) =>
 export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 
 //getting all post based on filterBy
-export const getAllPosts = (filterBy: string, count: number) =>
-  `${apiBaseUrl}Thread/Getall_threads?filterBy=${filterBy}&count=${count}`;
+export const getAllPosts = (
+  filterBy: string,
+  pageNumber: number,
+  pageSize: number
+) =>
+  `${apiBaseUrl}Thread/Getall_threads?filterBy=${filterBy}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
 //getting all post based on category
 export const getCategorywisePost = (
   communityCategoryId: number,
-  count: number
+  pageNumber: number,
+  pageSize: number
 ) =>
-  `${apiBaseUrl}Thread/category_threads?CommunityCategoryID=${communityCategoryId}&count=${count}`;
+  `${apiBaseUrl}Thread/category_threads?CommunityCategoryID=${communityCategoryId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
 export const saveAllCategories = `${apiBaseUrl}CommunityCategory/save_preference`;
 
@@ -126,3 +131,10 @@ export const editPostDetails = (
   communityID: number
 ) =>
   `${apiBaseUrl}Thread/${threadId}?ModifierId=${modifierId}&communityID=${communityID}`;
+
+export const saveReply = (
+  replyId: number,
+  userId: string,
+  communityId: number
+) =>
+  `${apiBaseUrl}Reply/${replyId}?creatorId=${userId}&communityID=${communityId}`;

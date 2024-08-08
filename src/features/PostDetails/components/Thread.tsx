@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
@@ -6,6 +7,7 @@ import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
 import { ThreadType } from "src/features/Community/types/postType";
 
@@ -18,9 +20,15 @@ dayjs.extend(utc);
 
 type PostThreadType = {
   postDetails: ThreadType;
+  setShowComment: any;
 };
 
-export function Thread({ postDetails }: PostThreadType): ReactElement {
+export function Thread({
+  postDetails,
+  setShowComment,
+}: PostThreadType): ReactElement {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [threads, setThreads] = useState<ThreadType>();
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const [hasDownvoted, setHasDownvoted] = useState(false);
@@ -39,6 +47,8 @@ export function Thread({ postDetails }: PostThreadType): ReactElement {
     };
     localStorage.setItem("voteStatus", JSON.stringify(voteStatus));
   }, [hasUpvoted, hasDownvoted, threads?.threadID]);
+
+  const threadId = location.search.split("threadID=")[1];
 
   useEffect(() => {
     const savedVoteStatus =
@@ -114,6 +124,10 @@ export function Thread({ postDetails }: PostThreadType): ReactElement {
     updateVoteByThread({ ...params });
   };
 
+  function onEdit() {
+    navigate(`/community/category-posts/edit-posts?threadId=${threadId}`);
+  }
+
   return (
     <>
       <div className="flex min-w-0 gap-x-2">
@@ -171,10 +185,22 @@ export function Thread({ postDetails }: PostThreadType): ReactElement {
         <button
           title="Comment"
           className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          onClick={() => {
+            console.log("on lcickkkkkkkkkkkkk");
+            setShowComment(true);
+          }}
         >
           <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
           <span className="sr-only">Comment</span>
           <span>{threads?.replyCount}</span>
+        </button>
+        <button
+          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          title="Bookmark"
+          onClick={() => onEdit()}
+        >
+          <PencilIcon className="size-4 text-gray-600" />
+          <span className="sr-only">Edit</span>
         </button>
         <button
           title="Share"

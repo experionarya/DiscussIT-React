@@ -19,8 +19,8 @@ import { BookMark } from "src/features/Home/types/bookMarkDataType";
 export function PostItem({ item }: { item: BookMark }): ReactElement {
   const navigate = useNavigate();
 
-  function gotoPost() {
-    navigate(`/community/category-posts/replies`);
+  function gotoPost(id: number) {
+    navigate(`/community/category-posts/replies?threadID=${id}`);
   }
 
   function onEdit(id: number) {
@@ -51,7 +51,10 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             </div>
           </div>
         </div>
-        <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
+        <div
+          className="space-y-1 cursor-pointer"
+          onClick={() => gotoPost(item?.threadID)}
+        >
           <h5 className="font-bold text-slate-900">{item?.title}</h5>
           {item?.tagNames?.map((tagItem, index) => (
             <button
@@ -97,7 +100,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           <button
             title="Comment"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            onClick={gotoPost}
+            onClick={() => gotoPost(item?.threadID)}
           >
             <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Comment</span>
@@ -116,14 +119,6 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           >
             <BookmarkIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Bookmark</span>
-          </button>
-          <button
-            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            title="Edit"
-            onClick={() => onEdit(item?.threadID)}
-          >
-            <PencilIcon className="size-4 text-gray-600" />
-            <span className="sr-only">Edit</span>
           </button>
         </div>
       </article>

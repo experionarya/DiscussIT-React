@@ -168,10 +168,9 @@ export const useHomeStore = create<any>()((set, get) => ({
   },
 
   setAllPost: (data: Array<BookMark>) => {
-    console.log("data", data);
     set(
       produce((state: any) => {
-        state.allPosts = [...data];
+        state.allPosts = [...state.allPosts, ...data];
       })
     );
   },

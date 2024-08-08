@@ -1,10 +1,5 @@
 import { useCallback } from "react";
-import {
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
-  useQuery,
-  UseQueryResult,
-} from "react-query";
+import { useInfiniteQuery, UseInfiniteQueryResult } from "react-query";
 
 import { getCategorywisePost } from "src/utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
@@ -13,16 +8,17 @@ import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { useHomeStore } from "../store/homeStore";
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
+const pageLength = 20;
 
 async function fetchAllPosts({
   token,
   tokenType,
   communityCategoryId,
-  count,
+  pageParam,
 }: TVariables): Promise<any> {
   if (communityCategoryId) {
     const response = await fetch(
-      getCategorywisePost(communityCategoryId, count),
+      getCategorywisePost(communityCategoryId, pageParam, pageLength),
       {
         method: "GET",
         headers: {
@@ -41,35 +37,41 @@ type TVariables = {
   token: string | null;
   tokenType: string;
   communityCategoryId: number | undefined;
-  count: number;
+  pageParam: number;
 };
 
 function useGetPostByCategories({
   communityCategoryId,
-  count,
 }: {
   communityCategoryId: number | undefined;
-  count: number;
-}): UseQueryResult<APIResult, TError> {
+}): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
-  return useQuery(
-    ["get_post_by_categories", communityCategoryId, count],
-
-    async () => {
+  return useInfiniteQuery(
+    ["get_all_category_post", communityCategoryId],
+    async ({ pageParam = 1 }) => {
       const result = await fetchAllPosts({
         token: getParsedToken(),
         tokenType,
         communityCategoryId,
-        count,
+        pageParam,
       });
-      setAllPost(result);
+      setAllPost(result?.posts);
       return result;
     },
     {
+      getNextPageParam: (lastPage: any, allPages: Array<any>) => {
+        console.log("lastPage", lastPage, "allPages", allPages);
+        if (lastPage !== null && lastPage?.posts?.length === pageLength)
+          return allPages?.length + 1;
+      },
+      getPreviousPageParam: (firstPage: any, allPages: Array<any>) => {
+        if (firstPage !== null && firstPage?.data?.length === pageLength)
+          return allPages?.length - 1;
+      },
+
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
-      enabled: communityCategoryId !== undefined,
     }
   );
 }

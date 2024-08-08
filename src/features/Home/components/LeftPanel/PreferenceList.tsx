@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useState } from "react";
+import React, { ReactElement, useCallback, useState, useEffect } from "react";
 import { PinSolid } from "iconoir-react";
 
 import { useGetPreferenceList, useGetPostByCategories } from "../../api/index";
@@ -6,10 +6,34 @@ import { useGetPreferenceList, useGetPostByCategories } from "../../api/index";
 export function PreferenceList({ handleAddCategories }: any): ReactElement {
   const [communityId, setCommunityId] = useState<number | undefined>(undefined);
   const { data: preferenceList } = useGetPreferenceList();
-  const { data } = useGetPostByCategories({
-    communityCategoryId: communityId,
-    count: 5,
-  });
+  const { data, isLoading, fetchNextPage, hasNextPage } =
+    useGetPostByCategories({
+      communityCategoryId: communityId,
+    });
+  const handleScroll = useCallback(
+    (e: any) => {
+      const bottom =
+        e?.target?.documentElement?.clientHeight - 10 <
+          e?.target?.documentElement?.scrollHeight -
+            e?.target?.documentElement?.scrollTop &&
+        e?.target?.documentElement?.scrollHeight -
+          e?.target?.documentElement?.scrollTop <
+          e?.target?.documentElement?.clientHeight + 10;
+
+      if (bottom) {
+        hasNextPage && fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage]
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    console.log("scroll");
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [handleScroll]);
 
   function getButtonLabel() {
     if (preferenceList?.length) return "Add more categories";

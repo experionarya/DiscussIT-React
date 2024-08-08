@@ -87,6 +87,7 @@ export default function TextEditor({
       onChange={onChange}
       modules={modules}
       formats={formats}
+      className="create-posts"
     />
   );
 }

@@ -1,11 +1,31 @@
 import React, { ReactElement, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "src/components/Button";
 import DialogBox from "../../../components/DialogBox";
+import TextEditor from "src/components/TextEditor";
 
-export function Comments(): ReactElement {
+import { useSaveReply } from "../api/useSaveReply";
+import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
+
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+
+export function Comments({
+  postDetails,
+  setShowComment,
+}: {
+  postDetails: any;
+  setShowComment: any;
+}): ReactElement {
+  const location = useLocation();
   const [isTextArea, setIsTextArea] = useState(false);
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
+  const [reply, setReply] = useState<string>("");
+  const threadId = location.search.split("threadID=")[1];
+
+  const { data: communityList } = useGetCommunityList();
+
+  const { mutate: saveReply } = useSaveReply();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -25,6 +45,23 @@ export function Comments(): ReactElement {
 
   function handleClose() {
     setIsDiscardChanges(false);
+  }
+
+  function saveComment() {
+    const params = {
+      threadId: parseInt(threadId),
+      userId: getUserIdFromToken(),
+      communityId: communityList?.find(
+        (item: any) => item?.communityName === postDetails?.communityName
+      )?.communityID,
+      reply: reply,
+    };
+
+    saveReply(params, {
+      onSettled: () => {
+        setShowComment(false);
+      },
+    });
   }
 
   return (
@@ -47,18 +84,25 @@ export function Comments(): ReactElement {
           </button>
         ) : (
           <div className="rounded-lg border border-stroke-weak bg-white w-full">
-            <textarea
+            {/* <textarea
               ref={textareaRef}
               className="h-auto w-full min-h-9 pt-1 rounded-lg pl-2 outline-none overflow-hidden resize-none"
               placeholder="Add comment"
               rows={1}
               onInput={autoResize}
+            /> */}
+            <TextEditor
+              value={reply}
+              onChange={(e: any) => {
+                setReply(e);
+              }}
+              id="text-editor"
             />
             <div className="flex gap-1 justify-end m-1">
               <Button size="medium" variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button size="medium" variant="primary">
+              <Button size="medium" variant="primary" onClick={saveComment}>
                 Comment
               </Button>
             </div>
