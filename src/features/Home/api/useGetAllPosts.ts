@@ -14,13 +14,15 @@ import { useHomeStore } from "../store/homeStore";
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 
+const pageLength = 20;
+
 async function fetchAllPosts({
   token,
   tokenType,
   filterBy,
-  count,
+  pageParam,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getAllPosts(filterBy, count), {
+  const response = await fetch(getAllPosts(filterBy, pageParam, pageLength), {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -29,39 +31,47 @@ async function fetchAllPosts({
   return response.json();
 }
 
-type APIResult = Array<BookMark>;
+type APIResult = { posts: Array<BookMark>; remainingCount: number };
 
 type TError = { message: string };
 type TVariables = {
   token: string | null;
   tokenType: string;
   filterBy: string;
-  count: number;
+  pageParam: number;
 };
 
 function useGetAllPosts({
   filterBy,
-  count,
 }: {
   filterBy: string;
-  count: number;
-}): UseQueryResult<APIResult, TError> {
+}): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
-  return useQuery(
-    ["get_all_post", filterBy, count],
-    async () => {
+
+  return useInfiniteQuery(
+    ["get_all_post", filterBy],
+    async ({ pageParam = 1 }) => {
       const result = await fetchAllPosts({
         token: getParsedToken(),
         tokenType,
         filterBy,
-        count,
+        pageParam,
       });
-
-      setAllPost(result);
+      setAllPost(result?.posts);
       return result;
     },
     {
+      getNextPageParam: (lastPage: any, allPages: Array<any>) => {
+        console.log("lastPage", lastPage, "allPages", allPages);
+        if (lastPage !== null && lastPage?.posts?.length === pageLength)
+          return allPages?.length + 1;
+      },
+      getPreviousPageParam: (firstPage: any, allPages: Array<any>) => {
+        if (firstPage !== null && firstPage?.data?.length === pageLength)
+          return allPages?.length - 1;
+      },
+
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
     }

@@ -1,8 +1,7 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/solid";
 
 import { Thread } from "./components/Thread";
 import { Comments } from "./components/Comments";
@@ -16,6 +15,8 @@ export default function PostDetails(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [showComment, setShowComment] = useState<boolean>(false);
+
   const { tokenType } = useAuth();
 
   const getPostDetailsInfo = usePostDetailsStore(
@@ -26,7 +27,7 @@ export default function PostDetails(): ReactElement {
     React.useCallback((state: any) => state.postDetails, [])
   );
 
-  const threadId = location.search.split("threadId=")[1];
+  const threadId = location.search.split("threadID=")[1];
 
   useQuery(
     ["get_post_details", { threadId: threadId }],
@@ -39,6 +40,7 @@ export default function PostDetails(): ReactElement {
     },
     { staleTime: Infinity }
   );
+  console.log("showcomments", showComment);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
@@ -53,8 +55,13 @@ export default function PostDetails(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4 pl-10">
         <div className="col-span-2 space-y-2">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
-            <Thread postDetails={postDetails} />
-            <Comments />
+            <Thread postDetails={postDetails} setShowComment={setShowComment} />
+            {showComment === true && (
+              <Comments
+                postDetails={postDetails}
+                setShowComment={setShowComment}
+              />
+            )}
             <Replies />
 
             {/* <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0">

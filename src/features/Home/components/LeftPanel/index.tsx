@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useCallback } from "react";
+import React, { ReactElement, useState, useCallback, useEffect } from "react";
 import { useQuery } from "react-query";
 import { BookmarkSolid } from "iconoir-react";
 
@@ -35,10 +35,38 @@ export default function LeftPanel(): ReactElement {
 
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
   const [filterByValue, setFilterByValue] = useState<string>("newest");
-  const { data: postDetails } = useGetAllPosts({
+  const {
+    data: postDetails,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetAllPosts({
     filterBy: filterByValue,
-    count: 5,
   });
+
+  const handleScroll = useCallback(
+    (e: any) => {
+      const bottom =
+        e?.target?.documentElement?.clientHeight - 10 <
+          e?.target?.documentElement?.scrollHeight -
+            e?.target?.documentElement?.scrollTop &&
+        e?.target?.documentElement?.scrollHeight -
+          e?.target?.documentElement?.scrollTop <
+          e?.target?.documentElement?.clientHeight + 10;
+
+      if (bottom) {
+        hasNextPage && fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage]
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    console.log("scroll");
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [handleScroll]);
   const { tokenType } = useAuth();
 
   //calling the book mark apis\

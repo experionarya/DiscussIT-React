@@ -10,6 +10,7 @@ import { Button } from "src/components/Button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { useQuery } from "react-query";
 
 import TextEditor from "src/components/TextEditor";
 import { ReactSelect } from "src/components/ReactSelect";
@@ -27,7 +28,6 @@ import {
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 import { useCreatePostStore } from "./store/createPostStore";
-import { useQuery } from "react-query";
 
 export default function CreatePost(): ReactElement {
   const { data } = useGetCommunityList();
@@ -46,10 +46,9 @@ export default function CreatePost(): ReactElement {
   );
 
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get("threadID");
-
   const navigate = useNavigate();
+
+  const id = location.search.split("threadId=")[1];
 
   //for setting the user mode
   useEffect(() => {

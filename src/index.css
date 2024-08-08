@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 
-.ql-container.ql-snow {
+.quil.test .ql-container.ql-snow {
   height: 200px;
 }
 
