@@ -35,9 +35,15 @@ export function BookMarkPopover({
     setHoverIndex(null);
   };
 
+  function goToBookmarks() {
+    navigate("/profile?section=bookmarks");
+  }
+
+  const limitedData = data.slice(0, 3);
+
   return (
     <>
-      {data?.map((item, index) => (
+      {limitedData?.map((item, index) => (
         <Popover key={index}>
           {({ open }) => (
             <>
@@ -98,6 +104,12 @@ export function BookMarkPopover({
           )}
         </Popover>
       ))}
+      {data.length > 3 ? <button
+        className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
+        onClick={goToBookmarks}
+      >
+        View all bookmarks
+      </button> : null}
     </>
   );
 }

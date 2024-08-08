@@ -12,11 +12,6 @@ import { useHomeStore } from "../../store/homeStore";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-export interface Data {
-  category: string;
-  heading: string;
-  description: string;
-}
 
 export default function LeftPanel(): ReactElement {
   let [isOpen, setIsOpen] = useState<boolean>(false);
@@ -32,7 +27,7 @@ export default function LeftPanel(): ReactElement {
   const bookMarks = useHomeStore(
     useCallback((state: any) => state.bookMarks, [])
   );
-
+  console.log("bookMarks", bookMarks);
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
   const [filterByValue, setFilterByValue] = useState<string>("newest");
   const { data: postDetails } = useGetAllPosts({
@@ -103,13 +98,7 @@ export default function LeftPanel(): ReactElement {
               <span>Bookmarks</span>
             </h5>
             <div className="text-sm space-y-2 w-full overflow-x-hidden pr-2">
-              <BookMarkPopover data={bookMarks} />
-              <button
-                className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-                // onClick={}
-              >
-                View all bookmarks
-              </button>
+              <BookMarkPopover data={bookMarks} />            
             </div>
           </div>
         </aside>
