@@ -29,7 +29,7 @@ function PrivatePage(): ReactElement {
           element={<PostDetails />}
         />
         <Route
-          path="/home/category-posts/edit-posts"
+          path="community/category-posts/edit-posts"
           element={<CreatePost />}
         />
         <Route path="/profile" element={<Profile />} />

@@ -1,12 +1,17 @@
-import React, { ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
-
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
-
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -15,6 +20,10 @@ import {
   getHtmlTextLength,
   trimHTMLContent,
 } from "src/utils/common";
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
+
+import { useCreatePostStore } from "src/features/CreatePost/store/createPostStore";
+import { useGetTagList } from "src/features/CreatePost/api";
 
 import { ThreadType } from "src/features/Community/types/postType";
 
@@ -26,12 +35,45 @@ type PostItemType = {
 
 export function PostItem({ postItem }: PostItemType): ReactElement {
   const navigate = useNavigate();
+  const { tokenType } = useAuth();
 
   function gotoPost() {
     navigate(
       `/community/category-posts/replies?threadId=${postItem?.threadID}`
     );
   }
+  const [userMode, updateUserMode] = useState<string>("");
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("threadID");
+
+  //for setting the user mode
+  useEffect(() => {
+    if (location?.pathname.split("/").includes("edit-posts"))
+      updateUserMode && updateUserMode("Edit");
+    if (location?.pathname.split("/").includes("createpost"))
+      updateUserMode && updateUserMode("Create");
+  }, [location?.pathname, updateUserMode]);
+  const getPostDetails = useCreatePostStore(
+    useCallback((state) => state.getPostDetails, [])
+  );
+
+  const { data: trendingTags } = useGetTagList();
+
+  //tag options
+  const tagOptions = useMemo(() => {
+    const value = trendingTags?.map((item: any) => ({
+      value: item?.tagId,
+      label: item?.tagName,
+    }));
+
+    return value;
+  }, [trendingTags]);
+
+  useQuery(["edit-post", id, userMode, tagOptions], () => {
+    getPostDetails(id, userMode, tokenType, tagOptions);
+  });
 
   return (
     <>
