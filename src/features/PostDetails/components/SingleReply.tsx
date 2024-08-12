@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from "react";
+import React, { ReactElement, useCallback, useRef, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -11,7 +11,11 @@ import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 import { Button } from "src/components/Button";
 import DialogBox from "../../../components/DialogBox";
 
-import { useDeleteReply, useReplaceDeletedComment } from "../api";
+import {
+  useDeleteReply,
+  useReplaceDeletedComment,
+  useGetChildReply,
+} from "../api";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
 import {
@@ -23,6 +27,7 @@ import { fetchInnerReplies } from "../store/apiStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
 import { createMarkup } from "src/utils/common";
+import TextEditor from "src/components/TextEditor";
 
 dayjs.extend(utc);
 
@@ -39,10 +44,8 @@ export function SingleReply({
   onDownvote,
   votes,
 }: IndividualReplyType): ReactElement {
-  const { tokenType } = useAuth();
+  const { tokenType, token } = useAuth();
   const userId = getUserIdFromToken();
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const textarea = event.target as HTMLTextAreaElement;
@@ -50,17 +53,32 @@ export function SingleReply({
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+  const getReplyDetails = usePostDetailsStore(
+    useCallback((state) => state.getReplyDetails, [])
+  );
+
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
-  const [isReply, setIsReplay] = useState(false);
+  const [isReply, setIsReply] = useState(false);
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [replyValue, setReplyValue] = useState<string>();
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
   );
 
+  const setReplyDetails = usePostDetailsStore(
+    React.useCallback((state: any) => state.setReplyDetails, [])
+  );
+
+  const replyDetails = usePostDetailsStore(
+    React.useCallback((state: any) => state.replyDetails, [])
+  );
+
   const { mutate: deleteReply } = useDeleteReply();
   const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
+  const { mutate: childReply } = useGetChildReply();
 
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};
@@ -101,11 +119,21 @@ export function SingleReply({
   };
 
   function handleReplay() {
-    setIsReplay(true);
+    setIsReply(true);
+    setReplyValue("");
+  }
+  function handleEdit() {
+    setIsEdit(true);
+    setIsReply(true);
+    getReplyDetails({
+      token: getParsedToken(),
+      tokenType: tokenType,
+      replyId: reply.replyID,
+    });
   }
 
   function handleReplayCancel() {
-    setIsReplay(false);
+    setIsReply(false);
   }
 
   function handleDelete() {
@@ -139,6 +167,28 @@ export function SingleReply({
     setIsDeleteConfirm(false);
   }
 
+  function handleSubmitReplies() {
+    const params = {
+      threadId: isEdit ? reply?.replyID : reply?.threadID,
+      userId: userId,
+      communityId: 1,
+      parentReplyId: reply.replyID,
+      reply: isEdit ? replyDetails[reply?.replyID] : replyValue,
+      isEdit: isEdit,
+    };
+
+    childReply(params, {
+      onSuccess: () => {
+        setIsReply(false);
+        getPostDetailsInfo({
+          token: getParsedToken(),
+          tokenType: tokenType,
+          threadId: reply?.threadID,
+        });
+      },
+    });
+  }
+
   function getDays() {
     const day = dayjs().diff(reply?.createdAt, "day");
     if (day === 1) return `.${day} day`;
@@ -161,14 +211,15 @@ export function SingleReply({
       <>
         {isReply ? (
           <div className="rounded-lg border mt-2 border-stroke-weak bg-white w-full">
-            <textarea
-              ref={textareaRef}
-              className="h-auto w-full min-h-9 pt-1 rounded-lg pl-2 outline-none overflow-hidden resize-none"
-              placeholder="Add comment"
-              rows={1}
-              onInput={autoResize}
+            <TextEditor
+              id="reply"
+              value={isEdit ? replyDetails[reply?.replyID] : replyValue}
+              onChange={(e: any) => {
+                isEdit && setReplyDetails({ [reply?.replyID]: e });
+                !isEdit && setReplyValue(e);
+              }}
             />
-            <div className="flex gap-1 justify-end m-1">
+            <div className="flex gap-1 justify-center m-1">
               <Button
                 size="medium"
                 variant="secondary"
@@ -176,8 +227,12 @@ export function SingleReply({
               >
                 Cancel
               </Button>
-              <Button size="medium" variant="primary">
-                Comment
+              <Button
+                size="medium"
+                variant="primary"
+                onClick={handleSubmitReplies}
+              >
+                Reply
               </Button>
             </div>
           </div>
@@ -253,7 +308,7 @@ export function SingleReply({
               <>
                 <button
                   title="Edit"
-                  onClick={handleReplay}
+                  onClick={handleEdit}
                   className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                 >
                   <PencilSquareIconMicro className="size-4 text-gray-600" />

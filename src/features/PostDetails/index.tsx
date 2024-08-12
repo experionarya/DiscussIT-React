@@ -27,7 +27,7 @@ export default function PostDetails(): ReactElement {
     React.useCallback((state: any) => state.postDetails, [])
   );
 
-  const threadId = location.search.split("threadID=")[1];
+  const threadId = location.search.split("threadId=")[1];
 
   useQuery(
     ["get_post_details", { threadId: threadId }],

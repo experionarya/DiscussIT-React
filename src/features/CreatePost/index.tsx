@@ -121,7 +121,7 @@ export default function CreatePost(): ReactElement {
 
     createNewPost(postValue, {
       onSuccess: () => {
-        navigate(`/home`);
+        navigate("/home");
       },
     });
   }
@@ -235,7 +235,7 @@ export default function CreatePost(): ReactElement {
             </Tooltip.Root>
           </Tooltip.Provider>
           {showWarning(postDetails, "tagNames") && (
-            <p className="text-slate-900 text-sm py-2">{tagWarning}</p>
+            <p className="text-red-500 text-sm py-2">{tagWarning}</p>
           )}
         </div>
       </div>
@@ -260,14 +260,14 @@ export default function CreatePost(): ReactElement {
                 {renderSelectDropDowns({
                   id: "community",
                   name: "community",
-                  key: "communityName",
+                  key: "Community",
                   dropdownOptions: dropdownOptions,
                   label: "Community",
                 })}
                 {renderSelectDropDowns({
                   id: "category",
                   name: "category",
-                  key: "categoryName",
+                  key: "Category",
                   dropdownOptions: categoryOptions,
                   label: "Category",
                 })}
