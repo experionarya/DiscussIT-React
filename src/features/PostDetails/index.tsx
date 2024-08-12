@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 import { Thread } from "./components/Thread";
 import { Comments } from "./components/Comments";
@@ -27,7 +27,7 @@ export default function PostDetails(): ReactElement {
     React.useCallback((state: any) => state.postDetails, [])
   );
 
-  const threadId = location.search.split("threadID=")[1];
+  const threadId = location.search.split("threadId=")[1];
 
   useQuery(
     ["get_post_details", { threadId: threadId }],

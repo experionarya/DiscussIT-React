@@ -55,3 +55,13 @@ export function getHtmlTextLength(html: string) {
   const textContent = doc.body.textContent || "";
   return textContent.length;
 }
+
+export function getInitials(userName: any): string {
+  if (userName) {
+    const nameParts = userName.split(" ");
+    const firstInitial = nameParts[0].charAt(0).toUpperCase();
+    const lastInitial =
+      nameParts.length > 1 ? nameParts[1].charAt(0).toUpperCase() : "";
+    return `${firstInitial}${lastInitial}`;
+  } else return "";
+}
