@@ -29,6 +29,8 @@ export default function PostDetails(): ReactElement {
 
   const threadId = location.search.split("threadId=")[1];
 
+  const from = location.state?.from || "/"; // Default to '/' if no state is present
+
   useQuery(
     ["get_post_details", { threadId: threadId }],
     () => {
@@ -47,7 +49,7 @@ export default function PostDetails(): ReactElement {
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
         <button
           className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center"
-          onClick={() => navigate(`/community/category-posts`)}
+          onClick={() => navigate(from)}
         >
           <ArrowLeftIcon className="size-5" />
         </button>

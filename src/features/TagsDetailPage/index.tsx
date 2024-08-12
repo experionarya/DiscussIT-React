@@ -29,7 +29,9 @@ export default function TagsDetailPage(): ReactElement {
   );
 
   function gotoPost() {
-    navigate(`/community/category-posts/replies`);
+    navigate("/community/category-posts/replies", {
+      state: { from: window.location.pathname },
+    });
   }
 
   return (
@@ -74,7 +76,7 @@ export default function TagsDetailPage(): ReactElement {
             </div>
           </div>
           <div className="space-y-3">
-          {tagsDetails?.searchThreadDtoList?.map((item) => (
+            {tagsDetails?.searchThreadDtoList?.map((item) => (
               <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
                 <div className="flex min-w-0 gap-x-2">
                   <img
@@ -92,13 +94,15 @@ export default function TagsDetailPage(): ReactElement {
                   </div>
                 </div>
                 <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
-                  <h5 className="font-semibold text-slate-900">{item?.title}</h5>
+                  <h5 className="font-semibold text-slate-900">
+                    {item?.title}
+                  </h5>
                   <div className="flex gap-2">
-                  {item?.tagNames?.map((tagNameItem: string) => (
-                    <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
-                      {tagNameItem}
-                    </button>
-                  ))}
+                    {item?.tagNames?.map((tagNameItem: string) => (
+                      <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
+                        {tagNameItem}
+                      </button>
+                    ))}
                   </div>
                   <p
                     className="text-slate-900"
@@ -160,8 +164,8 @@ export default function TagsDetailPage(): ReactElement {
                   </button>
                 </div>
               </article>
-          ))}
-            </div>
+            ))}
+          </div>
         </div>
         <div className="col-span-1" />
       </div>
