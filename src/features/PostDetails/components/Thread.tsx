@@ -9,12 +9,14 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { PencilIcon } from "@heroicons/react/24/solid";
 
-import { ThreadType } from "src/features/Community/types/postType";
+import { Avatar } from "src/components";
 
 import { useUpdateThreadVote } from "../api/useUpdateThreadVote";
 
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
-import { createMarkup } from "src/utils/common";
+import { createMarkup, getInitials } from "src/utils/common";
+
+import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
 
@@ -131,11 +133,12 @@ export function Thread({
   return (
     <>
       <div className="flex min-w-0 gap-x-2">
-        <img
+        {/* <img
           className="h-8 w-8 flex-none rounded-full bg-gray-50"
           src={require(`../../../assets/images/person-4.jpg`)}
           alt=""
-        />
+        /> */}
+        <Avatar userName={getInitials(threads?.createdByUser) || ""} />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-tight text-slate-900">
             {threads?.createdByUser}

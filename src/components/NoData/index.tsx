@@ -3,7 +3,7 @@ import React, { ReactElement } from "react";
 type NodataType = {
   data: string;
 };
-export default function NoData({ data }: NodataType): ReactElement {
+export function NoData({ data }: NodataType): ReactElement {
   return (
     <div className="space-y flex flex-col justify-center items-center">
       <div className="flex justify-center">

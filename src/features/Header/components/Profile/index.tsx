@@ -6,26 +6,39 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
+import { Avatar } from "src/components";
+
+import { useGetUserDetails } from "../../api/useGetUserDetails";
+
+import { getInitials } from "src/utils/common";
+
 export default function Profile(): ReactElement {
+  const { data: userDetails } = useGetUserDetails();
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5" />
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10">
           <div className="flex gap-4 items-center pb-5">
-            <img
+            {/* <img
               className="size-[66px] rounded-full"
               src={require(`src/assets/images/person-2.jpg`)}
               alt="person"
-            />
+            /> */}
+            <Avatar userName={getInitials(userDetails?.name) || ""} />
             <div>
-              <p className="text-lg font-semibold">Arjun Krishnadas Pillai</p>
+              <p className="text-lg font-semibold">{userDetails?.name}</p>
               <div className="flex items-center">
-                <p className="text-xs text-slate-500 pr-2">Software Engineer</p>
+                <p className="text-xs text-slate-500 pr-2">
+                  {userDetails?.designationName}
+                </p>
                 <span className="text-[9px] text-slate-500 pr-1">●</span>
-                <p className="text-xs text-slate-500">DU6</p>
+                <p className="text-xs text-slate-500">
+                  {userDetails?.departmentName}
+                </p>
               </div>
-              <p className="text-xs font-semibold">Points: 145</p>
+              <p className="text-xs font-semibold">{`Points: ${userDetails?.score}`}</p>
             </div>
           </div>
           <div className="border-b border-slate-300">
@@ -48,8 +61,12 @@ export default function Profile(): ReactElement {
             </ul>
             <div className="flex gap-5 pb-1">
               <div className="text-slate-500 pb-2">
-                <select name="filter" id="filter" className="bg-slate-200 p-0.5 rounded text-xs">
-                <option value="Replies" className="text-xs">
+                <select
+                  name="filter"
+                  id="filter"
+                  className="bg-slate-200 p-0.5 rounded text-xs"
+                >
+                  <option value="Replies" className="text-xs">
                     Replies
                   </option>
                   <option value="Upvotes" className="text-xs">
@@ -60,8 +77,12 @@ export default function Profile(): ReactElement {
                   </option>
                 </select>
               </div>
-               <div className="text-slate-500 pb-2">
-                <select name="sort" id="sort" className="bg-slate-200 p-0.5 rounded text-xs">
+              <div className="text-slate-500 pb-2">
+                <select
+                  name="sort"
+                  id="sort"
+                  className="bg-slate-200 p-0.5 rounded text-xs"
+                >
                   <option value="Replies" className="text-xs">
                     Most to least
                   </option>
