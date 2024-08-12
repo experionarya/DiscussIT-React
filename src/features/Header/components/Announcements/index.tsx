@@ -6,7 +6,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 import { MegaphoneIcon } from "@heroicons/react/24/outline";
 
-import NoData from "src/components/NoData";
+import { NoData } from "src/components";
 
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 import { useGetAnnouncementByCommunity } from "../../api/useGetAnnouncementByCommunity";

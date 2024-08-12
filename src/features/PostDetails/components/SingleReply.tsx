@@ -8,8 +8,7 @@ import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/sol
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
-import { Button } from "src/components/Button";
-import DialogBox from "../../../components/DialogBox";
+import { Avatar, Button, DialogBox } from "src/components";
 
 import { useDeleteReply, useReplaceDeletedComment } from "../api";
 
@@ -20,9 +19,9 @@ import {
 } from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
+import { createMarkup, getInitials } from "src/utils/common";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
-import { createMarkup } from "src/utils/common";
 
 dayjs.extend(utc);
 
@@ -202,11 +201,12 @@ export function SingleReply({
   return (
     <div className="pl-10">
       <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0 mb-5">
-        <img
+        {/* <img
           className="h-8 w-8 flex-none rounded-full bg-gray-50"
           src={require(`../../../assets/images/person-5.jpg`)}
           alt="avatar"
-        />
+        /> */}
+        <Avatar userName={getInitials(reply?.createdUserName) || ""} />
         <div className="mt-1">
           <div className="min-w-0 flex">
             <p className="text-sm font-semibold leading-tight text-slate-900">

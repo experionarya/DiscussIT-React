@@ -12,7 +12,7 @@ type data = {
   handleClose: () => void;
   handleAction: () => void;
 };
-export default function DialogBox({
+export function DialogBox({
   title,
   description,
   button1,

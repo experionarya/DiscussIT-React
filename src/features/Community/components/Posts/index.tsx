@@ -1,6 +1,7 @@
 import React, { ReactElement, useCallback } from "react";
+
 import { PostItem } from "src/features/Community/components/Posts/PostItem";
-import NoData from "src/components/NoData";
+import { NoData } from "src/components";
 
 import { useCommunityStore } from "../../store/communityStore";
 
@@ -67,7 +68,7 @@ export default function Post(): ReactElement {
               <div className="pt-36">
                 <NoData data="No Posts Yet. Be the First one to post." />
               </div>
-           )} 
+            )}
       </div>
     </div>
   );

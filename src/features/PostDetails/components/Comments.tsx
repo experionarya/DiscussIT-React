@@ -1,8 +1,7 @@
-import React, { ReactElement, useRef, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { Button } from "src/components/Button";
-import DialogBox from "../../../components/DialogBox";
+import { Button, DialogBox } from "src/components";
 import TextEditor from "src/components/TextEditor";
 
 import { useSaveReply } from "../api/useSaveReply";
@@ -26,14 +25,6 @@ export function Comments({
   const { data: communityList } = useGetCommunityList();
 
   const { mutate: saveReply } = useSaveReply();
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
 
   function handleTextArea() {
     setIsTextArea(true);
