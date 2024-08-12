@@ -33,8 +33,19 @@ export default function LeftPanel(): ReactElement {
     useCallback((state: any) => state.bookMarks, [])
   );
 
+  const filterByValue = useHomeStore(
+    useCallback((state) => state.filterByValue, [])
+  );
+
+  const setFilterByValue = useHomeStore(
+    useCallback((state) => state.setFilterByValue, [])
+  );
+  const setCommunityId = useHomeStore(
+    useCallback((state) => state.setCommunityId, [])
+  );
+
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
-  const [filterByValue, setFilterByValue] = useState<string>("newest");
+
   const {
     data: postDetails,
     hasNextPage,
@@ -103,6 +114,7 @@ export default function LeftPanel(): ReactElement {
               className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50"
               onClick={() => {
                 setFilterByValue("newest");
+                setCommunityId(-1);
               }}
             >
               Newest
@@ -110,6 +122,7 @@ export default function LeftPanel(): ReactElement {
             <li
               onClick={() => {
                 setFilterByValue("popular");
+                setCommunityId(-1);
               }}
               className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
             >
@@ -118,6 +131,7 @@ export default function LeftPanel(): ReactElement {
             <li
               onClick={() => {
                 setFilterByValue("all posts");
+                setCommunityId(-1);
               }}
               className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
             >

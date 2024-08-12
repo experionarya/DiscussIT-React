@@ -31,6 +31,8 @@ export const useHomeStore = create<any>()((set, get) => ({
   checkedItems: {},
   bookMarks: [],
   allPosts: [],
+  filterByValue: "newest",
+  communityId: -1,
 
   getHomeInfo: async ({
     token,
@@ -170,7 +172,7 @@ export const useHomeStore = create<any>()((set, get) => ({
   setAllPost: (data: Array<BookMark>) => {
     set(
       produce((state: any) => {
-        state.allPosts = [...state.allPosts, ...data];
+        state.allPosts = [...data];
       })
     );
   },
@@ -184,5 +186,13 @@ export const useHomeStore = create<any>()((set, get) => ({
         state.categoryList = [...trueKeys];
       })
     );
+  },
+  setFilterByValue: (value: string) => {
+    set((state: any) => ({ filterByValue: value }));
+  },
+  setCommunityId: (value: number) => {
+    set((state: any) => ({
+      communityId: value,
+    }));
   },
 }));

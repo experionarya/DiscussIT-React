@@ -72,6 +72,7 @@ function useGetPostByCategories({
 
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
+      enabled: communityCategoryId !== -1,
     }
   );
 }
