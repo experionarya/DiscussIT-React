@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useRef } from "react";
+import React, { ReactElement, useState, useRef, useMemo } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
@@ -39,7 +39,7 @@ export function BookMarkPopover({
     navigate("/profile?section=bookmarks");
   }
 
-  const limitedData = data.slice(0, 3);
+  const limitedData = useMemo(() => data.slice(0, 3), [data]);
 
   return (
     <>

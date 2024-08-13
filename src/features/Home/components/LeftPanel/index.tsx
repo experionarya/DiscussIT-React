@@ -27,7 +27,6 @@ export default function LeftPanel(): ReactElement {
   const bookMarks = useHomeStore(
     useCallback((state: any) => state.bookMarks, [])
   );
-  console.log("bookMarks", bookMarks);
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
   const [filterByValue, setFilterByValue] = useState<string>("newest");
   const {
