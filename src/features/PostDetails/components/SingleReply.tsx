@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useRef, useState } from "react";
+import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -8,7 +8,7 @@ import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/sol
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
-import { Avatar, Button, DialogBox } from "src/components";
+import { Avatar, Button, DialogBox, TextEditor } from "src/components";
 
 import {
   useDeleteReply,
@@ -24,9 +24,9 @@ import {
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
 import { createMarkup, getInitials } from "src/utils/common";
+import { contentWarning } from "src/features/CreatePost/utils/postConstants";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
-import TextEditor from "src/components/TextEditor";
 
 dayjs.extend(utc);
 
@@ -46,15 +46,13 @@ export function SingleReply({
   const { tokenType, token } = useAuth();
   const userId = getUserIdFromToken();
 
+  const communityId = parseInt(localStorage.getItem("communityId") || "");
+
   const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
-
-  const getReplyDetails = usePostDetailsStore(
-    useCallback((state) => state.getReplyDetails, [])
-  );
 
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
@@ -62,9 +60,14 @@ export function SingleReply({
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [replyValue, setReplyValue] = useState<string>();
+  const [isTextArea, setIsTextArea] = useState<boolean>();
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
+  );
+
+  const getReplyDetails = usePostDetailsStore(
+    useCallback((state) => state.getReplyDetails, [])
   );
 
   const setReplyDetails = usePostDetailsStore(
@@ -74,6 +77,10 @@ export function SingleReply({
   const replyDetails = usePostDetailsStore(
     React.useCallback((state: any) => state.replyDetails, [])
   );
+
+  const replyDet = useMemo(() => {
+    return isEdit ? replyDetails[reply?.replyID] : replyValue;
+  }, [isEdit, reply?.replyID, replyDetails, replyValue]);
 
   const { mutate: deleteReply } = useDeleteReply();
   const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
@@ -121,6 +128,7 @@ export function SingleReply({
     setIsReply(true);
     setReplyValue("");
   }
+
   function handleEdit() {
     setIsEdit(true);
     setIsReply(true);
@@ -140,7 +148,6 @@ export function SingleReply({
   }
 
   function handleDeleteComments() {
-    const communityId = parseInt(localStorage.getItem("communityId") || "");
     const params = {
       replyId: reply?.replyID,
       userId: userId,
@@ -170,7 +177,7 @@ export function SingleReply({
     const params = {
       threadId: isEdit ? reply?.replyID : reply?.threadID,
       userId: userId,
-      communityId: 1,
+      communityId: communityId,
       parentReplyId: reply.replyID,
       reply: isEdit ? replyDetails[reply?.replyID] : replyValue,
       isEdit: isEdit,
@@ -205,36 +212,56 @@ export function SingleReply({
     else return false;
   }
 
+  function handleTextArea() {
+    setIsTextArea(true);
+  }
+
   function renderPostActions() {
     return (
       <>
         {isReply ? (
-          <div className="rounded-lg border mt-2 border-stroke-weak bg-white w-full">
-            <TextEditor
-              id="reply"
-              value={isEdit ? replyDetails[reply?.replyID] : replyValue}
-              onChange={(e: any) => {
-                isEdit && setReplyDetails({ [reply?.replyID]: e });
-                !isEdit && setReplyValue(e);
-              }}
-            />
-            <div className="flex gap-1 justify-center m-1">
-              <Button
-                size="medium"
-                variant="secondary"
-                onClick={handleReplayCancel}
-              >
-                Cancel
-              </Button>
-              <Button
-                size="medium"
-                variant="primary"
-                onClick={handleSubmitReplies}
-              >
-                Reply
-              </Button>
+          !isTextArea ? (
+            <button
+              type="button"
+              className="border border-stroke-weak rounded-md bg-white h-9 w-full flex justify-start items-center pl-2 cursor-text"
+              onClick={handleTextArea}
+            >
+              <span className="sr-only md:not-sr-only md:text-slate-400 md:dark:text-slate-400">
+                Add comment
+              </span>
+            </button>
+          ) : (
+            <div className="rounded-lg  mt-2 border-stroke-weak bg-white w-full">
+              <TextEditor
+                id="reply"
+                value={isEdit ? replyDetails[reply?.replyID] : replyValue}
+                onChange={(e: any) => {
+                  isEdit && setReplyDetails({ [reply?.replyID]: e });
+                  !isEdit && setReplyValue(e);
+                }}
+              />
+              <div className="flex gap-1 justify-end m-1">
+                {replyDet && replyDet?.length < 20 && (
+                  <p className="text-red-500 text-sm">{contentWarning}</p>
+                )}
+                <Button
+                  size="medium"
+                  variant="secondary"
+                  onClick={handleReplayCancel}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size="medium"
+                  variant="primary"
+                  onClick={handleSubmitReplies}
+                  disabled={replyDet?.length < 20}
+                >
+                  Reply
+                </Button>
+              </div>
             </div>
-          </div>
+          )
         ) : null}
         {isDeleteConfirm ? (
           <div>
@@ -256,11 +283,6 @@ export function SingleReply({
   return (
     <div className="pl-10">
       <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0 mb-5">
-        {/* <img
-          className="h-8 w-8 flex-none rounded-full bg-gray-50"
-          src={require(`../../../assets/images/person-5.jpg`)}
-          alt="avatar"
-        /> */}
         <Avatar userName={getInitials(reply?.createdUserName) || ""} />
         <div className="mt-1">
           <div className="min-w-0 flex">

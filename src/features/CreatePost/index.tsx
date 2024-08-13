@@ -12,8 +12,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "react-query";
 
-import TextEditor from "src/components/TextEditor";
-import { ReactSelect } from "src/components/ReactSelect";
+import { ReactSelect, TextEditor, Loading } from "src/components";
 
 import { useGetCommunityList } from "../Community/api/useGetCommunityList";
 import { useGetCategoryByCommunity } from "../Community/api/useGetCategoryByCommunity";
@@ -30,10 +29,6 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { useCreatePostStore } from "./store/createPostStore";
 
 export default function CreatePost(): ReactElement {
-  const { data } = useGetCommunityList();
-  const { mutate: createNewPost } = useCreateNewPost();
-  const [userMode, updateUserMode] = useState<string>("");
-
   const postDetails = useCreatePostStore(
     useCallback((state) => state.postDetails, [])
   );
@@ -44,6 +39,26 @@ export default function CreatePost(): ReactElement {
   const getPostDetails = useCreatePostStore(
     useCallback((state) => state.getPostDetails, [])
   );
+
+  const showWarning = useCreatePostStore(
+    useCallback((state) => state.showWarning, [])
+  );
+
+  const isEditing = useCreatePostStore(
+    useCallback((state) => state.isEditing, [])
+  );
+
+  console.log("isEditing", isEditing);
+
+  const { data } = useGetCommunityList();
+  const { mutate: createNewPost, isLoading: isCreatingPost } =
+    useCreateNewPost();
+  const { data: categoryList } = useGetCategoryByCommunity(
+    postDetails?.Community ? postDetails?.Community : 1
+  );
+  const { data: trendingTags, isLoading: trendingTagLoading } = useGetTagList();
+
+  const [userMode, updateUserMode] = useState<string>("");
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,16 +74,6 @@ export default function CreatePost(): ReactElement {
   }, [location?.pathname, updateUserMode]);
 
   const { tokenType } = useAuth();
-
-  const showWarning = useCreatePostStore(
-    useCallback((state) => state.showWarning, [])
-  );
-
-  const { data: categoryList } = useGetCategoryByCommunity(
-    postDetails?.Community ? postDetails?.Community : 1
-  );
-
-  const { data: trendingTags } = useGetTagList();
 
   //tag options
   const tagOptions = useMemo(() => {
@@ -243,89 +248,92 @@ export default function CreatePost(): ReactElement {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
-      <div className="min-w-40 max-w-44 space-y-5" />
-      <div className="grid grow grid-cols-3 gap-4">
-        <div className="col-span-2 space-y-2 pl-10 pb-7">
-          <form className="w-full space-y-5 rounded-md p-4 bg-white shadow-sm">
-            <h1 className="font-semibold text-xl text-slate-900 flex items-center gap-2">
-              <span className="size-10 bg-primary-100 rounded-full flex items-center justify-center">
-                {" "}
-                <PencilIcon className="size-6 text-primary-700" />
-              </span>
-              {userMode === "Edit" ? "Edit Post" : "Create Post"}
-            </h1>
-            {userMode !== "Edit" && (
-              <div className="flex items-center justify-between">
-                {renderSelectDropDowns({
-                  id: "community",
-                  name: "community",
-                  key: "Community",
-                  dropdownOptions: dropdownOptions,
-                  label: "Community",
-                })}
-                {renderSelectDropDowns({
-                  id: "category",
-                  name: "category",
-                  key: "Category",
-                  dropdownOptions: categoryOptions,
-                  label: "Category",
-                })}
+    <>
+      <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+        <div className="min-w-40 max-w-44 space-y-5" />
+        <div className="grid grow grid-cols-3 gap-4">
+          <div className="col-span-2 space-y-2 pl-10 pb-7">
+            <form className="w-full space-y-5 rounded-md p-4 bg-white shadow-sm">
+              <h1 className="font-semibold text-xl text-slate-900 flex items-center gap-2">
+                <span className="size-10 bg-primary-100 rounded-full flex items-center justify-center">
+                  {" "}
+                  <PencilIcon className="size-6 text-primary-700" />
+                </span>
+                {userMode === "Edit" ? "Edit Post" : "Create Post"}
+              </h1>
+              {userMode !== "Edit" && (
+                <div className="flex items-center justify-between">
+                  {renderSelectDropDowns({
+                    id: "community",
+                    name: "community",
+                    key: "Community",
+                    dropdownOptions: dropdownOptions,
+                    label: "Community",
+                  })}
+                  {renderSelectDropDowns({
+                    id: "category",
+                    name: "category",
+                    key: "Category",
+                    dropdownOptions: categoryOptions,
+                    label: "Category",
+                  })}
+                </div>
+              )}
+              <div className="space-y-1">
+                <label htmlFor="title" className="font-medium block">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="tag"
+                  className="h-9 w-full pl-2 rounded-lg border border-black/20 outline-none"
+                  onChange={(e) => {
+                    setPostDetails("title", e.target.value);
+                  }}
+                  value={postDetails?.title}
+                />
+                {showWarning(postDetails, "title") && (
+                  <p className="text-red-500 text-sm">{titleWarning}</p>
+                )}
               </div>
-            )}
-            <div className="space-y-1">
-              <label htmlFor="title" className="font-medium block">
-                Title
-              </label>
-              <input
-                type="text"
-                id="tag"
-                className="h-9 w-full pl-2 rounded-lg border border-black/20 outline-none"
-                onChange={(e) => {
-                  setPostDetails("title", e.target.value);
-                }}
-                value={postDetails?.title}
-              />
-              {showWarning(postDetails, "title") && (
-                <p className="text-red-500 text-sm">{titleWarning}</p>
-              )}
-            </div>
-            <div className="space-y-1">
-              <label htmlFor="description" className="font-medium">
-                Description
-              </label>
-              <TextEditor
-                id="description"
-                onChange={(e: any) => {
-                  setPostDetails("content", e);
-                }}
-                value={postDetails?.content}
-              />
-              {showWarning(postDetails, "content") && (
-                <p className="text-red-500 text-sm">{contentWarning}</p>
-              )}
-            </div>
-            {renderReactSelectWithTooltip()}
-            <div className="flex justify-end items-center gap-3">
-              <Button size="medium" variant="secondary">
-                Saved draft
-              </Button>
-              <Button
-                size="medium"
-                variant="primary"
-                onClick={() => {
-                  savePost();
-                }}
-                disabled={isDisabled()}
-              >
-                {userMode === "Edit" ? "Edit" : "Post"}
-              </Button>
-            </div>
-          </form>
+              <div className="space-y-1">
+                <label htmlFor="description" className="font-medium">
+                  Description
+                </label>
+                <TextEditor
+                  id="description"
+                  onChange={(e: any) => {
+                    setPostDetails("content", e);
+                  }}
+                  value={postDetails?.content}
+                />
+                {showWarning(postDetails, "content") && (
+                  <p className="text-red-500 text-sm">{contentWarning}</p>
+                )}
+              </div>
+              {renderReactSelectWithTooltip()}
+              <div className="flex justify-end items-center gap-3">
+                <Button size="medium" variant="secondary">
+                  Saved draft
+                </Button>
+                <Button
+                  size="medium"
+                  variant="primary"
+                  onClick={() => {
+                    savePost();
+                  }}
+                  disabled={isDisabled()}
+                >
+                  {userMode === "Edit" ? "Edit" : "Post"}
+                </Button>
+              </div>
+            </form>
+          </div>
+          <div className="col-span-1" />
         </div>
-        <div className="col-span-1" />
       </div>
-    </div>
+      <div className="flex mx-auto justify-center h-full">{<Loading />}</div>
+    </>
   );
 }
 

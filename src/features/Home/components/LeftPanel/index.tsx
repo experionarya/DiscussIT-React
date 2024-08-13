@@ -146,10 +146,7 @@ export default function LeftPanel(): ReactElement {
             </h5>
             <div className="text-sm space-y-2 w-full overflow-x-hidden pr-2">
               <BookMarkPopover data={bookMarks} />
-              <button
-                className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-                // onClick={}
-              >
+              <button className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50">
                 View all bookmarks
               </button>
             </div>

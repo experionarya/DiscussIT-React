@@ -23,10 +23,6 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
     navigate(`/community/category-posts/replies?threadId=${id}`);
   }
 
-  function onEdit(id: number) {
-    navigate(`category-posts/edit-posts?threadId=${id}`);
-  }
-
   return (
     <>
       <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
