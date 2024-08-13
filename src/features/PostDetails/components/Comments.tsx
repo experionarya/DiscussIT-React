@@ -1,13 +1,20 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
-import { Button, DialogBox } from "src/components";
-import TextEditor from "src/components/TextEditor";
+import { Button, DialogBox, TextEditor, Avatar } from "src/components";
 
 import { useSaveReply } from "../api/useSaveReply";
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 
-import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
+import {
+  getUserIdFromToken,
+  getParsedToken,
+} from "src/utils/authenticationHelper/tokenHandler";
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import { contentWarning } from "src/features/CreatePost/utils/postConstants";
+import { getInitials } from "src/utils/common";
+
+import { usePostDetailsStore } from "../store/postDetailsStore";
 
 export function Comments({
   postDetails,
@@ -16,15 +23,21 @@ export function Comments({
   postDetails: any;
   setShowComment: any;
 }): ReactElement {
-  const location = useLocation();
+  const { tokenType } = useAuth();
+
   const [isTextArea, setIsTextArea] = useState(false);
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [reply, setReply] = useState<string>("");
-  const threadId = location.search.split("threadID=")[1];
+
+  const location = useLocation();
+  const threadId = location.search.split("threadId=")[1];
 
   const { data: communityList } = useGetCommunityList();
-
   const { mutate: saveReply } = useSaveReply();
+
+  const getPostDetailsInfo = usePostDetailsStore(
+    React.useCallback((state: any) => state.getPostDetailsInfo, [])
+  );
 
   function handleTextArea() {
     setIsTextArea(true);
@@ -36,6 +49,7 @@ export function Comments({
 
   function handleClose() {
     setIsDiscardChanges(false);
+    setShowComment(false);
   }
 
   function saveComment() {
@@ -51,6 +65,11 @@ export function Comments({
     saveReply(params, {
       onSettled: () => {
         setShowComment(false);
+        getPostDetailsInfo({
+          token: getParsedToken(),
+          tokenType: tokenType,
+          threadId: threadId,
+        });
       },
     });
   }
@@ -58,11 +77,12 @@ export function Comments({
   return (
     <>
       <div className="flex gap-3 bg-slate-100 rounded-md p-3">
-        <img
+        {/* <img
           className="h-8 w-8 rounded-full"
           src={require(`../../../assets/images/person-2.jpg`)}
           alt="person"
-        />
+        /> */}
+        <Avatar userName={getInitials(postDetails?.createdByUser) || ""} />
         {!isTextArea ? (
           <button
             type="button"
@@ -74,14 +94,7 @@ export function Comments({
             </span>
           </button>
         ) : (
-          <div className="rounded-lg border border-stroke-weak bg-white w-full">
-            {/* <textarea
-              ref={textareaRef}
-              className="h-auto w-full min-h-9 pt-1 rounded-lg pl-2 outline-none overflow-hidden resize-none"
-              placeholder="Add comment"
-              rows={1}
-              onInput={autoResize}
-            /> */}
+          <div className="rounded-lg  border-stroke-weak bg-white w-full">
             <TextEditor
               value={reply}
               onChange={(e: any) => {
@@ -90,11 +103,19 @@ export function Comments({
               id="text-editor"
             />
             <div className="flex gap-1 justify-end m-1">
+              {reply && reply?.length < 20 && (
+                <p className="text-red-500 text-sm">{contentWarning}</p>
+              )}
               <Button size="medium" variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button size="medium" variant="primary" onClick={saveComment}>
-                Comment
+              <Button
+                size="medium"
+                variant="primary"
+                onClick={saveComment}
+                disabled={reply?.length < 20}
+              >
+                Reply
               </Button>
             </div>
           </div>

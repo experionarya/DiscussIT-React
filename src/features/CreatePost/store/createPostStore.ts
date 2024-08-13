@@ -56,6 +56,11 @@ export const useCreatePostStore = create<any>()((set, get) => ({
     tagOptions: Array<{ value: number; label: string }>
   ) => {
     if (userMode === "Edit" && tokenType) {
+      set(
+        produce((state: any) => {
+          state.isEditing = true;
+        })
+      );
       const response = await fetchBookMarks({
         token: getParsedToken(),
         tokenType: tokenType,
@@ -69,6 +74,7 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         produce((state: any) => {
           state.postDetails = { ...response };
           state.postDetails.tagNames = tagArray;
+          state.isEditing = false;
         })
       );
     }

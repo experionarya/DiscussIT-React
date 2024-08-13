@@ -11,7 +11,7 @@ hljs.configure({
   languages: ["javascript", "python", "java", "html", "css"],
 });
 
-export default function TextEditor({
+export function TextEditor({
   value,
   onChange,
   id,
@@ -43,12 +43,6 @@ export default function TextEditor({
           return delta;
         }
       );
-
-      // Handle copying to maintain code formatting
-      // quill.on("copy", () => {
-      //   // Custom logic to handle copying
-      //   // e.g., you can add custom behavior or modify how code blocks are copied
-      // });
     }
   }, []);
   const modules = {

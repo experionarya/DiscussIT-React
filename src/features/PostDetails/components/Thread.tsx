@@ -50,7 +50,7 @@ export function Thread({
     localStorage.setItem("voteStatus", JSON.stringify(voteStatus));
   }, [hasUpvoted, hasDownvoted, threads?.threadID]);
 
-  const threadId = location.search.split("threadID=")[1];
+  const threadId = location.search.split("threadId=")[1];
 
   useEffect(() => {
     const savedVoteStatus =
@@ -189,7 +189,6 @@ export function Thread({
           title="Comment"
           className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           onClick={() => {
-            console.log("on lcickkkkkkkkkkkkk");
             setShowComment(true);
           }}
         >
@@ -199,7 +198,7 @@ export function Thread({
         </button>
         <button
           className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-          title="Bookmark"
+          title="Edit"
           onClick={() => onEdit()}
         >
           <PencilIcon className="size-4 text-gray-600" />
