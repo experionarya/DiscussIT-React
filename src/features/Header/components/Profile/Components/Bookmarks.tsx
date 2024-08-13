@@ -13,7 +13,7 @@ import {
   trimHTMLContent,
 } from "src/utils/common";
 import { useNavigate } from "react-router-dom";
-import NoData from "src/components/NoData";
+import { NoData } from "src/components";
 
 export default function Bookmarks({
   bookMarks,

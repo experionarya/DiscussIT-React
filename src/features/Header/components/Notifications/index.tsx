@@ -6,8 +6,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { DoubleCheck } from "iconoir-react";
 
-import NoData from "src/components/NoData";
-import Loading from "src/components/Loading";
+import { NoData, Loading } from "src/components";
 
 import {
   useReadAllNotification,
@@ -67,9 +66,11 @@ export function Notifications(): ReactElement {
                 className={`size-6 ${open ? "text-primary-800" : ""}`}
               />
             </PopoverButton>
-            {notificationList?.totalCount ? <div className="bg-red-600 size-1 p-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2">
-              {notificationList?.totalCount}
-            </div> : null}
+            {notificationList?.totalCount ? (
+              <div className="bg-red-600 size-1 p-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2">
+                {notificationList?.totalCount}
+              </div>
+            ) : null}
           </div>
           <PopoverPanel
             modal

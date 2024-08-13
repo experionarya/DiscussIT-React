@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { tabs } from "./Utils";
+import { Avatar } from "src/components";
+import { getInitials } from "src/utils/common";
+import { useGetUserDetails } from "../../api/useGetUserDetails";
 
 export default function Profile(): ReactElement {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -19,9 +22,9 @@ export default function Profile(): ReactElement {
 
   const { tokenType } = useAuth();
 
-  const userDetails = useHomeStore(
-    useCallback((state: any) => state.userDetails, [])
-  );
+  const { data: userDetails } = useGetUserDetails();
+
+  console.log("userDetails", userDetails);
 
   const getBookMarkedData = useHomeStore(
     useCallback((state: any) => state.getBookMarkedData, [])
@@ -64,24 +67,24 @@ export default function Profile(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10 h-full">
           <div className="flex gap-4 items-center pb-3 pt-5 fixed w-[645px] bg-fill">
-            <img
-              className="size-[66px] rounded-full"
-              src={require(`src/assets/images/person-2.jpg`)}
-              alt="person"
-            />
+            <Avatar userName={getInitials(userDetails?.name) || ""} />
             <div>
-              <p className="text-lg font-semibold">Arjun Krishnadas Pillai</p>
+              <p className="text-lg font-semibold">{userDetails?.name}</p>
               <div className="flex items-center">
-                <p className="text-xs text-slate-500 pr-2">Software Engineer</p>
+                <p className="text-xs text-slate-500 pr-2">
+                  {userDetails?.designationName}
+                </p>
                 <span className="text-[9px] text-slate-500 pr-1">●</span>
-                <p className="text-xs text-slate-500">DU6</p>
+                <p className="text-xs text-slate-500">
+                  {userDetails?.departmentName}
+                </p>
               </div>
-              <p className="text-xs font-semibold">Points: 145</p>
+              <p className="text-xs font-semibold">{`Points: ${userDetails?.score}`}</p>
             </div>
           </div>
           <TabGroup selectedIndex={selectedTab} onChange={setSelectedTab}>
             {" "}
-            <div className="border-b border-slate-300 pb-4 fixed mt-24 pt-3 w-[645px] bg-fill ">
+            <div className="border-b border-slate-300 pb-4 fixed mt-24 pt-3 w-[645px] bg-fill">
               <TabList className="flex gap-4">
                 {tabs.map((item) => (
                   <Tab
@@ -111,5 +114,3 @@ export default function Profile(): ReactElement {
     </div>
   );
 }
-
-

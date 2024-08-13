@@ -138,3 +138,24 @@ export const saveReply = (
   communityId: number
 ) =>
   `${apiBaseUrl}Reply/${replyId}?creatorId=${userId}&communityID=${communityId}`;
+
+// posting new child reply
+export const postChildReply = (
+  replyId: number,
+  userId: string,
+  communityId: number,
+  parentReplyId: number
+) =>
+  `${apiBaseUrl}Reply/${replyId}?creatorId=${userId}&communityID=${communityId}&parentReplyId=${parentReplyId}`;
+
+// editing an existing child reply
+export const editChildReply = (
+  replyId: number,
+  userId: string,
+  communityId: number
+) =>
+  `${apiBaseUrl}Reply/${replyId}?modifierId=${userId}&communityID=${communityId}`;
+
+//get reply details for reply edit
+export const getReplyDetails = (replyId: number) =>
+  `${apiBaseUrl}Reply/${replyId}`;

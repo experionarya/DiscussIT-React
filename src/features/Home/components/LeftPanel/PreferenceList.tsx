@@ -3,9 +3,21 @@ import { PinSolid } from "iconoir-react";
 
 import { useGetPreferenceList, useGetPostByCategories } from "../../api/index";
 
+import { useHomeStore } from "../../store/homeStore";
+
 export function PreferenceList({ handleAddCategories }: any): ReactElement {
-  const [communityId, setCommunityId] = useState<number | undefined>(undefined);
   const { data: preferenceList } = useGetPreferenceList();
+
+  const setCommunityId = useHomeStore(
+    useCallback((state) => state.setCommunityId, [])
+  );
+  const communityId = useHomeStore(
+    useCallback((state) => state.communityId, [])
+  );
+
+  const setFilterByValue = useHomeStore(
+    useCallback((state) => state.setFilterByValue, [])
+  );
   const { data, isLoading, fetchNextPage, hasNextPage } =
     useGetPostByCategories({
       communityCategoryId: communityId,
@@ -57,7 +69,10 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
             <li
               className="flex w-full  cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
               key={`${index}${item?.communityCategoryID}`}
-              onClick={() => setCommunityId(item?.communityCategoryID)}
+              onClick={() => {
+                setCommunityId(item?.communityCategoryID);
+                setFilterByValue("");
+              }}
             >
               {item?.communityCategoryName}
             </li>

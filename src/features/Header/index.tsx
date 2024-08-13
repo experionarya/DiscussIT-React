@@ -9,19 +9,24 @@ import {
 } from "@headlessui/react";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-
 import { PencilIcon } from "@heroicons/react/16/solid";
+import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 
-import { Button } from "../../components/Button";
+import { Button, Avatar, DialogBox } from "src/components";
 import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import DialogBox from "src/components/DialogBox";
-import Avatar from "src/components/Avatar";
+
+import {
+  getEmailFromToken,
+  getNameFromToken,
+} from "src/utils/authenticationHelper/tokenHandler";
+import { getInitials } from "src/utils/common";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
+
+  const userName = getNameFromToken();
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -35,9 +40,7 @@ export default function Header(): ReactElement {
     setIsLogOut(false);
   }
 
-  function handleLogOut() {
-
-  }
+  function handleLogOut() {}
   const openSearch = useCallback(() => {
     setIsOpen(true);
   }, []);
@@ -185,7 +188,7 @@ export default function Header(): ReactElement {
                   src={require(`../../assets/images/person-2.jpg`)}
                   alt="person"
                 /> */}
-                <Avatar userName="V"/>
+                <Avatar userName={getInitials(userName) || ""} />
               </PopoverButton>
               <PopoverPanel
                 transition
@@ -198,23 +201,25 @@ export default function Header(): ReactElement {
                     className="flex gap-2 items-center"
                     onClick={handleViewProfile}
                   >
-                    <img
+                    {/* <img
                       className="size-8 rounded-full"
                       src={require(`../../assets/images/person-2.jpg`)}
                       alt="person"
-                    />
+                    /> */}
+                    <Avatar userName={getInitials(userName) || ""} />
                     <div className="flex flex-col items-start">
-                      <p className="text-sm font-semibold">
-                        Arjun Krishnadas Pillai
-                      </p>
+                      <p className="text-sm font-semibold">{userName}</p>
                       <p className="text-xs text-slate-500">
-                        arjunkrishnadaspillai@gmail.com
+                        {getEmailFromToken()}
                       </p>
                     </div>
                   </CloseButton>
                 </div>
                 <div className="px-4 py-3">
-                  <CloseButton className="flex gap-3" onClick={handleLogOutDialogBox}>
+                  <CloseButton
+                    className="flex gap-3"
+                    onClick={handleLogOutDialogBox}
+                  >
                     <ArrowRightStartOnRectangleIcon className="size-6" />
                     <span className="text-sm font-semibold">Logout</span>
                   </CloseButton>

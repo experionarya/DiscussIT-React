@@ -20,11 +20,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost(id: number) {
-    navigate(`/community/category-posts/replies?threadID=${id}`);
-  }
-
-  function onEdit(id: number) {
-    navigate(`category-posts/edit-posts?threadID=${id}`);
+    navigate(`/community/category-posts/replies?threadId=${id}`);
   }
 
   return (
