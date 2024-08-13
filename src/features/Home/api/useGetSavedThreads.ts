@@ -34,7 +34,9 @@ type TVariables = {
   userId: string;
 };
 
-function useGetSavedThreads(userId: string | undefined): UseQueryResult<APIResult, TError> {
+function useGetSavedThreads(
+  userId: string | undefined
+): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
 
   //to clear book mark data when new api is called
@@ -44,18 +46,15 @@ function useGetSavedThreads(userId: string | undefined): UseQueryResult<APIResul
   return useQuery(
     ["get_saved_post_list"],
     async () => {
-      
-      if (!userId) {
-        throw new Error("User ID is required");
+      if (userId) {
+        const result = await fetchSavedThread({
+          token: getParsedToken(),
+          tokenType,
+          userId,
+        });
+        clearBookMarkData();
+        return result;
       }
-
-      const result = await fetchSavedThread({
-        token: getParsedToken(),
-        tokenType,
-        userId,
-      });
-      clearBookMarkData();
-      return result;
     },
     {
       staleTime: 60 * 1000,

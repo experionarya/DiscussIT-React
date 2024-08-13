@@ -8,7 +8,7 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 export default function MyPost(): ReactElement {
   return (
     <>
-      <div className="pt-44">
+      <div className="pt-48">
         <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
           <div className="flex min-w-0 gap-x-2">
             <img
