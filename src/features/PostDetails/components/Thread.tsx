@@ -138,7 +138,7 @@ export function Thread({
           src={require(`../../../assets/images/person-4.jpg`)}
           alt=""
         /> */}
-        <Avatar userName={getInitials(threads?.createdByUser) || ""} />
+        <Avatar userName={getInitials(threads?.createdByUser) || ""} size="small"/>
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-tight text-slate-900">
             {threads?.createdByUser}

@@ -82,7 +82,7 @@ export function Comments({
           src={require(`../../../assets/images/person-2.jpg`)}
           alt="person"
         /> */}
-        <Avatar userName={getInitials(postDetails?.createdByUser) || ""} />
+        <Avatar userName={getInitials(postDetails?.createdByUser) || ""} size="small"/>
         {!isTextArea ? (
           <button
             type="button"

@@ -82,7 +82,7 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
     <>
       <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
         <div className="flex min-w-0 gap-x-2">
-          <Avatar userName={getInitials(postItem?.createdByUser) || ""} />
+          <Avatar userName={getInitials(postItem?.createdByUser) || ""} size="small"/>
           {/* <img
             className="h-8 w-8 flex-none rounded-full bg-gray-50"
             src={require(`../../../../../assets/images/person-4.jpg`)}

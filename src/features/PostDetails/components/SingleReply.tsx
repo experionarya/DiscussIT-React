@@ -283,7 +283,7 @@ export function SingleReply({
   return (
     <div className="pl-10">
       <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0 mb-5">
-        <Avatar userName={getInitials(reply?.createdUserName) || ""} />
+        <Avatar userName={getInitials(reply?.createdUserName) || ""} size="small"/>
         <div className="mt-1">
           <div className="min-w-0 flex">
             <p className="text-sm font-semibold leading-tight text-slate-900">

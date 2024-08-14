@@ -67,7 +67,7 @@ export default function Profile(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10 h-full">
           <div className="flex gap-4 items-center pt-5 fixed w-[645px] bg-fill">
-            <Avatar userName={getInitials(userDetails?.name) || ""} />
+            <Avatar userName={getInitials(userDetails?.name) || ""} size="large"/>
             <div>
               <p className="text-lg font-semibold">{userDetails?.name}</p>
               <div className="flex items-center">

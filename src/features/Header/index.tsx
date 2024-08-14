@@ -188,7 +188,7 @@ export default function Header(): ReactElement {
                   src={require(`../../assets/images/person-2.jpg`)}
                   alt="person"
                 /> */}
-                <Avatar userName={getInitials(userName) || ""} />
+                <Avatar userName={getInitials(userName) || ""} size="small"/>
               </PopoverButton>
               <PopoverPanel
                 transition
@@ -206,7 +206,7 @@ export default function Header(): ReactElement {
                       src={require(`../../assets/images/person-2.jpg`)}
                       alt="person"
                     /> */}
-                    <Avatar userName={getInitials(userName) || ""} />
+                    <Avatar userName={getInitials(userName) || ""} size="small" />
                     <div className="flex flex-col items-start">
                       <p className="text-sm font-semibold">{userName}</p>
                       <p className="text-xs text-slate-500">
