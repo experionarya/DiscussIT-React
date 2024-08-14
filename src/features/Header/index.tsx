@@ -79,7 +79,7 @@ export default function Header(): ReactElement {
   }, [handleKeyPress]);
 
   return (
-    <header className="sticky top-0 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
+    <header className="sticky top-0 z-10 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 grow items-center gap-5 md:gap-10">
           <button
