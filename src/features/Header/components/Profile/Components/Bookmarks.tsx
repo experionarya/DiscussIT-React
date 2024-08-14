@@ -1,19 +1,22 @@
 import React, { ReactElement } from "react";
-import { BookMark } from "src/features/Home/types/bookMarkDataType";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
-import dayjs from "dayjs";
+import { NoData } from "src/components";
+
 import {
   createMarkup,
   getHtmlTextLength,
   trimHTMLContent,
 } from "src/utils/common";
-import { useNavigate } from "react-router-dom";
-import { NoData } from "src/components";
+
+import { BookMark } from "src/features/Home/types/bookMarkDataType";
 
 export default function Bookmarks({
   bookMarks,
