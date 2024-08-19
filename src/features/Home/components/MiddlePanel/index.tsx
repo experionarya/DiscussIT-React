@@ -10,7 +10,7 @@ export default function MiddlePanel(): ReactElement {
   const allPost = useHomeStore(useCallback((state) => state.allPosts, []));
 
   return (
-    <div className="col-span-2 space-y-3">
+    <div className="col-span-2 space-y-3 pb-7">
       {allPost?.map((postItem: BookMark, index: number) => (
         <PostItem item={postItem} key={`${index}${postItem?.threadID}`} />
       ))}

@@ -75,7 +75,7 @@ export default function TagsDetailPage(): ReactElement {
               </select>
             </div>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-3 pb-7">
             {tagsDetails?.searchThreadDtoList?.map((item) => (
               <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
                 <div className="flex min-w-0 gap-x-2">
