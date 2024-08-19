@@ -29,7 +29,7 @@ export default function Bookmarks({
     navigate(`/community/category-posts/replies`);
   }
   return (
-    <div className="pt-48 pb-5">
+    <div className="pt-40 pb-5">
       <div className="space-y-3">
         {bookMarks.length ? (
           bookMarks?.map((item) => (

@@ -159,3 +159,12 @@ export const editChildReply = (
 //get reply details for reply edit
 export const getReplyDetails = (replyId: number) =>
   `${apiBaseUrl}Reply/${replyId}`;
+
+export const getMyPosts = (
+  userId: string,
+  pageNumber: number,
+  pageSize: number,
+  filterOption: number,
+  sortOption: number
+) => `${apiBaseUrl}
+Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
