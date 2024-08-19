@@ -23,7 +23,7 @@ import {
 } from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { fetchInnerReplies } from "../store/apiStore";
-import { createMarkup, getInitials } from "src/utils/common";
+import { createMarkup } from "src/utils/common";
 import { contentWarning } from "src/features/CreatePost/utils/postConstants";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
@@ -47,13 +47,7 @@ export function SingleReply({
   const userId = getUserIdFromToken();
 
   const communityId = parseInt(localStorage.getItem("communityId") || "");
-
-  const autoResize = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
+  
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
   const [isReply, setIsReply] = useState(false);
@@ -283,7 +277,7 @@ export function SingleReply({
   return (
     <div className="pl-10">
       <div className="flex min-w-0 gap-x-2 pl-3 pt-0 mt-0 mb-5">
-        <Avatar userName={getInitials(reply?.createdUserName) || ""} />
+        <Avatar userName={reply?.createdUserName || ""} size="small"/>
         <div className="mt-1">
           <div className="min-w-0 flex">
             <p className="text-sm font-semibold leading-tight text-slate-900">

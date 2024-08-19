@@ -14,7 +14,6 @@ import { useGetUserDetails } from "../../api/useGetUserDetails";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { tabs } from "./Utils/tabs";
-import { getInitials } from "src/utils/common";
 import { useHomeStore } from "src/features/Home/store/homeStore";
 
 export default function Profile(): ReactElement {
@@ -69,8 +68,8 @@ export default function Profile(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10 h-full">
           <div className="flex gap-4 items-center pt-5 pb-5 fixed w-[645px] bg-fill">
-            <Avatar userName={getInitials(userDetails?.name) || ""} />
-            <div>
+          <Avatar userName={userDetails?.name|| ""} size="large"/>
+          <div>
               <p className="text-lg font-semibold">{userDetails?.name}</p>
               <div className="flex items-center">
                 <p className="text-xs text-slate-500 pr-2">

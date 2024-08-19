@@ -16,7 +16,6 @@ import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 import {
   createMarkup,
   getHtmlTextLength,
-  getInitials,
   trimHTMLContent,
 } from "src/utils/common";
 import { ThreadType } from "src/features/Community/types/postType";
@@ -130,7 +129,7 @@ export default function MyPost(): ReactElement {
           </div>
         )}
       </div>
-      <div className="pt-8 space-y-3 pb-5">
+      <div className="pt-8 space-y-3 pb-7">
         {isPostLoading ? (
           <div className="flex justify-center items-center pt-20">
             <Loading />
@@ -144,7 +143,7 @@ export default function MyPost(): ReactElement {
                   className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm"
                 >
                   <div className="flex min-w-0 gap-x-2">
-                    <Avatar userName={getInitials(item?.createdByUser) || ""} />
+                    <Avatar userName={userDetails?.name || ""} size="medium" />
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-tight text-slate-900">
                         {item?.createdByUser}

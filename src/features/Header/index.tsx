@@ -21,7 +21,6 @@ import {
   getEmailFromToken,
   getNameFromToken,
 } from "src/utils/authenticationHelper/tokenHandler";
-import { getInitials } from "src/utils/common";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
@@ -183,12 +182,7 @@ export default function Header(): ReactElement {
                 aria-haspopup="true"
                 className="rounded-full p-1"
               >
-                {/* <img
-                  className="h-8 w-8 rounded-full"
-                  src={require(`../../assets/images/person-2.jpg`)}
-                  alt="person"
-                /> */}
-                <Avatar userName={getInitials(userName) || ""} />
+                <Avatar userName={userName || ""} size="medium"/>
               </PopoverButton>
               <PopoverPanel
                 transition
@@ -201,12 +195,7 @@ export default function Header(): ReactElement {
                     className="flex gap-2 items-center"
                     onClick={handleViewProfile}
                   >
-                    {/* <img
-                      className="size-8 rounded-full"
-                      src={require(`../../assets/images/person-2.jpg`)}
-                      alt="person"
-                    /> */}
-                    <Avatar userName={getInitials(userName) || ""} />
+                    <Avatar userName={userName} size="medium" />
                     <div className="flex flex-col items-start">
                       <p className="text-sm font-semibold">{userName}</p>
                       <p className="text-xs text-slate-500">
