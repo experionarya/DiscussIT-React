@@ -1,0 +1,1 @@
+export { useGetMyPosts } from "./useGetMyPosts";
