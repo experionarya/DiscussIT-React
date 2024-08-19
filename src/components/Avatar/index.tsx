@@ -8,13 +8,13 @@ type AvatarProps = {
 
 export function Avatar({ userName, size }: AvatarProps): ReactElement {
   const sizeClasses = {
-    small: "h-9 w-9",
-    medium: "h-12 w-12",
+    small: "h-6 w-6 text-xs",
+    medium: "h-8 w-8",
     large: "h-16 w-16 text-3xl",
   };
 
   const avatarClass = classNames(
-    "bg-primary-700 rounded-full flex justify-center items-center",
+    "bg-orange-400 rounded-full flex justify-center items-center",
     sizeClasses[size]
   );
 
