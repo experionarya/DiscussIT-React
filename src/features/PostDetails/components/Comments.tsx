@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useCallback } from "react";
+import React, { ReactElement, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Button, DialogBox, TextEditor, Avatar } from "src/components";
@@ -12,7 +12,6 @@ import {
 } from "src/utils/authenticationHelper/tokenHandler";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { contentWarning } from "src/features/CreatePost/utils/postConstants";
-import { getInitials } from "src/utils/common";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
 
@@ -77,12 +76,7 @@ export function Comments({
   return (
     <>
       <div className="flex gap-3 bg-slate-100 rounded-md p-3">
-        {/* <img
-          className="h-8 w-8 rounded-full"
-          src={require(`../../../assets/images/person-2.jpg`)}
-          alt="person"
-        /> */}
-        <Avatar userName={getInitials(postDetails?.createdByUser) || ""} size="small"/>
+        <Avatar userName={postDetails?.createdByUser|| ""} size="small"/>
         {!isTextArea ? (
           <button
             type="button"

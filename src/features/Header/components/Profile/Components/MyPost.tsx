@@ -16,7 +16,6 @@ import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 import {
   createMarkup,
   getHtmlTextLength,
-  getInitials,
   trimHTMLContent,
 } from "src/utils/common";
 import { ThreadType } from "src/features/Community/types/postType";
@@ -71,7 +70,7 @@ export default function MyPost(): ReactElement {
       state: { from: window.location.pathname },
     });
   }
-  
+
   return (
     <div className="pt-32 space-y-3">
       <div className="flex gap-5 pt-2 fixed w-[645px] bg-fill">
@@ -144,10 +143,7 @@ export default function MyPost(): ReactElement {
                   className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm"
                 >
                   <div className="flex min-w-0 gap-x-2">
-                    <Avatar
-                      userName={getInitials(userDetails?.name) || ""}
-                      size="medium"
-                    />
+                    <Avatar userName={userDetails?.name || ""} size="medium" />
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-tight text-slate-900">
                         {item?.createdByUser}

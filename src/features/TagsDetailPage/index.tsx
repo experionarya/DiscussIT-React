@@ -16,6 +16,7 @@ import {
   getHtmlTextLength,
   trimHTMLContent,
 } from "src/utils/common";
+import { Avatar } from "src/components";
 
 dayjs.extend(utc);
 
@@ -79,11 +80,7 @@ export default function TagsDetailPage(): ReactElement {
             {tagsDetails?.searchThreadDtoList?.map((item) => (
               <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
                 <div className="flex min-w-0 gap-x-2">
-                  <img
-                    className="h-8 w-8 flex-none rounded-full bg-gray-50"
-                    src={require(`../../assets/images/person-4.jpg`)}
-                    alt=""
-                  />
+                  <Avatar userName={item.createdByUser} size="medium" />
                   <div className="min-w-0 flex-auto">
                     <p className="text-sm font-semibold leading-tight text-slate-900">
                       {item?.createdByUser}
