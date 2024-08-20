@@ -28,15 +28,16 @@ export function getDecodedToken(token: string): any {
 export function getNameFromToken(): any {
   const token = getParsedToken();
   const parsedToken = getDecodedToken(token || "");
-  return parsedToken[
-    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-  ];
+  if (parsedToken)
+    return parsedToken[
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    ];
 }
 
 export function getEmailFromToken(): any {
   const token = getParsedToken();
   const parsedToken = getDecodedToken(token || "");
-  return parsedToken.Email;
+  if (parsedToken) return parsedToken.Email;
 }
 
 export function getRoleFromToken(): any {
