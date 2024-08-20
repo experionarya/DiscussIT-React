@@ -4,7 +4,7 @@ import {
   getTrendingTags,
   getUserDetails,
   microsoftInfo,
- getBookMarks
+  getBookMarks,
 } from "src/utils/urls";
 
 import { ExternalLoginType } from "../types/externalLoginType";
@@ -96,13 +96,13 @@ export async function fetchTopUsers({
 export async function fetchBookMarks({
   token,
   tokenType,
-  threadId
+  threadId,
 }: {
   token: string | undefined | null;
   tokenType: string | undefined;
   threadId: number | undefined;
 }): Promise<any> {
-  if(threadId){
+  if (threadId && token) {
     const response = await fetch(getBookMarks(threadId), {
       method: "GET",
       headers: {
@@ -111,6 +111,4 @@ export async function fetchBookMarks({
     });
     return response.json();
   }
-
-
 }
