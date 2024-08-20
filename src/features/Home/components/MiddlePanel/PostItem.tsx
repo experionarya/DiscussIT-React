@@ -48,6 +48,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           onClick={() => gotoPost(item?.threadID)}
         >
           <h5 className="font-bold text-slate-900">{item?.title}</h5>
+          <div className="flex gap-2">
           {item?.tagNames?.map((tagItem, index) => (
             <button
               key={`${index}${tagItem}`}
@@ -56,6 +57,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
               {tagItem}
             </button>
           ))}
+          </div>
           <p
             className="text-slate-900"
             dangerouslySetInnerHTML={createMarkup(

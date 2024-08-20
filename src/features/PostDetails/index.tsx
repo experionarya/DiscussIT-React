@@ -55,19 +55,16 @@ export default function PostDetails(): ReactElement {
         </button>
       </div>
       <div className="grid grow grid-cols-3 gap-4 pl-10">
-        <div className="col-span-2 space-y-2">
+        <div className="col-span-2 space-y-2 pb-7">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
             <Thread postDetails={postDetails} setShowComment={setShowComment} />
-            {showComment === true && (
               <Comments
                 postDetails={postDetails}
-                setShowComment={setShowComment}
               />
-            )}
             <Replies />
           </article>
         </div>
-        <div className="col-span-1 space-y-2 overflow-y-auto" />
+        <div className="col-span-1" />
       </div>
     </div>
   );
