@@ -32,32 +32,35 @@ function useGetPreferenceList(): UseQueryResult<APIResult, TError> {
   const setCheckedItemsFromApi = useHomeStore(
     useCallback((state) => state.setCheckedItemsFromApi, [])
   );
+  const token = getParsedToken();
   return useQuery(
-   "get_preference_list",
+    "get_preference_list",
     async () => {
-      const result = await fetchPreferenceList({
-        token: getParsedToken(),
-        tokenType,
-      });
-      const allCommunityIds = result?.map(item=>item?.communityCategoryID)
-      const communityPresence = allCommunityIds.reduce((acc, id) => {
-        acc[id] = false;
-        return acc;
-      }, {});
-      
-      // Update the presence to true for IDs present in the original array
-      result?.forEach(item => {
-        if (communityPresence.hasOwnProperty(item?.
-          communityCategoryID
-          )) {
-          communityPresence[item?.communityCategoryID] = true;
-        }
-      });
-      setCheckedItemsFromApi({...communityPresence})
+      if (token) {
+        const result = await fetchPreferenceList({
+          token,
+          tokenType,
+        });
+        const allCommunityIds = result?.map(
+          (item) => item?.communityCategoryID
+        );
+        const communityPresence = allCommunityIds.reduce((acc, id) => {
+          acc[id] = false;
+          return acc;
+        }, {});
 
-      console.log('communityPresence',communityPresence)
-      
-      return result;
+        // Update the presence to true for IDs present in the original array
+        result?.forEach((item) => {
+          if (communityPresence.hasOwnProperty(item?.communityCategoryID)) {
+            communityPresence[item?.communityCategoryID] = true;
+          }
+        });
+        setCheckedItemsFromApi({ ...communityPresence });
+
+        console.log("communityPresence", communityPresence);
+
+        return result;
+      }
     },
     {
       staleTime: 60 * 1000,

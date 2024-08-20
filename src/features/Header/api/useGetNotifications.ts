@@ -35,15 +35,18 @@ type TVariables = {
 function useGetNotifications(): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const userId = getUserIdFromToken();
+  const token = getParsedToken();
   return useQuery(
     ["get_notifications"],
     async () => {
-      const result = await fetchNotifications({
-        token: getParsedToken(),
-        tokenType,
-        userId,
-      });
-      return result;
+      if (token) {
+        const result = await fetchNotifications({
+          token,
+          tokenType,
+          userId,
+        });
+        return result;
+      }
     },
     {
       retry: 60 * 1000,
