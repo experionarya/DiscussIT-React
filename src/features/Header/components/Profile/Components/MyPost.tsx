@@ -62,10 +62,8 @@ export default function MyPost(): ReactElement {
 
   const navigate = useNavigate();
 
-  console.log("locationnnnnnnnn", window.location.pathname);
 
   function gotoPost(id: number) {
-    console.log("location in gotopost", window.location.pathname);
     navigate(`/community/category-posts/replies?threadId=${id}`, {
       state: { from: window.location.pathname },
     });
