@@ -42,8 +42,7 @@ export default function PostDetails(): ReactElement {
     },
     { staleTime: Infinity }
   );
-  console.log("showcomments", showComment);
-
+  
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">

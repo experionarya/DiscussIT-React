@@ -30,8 +30,6 @@ export function Replies(): ReactElement {
     }
   }, [primaryReplies]);
   
-  console.log(replies,"replies");
-
   useEffect(() => {
     const storedVotes = localStorage.getItem("votes");
     if (storedVotes) {
