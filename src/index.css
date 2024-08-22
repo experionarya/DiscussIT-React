@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 
-.quil.test .ql-container.ql-snow {
+.ql-container.ql-snow {
   height: 200px;
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
@@ -37,4 +37,15 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #a6a6a6;
+}
+
+.prevent-text-break-out {
+  @apply break-words break-all;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

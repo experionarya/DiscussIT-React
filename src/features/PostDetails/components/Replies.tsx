@@ -29,6 +29,8 @@ export function Replies(): ReactElement {
       setReplies(temp);
     }
   }, [primaryReplies]);
+  
+  console.log(replies,"replies");
 
   useEffect(() => {
     const storedVotes = localStorage.getItem("votes");

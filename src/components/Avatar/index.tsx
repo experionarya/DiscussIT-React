@@ -44,7 +44,7 @@ export function Avatar({ userName, size }: AvatarProps): ReactElement {
   );
 
   const backgroundColor = generateColor();
-  const textColor = isDark(backgroundColor) ? "text-white" : "text-black/70";
+  const textColor = isDark(backgroundColor) ? "text-white" : "text-black/60";
 
   return (
     <div className={avatarClass} style={{ backgroundColor }}>

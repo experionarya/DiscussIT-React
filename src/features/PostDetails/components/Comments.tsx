@@ -22,10 +22,10 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
   const [isTextArea, setIsTextArea] = useState(false);
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [reply, setReply] = useState<string>("");
-  
+
   const location = useLocation();
   const threadId = location.search.split("threadId=")[1];
-  
+
   const { data: userDetails } = useGetUserDetails();
   const { data: communityList } = useGetCommunityList();
   const { mutate: saveReply } = useSaveReply();
@@ -65,17 +65,17 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
           tokenType: tokenType,
           threadId: threadId,
         });
+        setReply("");
       },
     });
   }
-
   return (
     <>
-      <div className="flex gap-3 bg-slate-100 rounded-md p-3">
-        <div className="flex items-start">
+      <div className="grid grow grid-cols-12 bg-slate-100 rounded-md p-3">
+        <div className="col-span-1 items-start">
           <Avatar userName={userDetails?.name || ""} size="medium" />
         </div>
-        <div className="w-full">
+        <div className="col-span-11">
           {!isTextArea ? (
             <button
               type="button"

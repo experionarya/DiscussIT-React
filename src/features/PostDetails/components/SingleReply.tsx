@@ -112,8 +112,12 @@ export function SingleReply({
         replyId: reply?.replyID,
       });
 
-      usePostDetailsStore.getState().setNestedReply(fetchedReplies);
-      setChildren(transformReplies(fetchedReplies));
+      const filteredReplies = fetchedReplies?.filter(
+        (item: ReplyType) => item?.isDeleted === false
+      );
+
+      usePostDetailsStore.getState().setNestedReply(filteredReplies);
+      setChildren(transformReplies(filteredReplies));
     }
     setShowReplies(!showReplies);
   };
@@ -161,6 +165,7 @@ export function SingleReply({
         },
       }
     );
+    setIsDeleteConfirm(false);
   }
 
   function handleDeleteConfirmClose() {
@@ -240,9 +245,11 @@ export function SingleReply({
                   !isEdit && setReplyValue(e);
                 }}
               />
-                  {replyDet && replyDet?.length < 20 && (
-                    <p className="text-red-500 text-sm pl-2 pt-1">{contentWarning}</p>
-                  )}
+              {replyDet && replyDet?.length < 20 && (
+                <p className="text-red-500 text-sm pl-2 pt-1">
+                  {contentWarning}
+                </p>
+              )}
               <div className="flex gap-1 justify-end m-1">
                 <Button
                   size="medium"
@@ -281,7 +288,7 @@ export function SingleReply({
   }
 
   return (
-    <div className="flex w-full gap-x-2 p-3 pr-0">
+    <div className="flex w-full gap-x-2 p-3">
       <div>
         <Avatar userName={reply?.createdUserName || ""} size="small" />
       </div>
@@ -290,7 +297,7 @@ export function SingleReply({
           <p className="text-sm font-semibold leading-tight text-slate-900">
             {reply?.createdUserName}
           </p>
-          <p className="truncate text-xs leading-tight text-slate-500 ml-1 mt-0.5">
+          <p className="text-xs leading-tight text-slate-500 ml-1 mt-0.5">
             {getDays()}
           </p>
           <button className="ml-1" title="Best Answer">
@@ -300,7 +307,7 @@ export function SingleReply({
         </div>
         <div className="w-full">
           <p
-            className="text-slate-900 dark:text-slate-300 mt-1"
+            className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out"
             dangerouslySetInnerHTML={createMarkup(reply?.content)}
           />
         </div>
@@ -350,26 +357,18 @@ export function SingleReply({
             </>
           )}
 
-          {reply?.childReplyCount !== 0 &&
-            (showReplies ? (
-              <button
-                title="Comment"
-                className="rounded-full px-2 py-0.5 text-xs bg-slate-100 hover:bg-slate-200 font-semibold text-gray-600"
-                onClick={handleToggleReplies}
-              >
-                {getChildHideRepliesLabel()}
-                <span className="sr-only">Comment</span>
-              </button>
-            ) : (
-              <button
-                title="Comment"
-                className="rounded-full px-2 py-0.5 text-xs bg-slate-100 hover:bg-slate-200 font-semibold text-gray-600"
-                onClick={handleToggleReplies}
-              >
-                {getChildRepliesLabel()}
-                <span className="sr-only">Comment</span>
-              </button>
-            ))}
+          {reply?.childReplyCount !== 0 && (
+            <button
+              title="Comment"
+              className="rounded-full px-2 py-0.5 text-xs bg-slate-100 hover:bg-slate-200 font-semibold text-gray-600"
+              onClick={handleToggleReplies}
+            >
+              {showReplies
+                ? getChildHideRepliesLabel()
+                : getChildRepliesLabel()}
+              <span className="sr-only">Comment</span>
+            </button>
+          )}
         </div>
         <div>
           {renderPostActions()}

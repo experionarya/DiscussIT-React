@@ -15,8 +15,10 @@ import {
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 import { Avatar } from "src/components";
+import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 
 export function PostItem({ item }: { item: BookMark }): ReactElement {
+  const { data: communityList } = useGetCommunityList();
   const navigate = useNavigate();
 
   function gotoPost(id: number) {
@@ -45,18 +47,30 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
         </div>
         <div
           className="space-y-1 cursor-pointer"
-          onClick={() => gotoPost(item?.threadID)}
+          onClick={() => {
+            const community = communityList?.find(
+              (community) => community.communityName === item.communityName
+            );
+            console.log("community", community);
+            if (community) {
+              localStorage.setItem(
+                "communityId",
+                community.communityID.toString()
+              );
+            }
+            gotoPost(item?.threadID);
+          }}
         >
           <h5 className="font-bold text-slate-900">{item?.title}</h5>
           <div className="flex gap-2">
-          {item?.tagNames?.map((tagItem, index) => (
-            <button
-              key={`${index}${tagItem}`}
-              className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
-            >
-              {tagItem}
-            </button>
-          ))}
+            {item?.tagNames?.map((tagItem, index) => (
+              <button
+                key={`${index}${tagItem}`}
+                className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10"
+              >
+                {tagItem}
+              </button>
+            ))}
           </div>
           <p
             className="text-slate-900"
@@ -68,13 +82,22 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             <button className="text-primary-800 underline">(More)</button>
           )}
         </div>
-        {/* <img
-          src={require(`../../../../assets/images/Java.png`)}
-          alt="java"
-          className="cursor-pointer"
-          onClick={gotoPost}
-        /> */}
-        <div className="flex space-x-3">
+        <div
+          className="flex space-x-3"
+          onClick={() => {
+            const community = communityList?.find(
+              (community) => community.communityName === item.communityName
+            );
+            console.log("community", community);
+            if (community) {
+              localStorage.setItem(
+                "communityId",
+                community.communityID.toString()
+              );
+            }
+            gotoPost(item?.threadID);
+          }}
+        >
           <button
             title="Up vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
@@ -94,7 +117,6 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           <button
             title="Comment"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            onClick={() => gotoPost(item?.threadID)}
           >
             <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Comment</span>

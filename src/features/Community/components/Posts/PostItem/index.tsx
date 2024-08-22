@@ -116,7 +116,16 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
           className="cursor-pointer"
           onClick={gotoPost}
         /> */}
-        <div className="flex space-x-3" onClick={gotoPost}>
+        <div
+          className="flex space-x-3"
+          onClick={() => {
+            // localStorage.setItem(
+            //   "communityId",
+            //   postItem?.id.toString()
+            // );
+            gotoPost();
+          }}
+        >
           <button
             title="Up vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
@@ -136,7 +145,6 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
           <button
             title="Comment"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-            onClick={gotoPost}
           >
             <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Comment</span>
