@@ -150,8 +150,8 @@ export function Thread({
       });
   };
 
-  function handleBookmark(thredId: number | undefined, userId: any) {
-    saveBookmark(thredId, userId);
+  function handleBookmark(thredId: number | undefined) {
+    saveBookmark(thredId);
   }
 
   return (
@@ -259,7 +259,7 @@ export function Thread({
         <button
           title="Bookmark"
           className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
-          onClick={() => handleBookmark(threads?.threadID, threads?.createdBy)}
+          onClick={() => handleBookmark(threads?.threadID)}
         >
           <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
           <span className="sr-only">Bookmark</span>
