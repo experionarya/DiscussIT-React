@@ -29,7 +29,7 @@ export function Replies(): ReactElement {
       setReplies(temp);
     }
   }, [primaryReplies]);
-
+  
   useEffect(() => {
     const storedVotes = localStorage.getItem("votes");
     if (storedVotes) {

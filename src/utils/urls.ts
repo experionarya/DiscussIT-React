@@ -168,3 +168,5 @@ export const getMyPosts = (
   sortOption: number
 ) => `${apiBaseUrl}
 Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
+
+export const Bookmarks = `${apiBaseUrl}SavedPost/save`;

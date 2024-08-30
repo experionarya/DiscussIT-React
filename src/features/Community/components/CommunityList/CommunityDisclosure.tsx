@@ -44,6 +44,15 @@ export function CommunityDisclosure(): ReactElement {
     }
   }, [communityList]);
 
+  useEffect(() => {
+    if (categoryStore && categoryStore.communityId) {
+      localStorage.setItem(
+        "communityId",
+        categoryStore?.communityId.toString()
+      );
+    }
+  }, [categoryStore]);
+
   const handleToggle = async (id: number) => {
     localStorage.setItem("communityId", id.toString());
     setDisclosureItems((prevItems: any) =>
