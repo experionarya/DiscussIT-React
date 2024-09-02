@@ -75,22 +75,39 @@ export default function Post(): ReactElement {
                 </option>
               </select>
             </div>
-            <div className="text-slate-500 pb-2">
-              <select
-                name="sort"
-                id="sort"
-                className="bg-slate-200 p-0.5 rounded text-xs"
-                value={sortOption}
-                onChange={(e) => setSortOption(Number(e.target.value))}
-              >
-                <option value="0" className="text-xs">
-                  Most to least
-                </option>
-                <option value="1" className="text-xs">
-                  Least to most
-                </option>
-              </select>
-            </div>
+            {filterOption !== 2 ? (
+              <div className="text-slate-500 pb-2">
+                <select
+                  name="sort"
+                  id="sort"
+                  className="bg-slate-200 p-0.5 rounded text-xs"
+                  onChange={(e) => setSortOption(parseInt(e.target.value))}
+                >
+                  <option value="0" className="text-xs">
+                    Most to least
+                  </option>
+                  <option value="1" className="text-xs">
+                    Least to most
+                  </option>
+                </select>
+              </div>
+            ) : (
+              <div className="text-slate-500 pb-2">
+                <select
+                  name="sort"
+                  id="sort"
+                  className="bg-slate-200 p-0.5 rounded text-xs"
+                  onChange={(e) => setSortOption(parseInt(e.target.value))}
+                >
+                  <option value="0" className="text-xs">
+                    Newest
+                  </option>
+                  <option value="1" className="text-xs">
+                    Oldest
+                  </option>
+                </select>
+              </div>
+            )}
           </div>
         )}
       </div>
