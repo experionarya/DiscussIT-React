@@ -33,9 +33,15 @@ export const getPostByCategory = (
 export const getCategoryByCommunity = (communityId: number | undefined) =>
   `${apiBaseUrl}CommunityCategoryMapping/InCommunity/${communityId}`;
 
-export const getAllPostsByCategory = (communityCategoryMappingId: number) =>
+export const getAllPostsByCategory = (
+  communityCategoryMappingId: number,
+  pageNumber: number,
+  pageSize: number,
+  filterOption: number,
+  sortOption: number
+) =>
   `${apiBaseUrl}Thread?CommunityCategoryMappingID=${communityCategoryMappingId}
-&pageNumber=1&pageSize=100&filterOption=0&sortOption=2`;
+&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 

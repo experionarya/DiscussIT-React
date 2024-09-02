@@ -7,15 +7,18 @@ import React, {
 } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
 import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 
 import { Avatar } from "src/components";
+
+import { useGetTagList } from "src/features/CreatePost/api";
 
 import {
   createMarkup,
@@ -23,10 +26,7 @@ import {
   trimHTMLContent,
 } from "src/utils/common";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
-
 import { useCreatePostStore } from "src/features/CreatePost/store/createPostStore";
-import { useGetTagList } from "src/features/CreatePost/api";
-
 import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
@@ -39,11 +39,12 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
   const navigate = useNavigate();
   const { tokenType } = useAuth();
 
-  function gotoPost() {
-    navigate(
-      `/community/category-posts/replies?threadId=${postItem?.threadID}`
-    );
+  function gotoPost(id: number) {
+    navigate(`/community/category-posts/replies?threadId=${id}`, {
+      state: { from: window.location.pathname },
+    });
   }
+
   const [userMode, updateUserMode] = useState<string>("");
 
   const location = useLocation();
@@ -91,7 +92,10 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
             </p>
           </div>
         </div>
-        <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
+        <div
+          className="space-y-1 cursor-pointer"
+          onClick={() => gotoPost(postItem?.threadID)}
+        >
           <h5 className="font-semibold text-slate-900">{postItem?.title}</h5>
           <div className="flex gap-2">
             {postItem?.tagNames?.map((tagItem: string) => (
@@ -110,21 +114,9 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
             <button className="text-primary-800 underline">(More)</button>
           )}
         </div>
-        {/* <img
-          src={require(`../../../../../assets/images/Java.png`)}
-          alt="java"
-          className="cursor-pointer"
-          onClick={gotoPost}
-        /> */}
         <div
           className="flex space-x-3"
-          onClick={() => {
-            // localStorage.setItem(
-            //   "communityId",
-            //   postItem?.id.toString()
-            // );
-            gotoPost();
-          }}
+          onClick={() => gotoPost(postItem?.threadID)}
         >
           <button
             title="Up vote"
