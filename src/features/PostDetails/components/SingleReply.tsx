@@ -32,6 +32,7 @@ import { fetchInnerReplies } from "../store/apiStore";
 import { usePostDetailsStore } from "../store/postDetailsStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
+import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
 
@@ -40,7 +41,7 @@ type IndividualReplyType = {
   onUpvote: (replyID: number) => any;
   onDownvote: (replyID: number) => any;
   votes: { upvoted: boolean; downvoted: boolean };
-  postDetails: any;
+  postDetails: ThreadType;
   bestAnswer: number | undefined;
 };
 

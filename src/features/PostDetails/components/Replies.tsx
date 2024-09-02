@@ -9,9 +9,10 @@ import { usePostDetailsStore } from "../store/postDetailsStore";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { ReplyType, SingleReplyType, UpdateVoteType } from "../types/replies";
+import { ThreadType } from "src/features/Community/types/postType";
 
 type PostType = {
-  postDetails: SingleReplyType;
+  postDetails: ThreadType;
 };
 
 export function Replies({ postDetails }: PostType): ReactElement {
