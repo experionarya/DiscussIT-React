@@ -177,11 +177,11 @@ Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&
 
 export const Bookmarks = `${apiBaseUrl}SavedPost/save`;
 
-export const MarkAsBestAnswer = (replyId: number, createdBy: string) =>
+export const markAsBestAnswer = (replyId: number, createdBy: string) =>
   `${apiBaseUrl}Reply/MarkAsBestAnswer/${replyId}?createdBy=${createdBy}`;
 
-export const UnmarkBestAnswer = (replyId: number, modifiedBy: string) =>
+export const unMarkBestAnswer = (replyId: number, modifiedBy: string) =>
   `${apiBaseUrl}Reply/UnmarkBestAnswer/${replyId}?modifiedBy=${modifiedBy}`;
 
-export const GetBestAnswer = (replyId: number) =>
+export const getBestAnswer = (replyId: number) =>
   `${apiBaseUrl}Reply/GetBestAnswer/${replyId}`;

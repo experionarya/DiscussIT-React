@@ -18,8 +18,7 @@ import {
   useReplaceDeletedComment,
   useGetChildReply,
 } from "../api";
-import { useUnmarkBestAnswer } from "../api/useUnmarkBestAnswer";
-import { useMarkAsBestAnswer } from "../api/useMarkAsBestAnswer";
+import { useUnmarkBestAnswer, useMarkAsBestAnswer } from "../api/index";
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 
 import {
@@ -33,6 +32,7 @@ import { fetchInnerReplies } from "../store/apiStore";
 import { usePostDetailsStore } from "../store/postDetailsStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
+import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
 
@@ -41,7 +41,7 @@ type IndividualReplyType = {
   onUpvote: (replyID: number) => any;
   onDownvote: (replyID: number) => any;
   votes: { upvoted: boolean; downvoted: boolean };
-  postDetails: any;
+  postDetails: ThreadType;
   bestAnswer: number | undefined;
 };
 
@@ -314,7 +314,7 @@ export function SingleReply({
       </div>
     );
   }
-  
+
   return (
     <div className="flex w-full gap-x-2 p-3">
       <div>
