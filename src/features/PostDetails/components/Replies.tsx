@@ -36,6 +36,7 @@ export function Replies({ postDetails }: PostType): ReactElement {
     }
   }, [primaryReplies]);
 
+  
   useEffect(() => {
     const storedVotes = localStorage.getItem("votes");
     if (storedVotes) {
