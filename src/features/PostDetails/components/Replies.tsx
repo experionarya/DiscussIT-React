@@ -1,25 +1,31 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useMemo, useState } from "react";
 
 import { SingleReply } from "./SingleReply";
 
 import { useUpdateVote } from "../api";
+import { useGetBestAnswer } from "../api/index";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 import { ReplyType, SingleReplyType, UpdateVoteType } from "../types/replies";
+import { ThreadType } from "src/features/Community/types/postType";
 
-export function Replies(): ReactElement {
+type PostType = {
+  postDetails: ThreadType;
+};
+
+export function Replies({ postDetails }: PostType): ReactElement {
   const primaryReplies = usePostDetailsStore(
     React.useCallback((state: any) => state.primaryReplies, [])
   );
-
-  const { mutate: updateVote } = useUpdateVote();
 
   const [replies, setReplies] = useState(primaryReplies.replies);
   const [votes, setVotes] = useState<{
     [key: number]: { upvoted: boolean; downvoted: boolean };
   }>({});
+  const { mutate: updateVote } = useUpdateVote();
+  const { data: bestAnswer } = useGetBestAnswer(postDetails.threadID);
 
   useEffect(() => {
     if (primaryReplies) {
@@ -29,7 +35,7 @@ export function Replies(): ReactElement {
       setReplies(temp);
     }
   }, [primaryReplies]);
-  
+
   useEffect(() => {
     const storedVotes = localStorage.getItem("votes");
     if (storedVotes) {
@@ -108,48 +114,54 @@ export function Replies(): ReactElement {
     replyID: number,
     type: "upvote" | "downvote"
   ): Array<ReplyType> => {
-    let params: UpdateVoteType;
     const communityId = parseInt(localStorage.getItem("communityId") || "");
 
     const updateReplyVotes = (reply: ReplyType): ReplyType => {
       if (reply.replyID === replyID) {
+        const currentVote = votes[replyID] || {
+          upvoted: false,
+          downvoted: false,
+        };
+        let newUpvoteCount = reply.upvoteCount;
+        let newDownvoteCount = reply.downvoteCount;
+
         if (type === "upvote") {
-          params = {
-            downvoteCount: reply?.downvoteCount,
-            isDeleted: reply?.isDeleted,
-            isUpVote: true,
-            replyId: reply?.replyID,
-            upvoteCount: reply?.upvoteCount + 1,
-            userId: getUserIdFromToken(),
-            communityId: communityId,
-          };
-          updateVote({ ...params });
-          const newUpvoteCount = votes[replyID]?.upvoted
-            ? reply.upvoteCount - 1
-            : reply.upvoteCount + 1;
-          return {
-            ...reply,
-            upvoteCount: newUpvoteCount,
-          };
+          if (currentVote.upvoted) {
+            newUpvoteCount -= 1;
+          } else {
+            newUpvoteCount += 1;
+            if (currentVote.downvoted) {
+              newDownvoteCount -= 1;
+            }
+          }
         } else {
-          params = {
-            downvoteCount: reply?.downvoteCount + 1,
-            isDeleted: reply?.isDeleted,
-            isUpVote: false,
-            replyId: reply?.replyID,
-            upvoteCount: reply?.upvoteCount,
-            userId: getUserIdFromToken(),
-            communityId: communityId,
-          };
-          updateVote({ ...params });
-          const newDownvoteCount = votes[replyID]?.downvoted
-            ? reply.downvoteCount - 1
-            : reply.downvoteCount + 1;
-          return {
-            ...reply,
-            downvoteCount: newDownvoteCount,
-          };
+          if (currentVote.downvoted) {
+            newDownvoteCount -= 1;
+          } else {
+            newDownvoteCount += 1;
+            if (currentVote.upvoted) {
+              newUpvoteCount -= 1;
+            }
+          }
         }
+
+        const params: UpdateVoteType = {
+          downvoteCount: newDownvoteCount,
+          isDeleted: reply.isDeleted,
+          isUpVote: type === "upvote",
+          replyId: reply.replyID,
+          upvoteCount: newUpvoteCount,
+          userId: getUserIdFromToken(),
+          communityId,
+        };
+
+        updateVote({ ...params });
+
+        return {
+          ...reply,
+          upvoteCount: newUpvoteCount,
+          downvoteCount: newDownvoteCount,
+        };
       }
 
       if (reply.children) {
@@ -158,15 +170,28 @@ export function Replies(): ReactElement {
 
       return reply;
     };
+
     return comments.map(updateReplyVotes);
   };
 
+  const sortedReplies = useMemo(() => {
+    if (!bestAnswer) return replies;
+
+    return replies?.slice().sort((a: SingleReplyType, b: SingleReplyType) => {
+      if (a?.replyID === bestAnswer) return -1;
+      if (b?.replyID === bestAnswer) return 1;
+      return 0;
+    });
+  }, [replies, bestAnswer]);
+
   return (
     <>
-      {replies?.map((primaryItem: SingleReplyType) => (
+      {sortedReplies?.map((primaryItem: SingleReplyType) => (
         <SingleReply
           key={primaryItem?.replyID}
           reply={primaryItem}
+          postDetails={postDetails}
+          bestAnswer={bestAnswer}
           onUpvote={handleUpvote}
           onDownvote={handleDownvote}
           votes={

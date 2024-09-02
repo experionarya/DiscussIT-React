@@ -2,7 +2,10 @@ import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
+import {
+  ArrowDownIcon as ArrowDownIconMicro,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
 import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
 import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/solid";
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
@@ -15,18 +18,21 @@ import {
   useReplaceDeletedComment,
   useGetChildReply,
 } from "../api";
+import { useUnmarkBestAnswer, useMarkAsBestAnswer } from "../api/index";
+import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 
-import { usePostDetailsStore } from "../store/postDetailsStore";
 import {
   getParsedToken,
   getUserIdFromToken,
 } from "src/utils/authenticationHelper/tokenHandler";
-import { useAuth } from "src/utils/authenticationHelper/authProvider";
-import { fetchInnerReplies } from "../store/apiStore";
-import { createMarkup } from "src/utils/common";
 import { contentWarning } from "src/features/CreatePost/utils/postConstants";
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import { createMarkup } from "src/utils/common";
+import { fetchInnerReplies } from "../store/apiStore";
+import { usePostDetailsStore } from "../store/postDetailsStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
+import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
 
@@ -35,6 +41,8 @@ type IndividualReplyType = {
   onUpvote: (replyID: number) => any;
   onDownvote: (replyID: number) => any;
   votes: { upvoted: boolean; downvoted: boolean };
+  postDetails: ThreadType;
+  bestAnswer: number | undefined;
 };
 
 export function SingleReply({
@@ -42,12 +50,13 @@ export function SingleReply({
   onUpvote,
   onDownvote,
   votes,
+  postDetails,
+  bestAnswer,
 }: IndividualReplyType): ReactElement {
   const { tokenType, token } = useAuth();
   const userId = getUserIdFromToken();
 
   const communityId = parseInt(localStorage.getItem("communityId") || "");
-
   const [showReplies, setShowReplies] = useState(false);
   const [children, setChildren] = useState<ReplyType[]>([]);
   const [isReply, setIsReply] = useState(false);
@@ -76,9 +85,12 @@ export function SingleReply({
     return isEdit ? replyDetails[reply?.replyID] : replyValue;
   }, [isEdit, reply?.replyID, replyDetails, replyValue]);
 
+  const { data: userDetails } = useGetUserDetails();
   const { mutate: deleteReply } = useDeleteReply();
   const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
   const { mutate: childReply } = useGetChildReply();
+  const { mutate: markAsBestAnswerType } = useMarkAsBestAnswer();
+  const { mutate: unMarkBestAnswerType } = useUnmarkBestAnswer();
 
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};
@@ -221,6 +233,22 @@ export function SingleReply({
     setIsTextArea(true);
   }
 
+  function handleMarkAsBestAnswer() {
+    const params = {
+      replyId: reply?.replyID,
+      createdBy: reply?.createdBy,
+    };
+    markAsBestAnswerType({ ...params });
+  }
+
+  function handleUnMarkAsBestAnswer() {
+    const params = {
+      replyId: reply?.replyID,
+      modifiedBy: userId,
+    };
+    unMarkBestAnswerType({ ...params });
+  }
+
   function renderPostActions() {
     return (
       <div className="pt-3">
@@ -300,10 +328,36 @@ export function SingleReply({
           <p className="text-xs leading-tight text-slate-500 ml-1 mt-0.5">
             {getDays()}
           </p>
-          <button className="ml-1" title="Best Answer">
-            <CheckCircleIconMicro className="size-4 text-green-500" />
-            <span className="sr-only">Best Answer</span>
-          </button>
+          {bestAnswer === reply?.replyID ? (
+            <div className="flex rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
+              <div className="flex">
+                <button title="Best Answer">
+                  <CheckCircleIconMicro className="size-4 text-green-500" />
+                </button>
+                {postDetails?.createdBy === userDetails?.userID && (
+                  <button
+                    title="Cancel Best Answer"
+                    onClick={handleUnMarkAsBestAnswer}
+                  >
+                    <XMarkIcon className="size-4 text-slate-400" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : postDetails?.createdBy === userDetails?.userID &&
+            (postDetails?.createdBy !== reply?.createdBy ||
+              (postDetails?.createdBy === reply?.createdBy &&
+                bestAnswer !== reply?.replyID)) ? (
+            <div className="flex items-center rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
+              <button
+                title="Mark as Best Answer"
+                onClick={handleMarkAsBestAnswer}
+              >
+                <CheckCircleIconMicro className="size-4 text-slate-500" />
+                <span className="sr-only">Best Answer</span>
+              </button>
+            </div>
+          ) : null}
         </div>
         <div className="w-full">
           <p
@@ -378,6 +432,8 @@ export function SingleReply({
                 <SingleReply
                   key={innerItem.replyID}
                   reply={innerItem}
+                  postDetails={postDetails}
+                  bestAnswer={bestAnswer}
                   onUpvote={onUpvote}
                   onDownvote={onDownvote}
                   votes={votes}

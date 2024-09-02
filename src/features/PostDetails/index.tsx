@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 import { Thread } from "./components/Thread";
@@ -42,7 +43,7 @@ export default function PostDetails(): ReactElement {
     },
     { staleTime: Infinity }
   );
-  
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
@@ -57,10 +58,8 @@ export default function PostDetails(): ReactElement {
         <div className="col-span-2 space-y-2 pb-7">
           <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
             <Thread postDetails={postDetails} setShowComment={setShowComment} />
-              <Comments
-                postDetails={postDetails}
-              />
-            <Replies />
+            <Comments postDetails={postDetails} />
+            <Replies postDetails={postDetails} />
           </article>
         </div>
         <div className="col-span-1" />

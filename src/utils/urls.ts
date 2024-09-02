@@ -170,3 +170,12 @@ export const getMyPosts = (
 Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
 
 export const Bookmarks = `${apiBaseUrl}SavedPost/save`;
+
+export const markAsBestAnswer = (replyId: number, createdBy: string) =>
+  `${apiBaseUrl}Reply/MarkAsBestAnswer/${replyId}?createdBy=${createdBy}`;
+
+export const unMarkBestAnswer = (replyId: number, modifiedBy: string) =>
+  `${apiBaseUrl}Reply/UnmarkBestAnswer/${replyId}?modifiedBy=${modifiedBy}`;
+
+export const getBestAnswer = (replyId: number) =>
+  `${apiBaseUrl}Reply/GetBestAnswer/${replyId}`;

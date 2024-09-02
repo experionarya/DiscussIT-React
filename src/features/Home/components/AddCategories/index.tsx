@@ -1,5 +1,4 @@
 import React, { ReactElement, useState, useMemo, useCallback } from "react";
-import { useQueryClient } from "react-query";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
