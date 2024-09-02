@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult, useQueryClient } from "react-query";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
-import { MarkAsBestAnswer } from "src/utils/urls";
+import { markAsBestAnswer } from "src/utils/urls";
 import { MarkAsBestAnswerType } from "../types/markasbestanswer";
 
 async function postMarkAsBestAnswer({
@@ -15,7 +15,7 @@ async function postMarkAsBestAnswer({
   tokenType: string;
   token: string | null;
 }): Promise<TResult> {
-  const response = await fetch(MarkAsBestAnswer(replyId, createdBy), {
+  const response = await fetch(markAsBestAnswer(replyId, createdBy), {
     method: "POST",
     headers: {
       Authorization: `${tokenType} ${token}`,

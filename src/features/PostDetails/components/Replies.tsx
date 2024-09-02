@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { SingleReply } from "./SingleReply";
 
 import { useUpdateVote } from "../api";
-import { useGetBestAnswer } from "../api/useGetBestAnswer";
+import { useGetBestAnswer } from "../api/index";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
@@ -24,7 +24,7 @@ export function Replies({ postDetails }: PostType): ReactElement {
     [key: number]: { upvoted: boolean; downvoted: boolean };
   }>({});
   const { mutate: updateVote } = useUpdateVote();
-  const { data: bestAnswer} = useGetBestAnswer(postDetails.threadID);
+  const { data: bestAnswer } = useGetBestAnswer(postDetails.threadID);
 
   useEffect(() => {
     if (primaryReplies) {
@@ -154,7 +154,7 @@ export function Replies({ postDetails }: PostType): ReactElement {
           communityId,
         };
 
-        updateVote({...params});
+        updateVote({ ...params });
 
         return {
           ...reply,

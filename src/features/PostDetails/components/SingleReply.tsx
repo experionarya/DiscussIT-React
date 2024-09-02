@@ -18,8 +18,7 @@ import {
   useReplaceDeletedComment,
   useGetChildReply,
 } from "../api";
-import { useUnmarkBestAnswer } from "../api/useUnmarkBestAnswer";
-import { useMarkAsBestAnswer } from "../api/useMarkAsBestAnswer";
+import { useUnmarkBestAnswer, useMarkAsBestAnswer } from "../api/index";
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 
 import {
@@ -314,7 +313,7 @@ export function SingleReply({
       </div>
     );
   }
-  
+
   return (
     <div className="flex w-full gap-x-2 p-3">
       <div>

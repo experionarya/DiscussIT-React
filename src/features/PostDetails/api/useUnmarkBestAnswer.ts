@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult, useQueryClient } from "react-query";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
-import { UnmarkBestAnswer } from "src/utils/urls";
+import { unMarkBestAnswer } from "src/utils/urls";
 import { UnmarkBestAnswerType } from "../types/markasbestanswer";
 
 async function postUnmarkBestAnswer({
@@ -15,7 +15,7 @@ async function postUnmarkBestAnswer({
   tokenType: string;
   token: string | null;
 }): Promise<TResult> {
-  const response = await fetch(UnmarkBestAnswer(replyId, modifiedBy), {
+  const response = await fetch(unMarkBestAnswer(replyId, modifiedBy), {
     method: "POST",
     headers: {
       Authorization: `${tokenType} ${token}`,
