@@ -48,7 +48,6 @@ export default function CreatePost(): ReactElement {
     useCallback((state) => state.isEditing, [])
   );
 
-  console.log("isEditing", isEditing);
 
   const { data, isLoading: isCommunityListLoading } = useGetCommunityList();
   const { mutate: createNewPost, isLoading: isCreatingPost } =
@@ -133,7 +132,6 @@ export default function CreatePost(): ReactElement {
 
     createNewPost(postValue, {
       onSuccess: () => {
-        console.log("Post created successfully");
         navigate("/home");
       },
     });
