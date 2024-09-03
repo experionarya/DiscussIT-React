@@ -59,7 +59,7 @@ export default function Bookmarks({
                   ))}
                 </div>
                 <p
-                  className="text-slate-900"
+                  className="text-slate-900 pt-1"
                   dangerouslySetInnerHTML={createMarkup(
                     trimHTMLContent(item?.content)
                   )}
@@ -68,12 +68,6 @@ export default function Bookmarks({
                   <button className="text-primary-800 underline">(More)</button>
                 )}
               </div>
-              {/* <img
-                  src={require(`../../assets/images/Java.png`)}
-                  alt="java"
-                  className="cursor-pointer"
-                  onClick={gotoPost}
-                /> */}
               <div className="flex space-x-3" onClick={gotoPost}>
                 <button
                   title="Up vote"

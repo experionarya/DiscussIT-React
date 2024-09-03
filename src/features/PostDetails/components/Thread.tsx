@@ -183,7 +183,7 @@ export function Thread({
           ))}
         </div>
         <p
-          className="text-slate-900"
+          className="text-slate-900 pt-1"
           dangerouslySetInnerHTML={createMarkup(threads?.content)}
         />
       </div>
