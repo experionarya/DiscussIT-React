@@ -12,7 +12,6 @@ import { useHomeStore } from "../../store/homeStore";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-
 export default function LeftPanel(): ReactElement {
   let [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -106,7 +105,11 @@ export default function LeftPanel(): ReactElement {
         <aside className="min-w-40 max-w-52 space-y-4 pl-2">
           <div className="space-y-1 text-sm">
             <li
-              className="inline-block w-full cursor-pointer rounded bg-sky-200/50 px-3 py-1 font-semibold text-primary-800 hover:bg-slate-300/50"
+              className={`inline-block w-full cursor-pointer rounded ${
+                filterByValue === "newest"
+                  ? "bg-sky-200/50 font-semibold text-primary-800"
+                  : null
+              } px-3 py-1 hover:bg-slate-300/50`}
               onClick={() => {
                 setFilterByValue("newest");
                 setCommunityId(-1);
@@ -119,7 +122,11 @@ export default function LeftPanel(): ReactElement {
                 setFilterByValue("popular");
                 setCommunityId(-1);
               }}
-              className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+              className={`inline-block w-full cursor-pointer rounded ${
+                filterByValue === "popular"
+                  ? "bg-sky-200/50 font-semibold text-primary-800"
+                  : null
+              } px-3 py-1 hover:bg-slate-300/50`}
             >
               Popular
             </li>
@@ -128,12 +135,19 @@ export default function LeftPanel(): ReactElement {
                 setFilterByValue("all posts");
                 setCommunityId(-1);
               }}
-              className="inline-block w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+              className={`inline-block w-full cursor-pointer rounded ${
+                filterByValue === "all posts"
+                  ? "bg-sky-200/50 font-semibold text-primary-800"
+                  : null
+              } px-3 py-1 hover:bg-slate-300/50`}
             >
               All post
             </li>
           </div>
-          <PreferenceList handleAddCategories={handleAddCategories} />
+          <PreferenceList
+            handleAddCategories={handleAddCategories}
+            filterByValue={filterByValue}
+          />
           <div>
             <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
