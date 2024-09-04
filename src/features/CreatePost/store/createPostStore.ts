@@ -7,18 +7,16 @@ import { fetchBookMarks } from "src/features/Home/store/apiStore";
 
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-// import { BookMark } from "../types/bookMarkDataType";
 
 export const useCreatePostStore = create<any>()((set, get) => ({
   postDetails: null,
-
   setPostDetails: (key: string, value: any) => {
     set(
       produce((state: any) => {
         state.postDetails = { ...get().postDetails, [key]: value };
       })
     );
-  },
+  },  
   showWarning: (postDetails: any, param: string) => {
     if (param === "title") {
       if (
@@ -30,9 +28,7 @@ export const useCreatePostStore = create<any>()((set, get) => ({
       }
     } else if (param === "content") {
       if (
-        postDetails?.content?.length > 1000 ||
-        postDetails?.content?.length < 20 ||
-        postDetails?.content?.charAt(0) === "#"
+        postDetails?.content?.length < 20
       ) {
         return true;
       }

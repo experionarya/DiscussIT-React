@@ -48,16 +48,22 @@ export default function CreatePost(): ReactElement {
     useCallback((state) => state.isEditing, [])
   );
 
-  console.log("isEditing", isEditing);
 
-  const { data } = useGetCommunityList();
+  const { data, isLoading: isCommunityListLoading } = useGetCommunityList();
   const { mutate: createNewPost, isLoading: isCreatingPost } =
     useCreateNewPost();
-  const { data: categoryList } = useGetCategoryByCommunity(
-    postDetails?.Community ? postDetails?.Community : 1
-  );
+  const { data: categoryList, isLoading: isCategoryListLoading } =
+    useGetCategoryByCommunity(
+      postDetails?.Community ? postDetails?.Community : 1
+    );
   const { data: trendingTags, isLoading: trendingTagLoading } = useGetTagList();
 
+  const isLoading =
+    isCreatingPost ||
+    trendingTagLoading ||
+    isCategoryListLoading ||
+    isCommunityListLoading;
+    
   const [userMode, updateUserMode] = useState<string>("");
 
   const location = useLocation();
@@ -240,7 +246,7 @@ export default function CreatePost(): ReactElement {
             </Tooltip.Root>
           </Tooltip.Provider>
           {showWarning(postDetails, "tagNames") && (
-            <p className="text-red-500 text-sm py-2">{tagWarning}</p>
+            <p className="text-gray-600 text-sm py-2 px-1">{tagWarning}</p>
           )}
         </div>
       </div>
@@ -248,11 +254,11 @@ export default function CreatePost(): ReactElement {
   }
 
   return (
-    <>
-      <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
-        <div className="min-w-40 max-w-44 space-y-5" />
-        <div className="grid grow grid-cols-3 gap-4">
-          <div className="col-span-2 space-y-2 pl-10 pb-7">
+    <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 pt-6 sm:px-2 lg:px-8">
+      <div className="min-w-40 max-w-44 space-y-5" />
+      <div className="grid grow grid-cols-3 gap-4">
+        <div className="col-span-2 space-y-2 pl-10 pb-7">
+          {!isLoading ? (
             <form className="w-full space-y-5 rounded-md p-4 bg-white shadow-sm">
               <h1 className="font-semibold text-xl text-slate-900 flex items-center gap-2">
                 <span className="size-10 bg-primary-100 rounded-full flex items-center justify-center">
@@ -328,13 +334,14 @@ export default function CreatePost(): ReactElement {
                 </Button>
               </div>
             </form>
-          </div>
-          <div className="col-span-1" />
+          ) : (
+            <div className="flex mx-auto justify-center h-full items-center">
+              <Loading />
+            </div>
+          )}
         </div>
+        <div className="col-span-1" />
       </div>
-      <div className="flex mx-auto justify-center h-full">{<Loading />}</div>
-    </>
+    </div>
   );
 }
-
-// "absolute inset-0 bg-gradient-to-r from-[#36b49f] to-[#DBFF75] opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-[#36b49f]/30 dark:to-[#DBFF75]/30 dark:opacity-100"

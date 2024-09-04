@@ -73,7 +73,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           ))}
         </div>
         <p
-          className="text-slate-900"
+          className="text-slate-900 pt-1"
           dangerouslySetInnerHTML={createMarkup(trimHTMLContent(item?.content))}
         />
         {getHtmlTextLength(item?.content) > 100 && (

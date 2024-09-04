@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactQuill, { Quill } from "react-quill";
+import React, { useRef, useEffect } from "react";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.snow.css";
 
