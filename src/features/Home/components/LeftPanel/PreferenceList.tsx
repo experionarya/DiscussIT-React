@@ -5,8 +5,15 @@ import { useGetPreferenceList, useGetPostByCategories } from "../../api/index";
 
 import { useHomeStore } from "../../store/homeStore";
 
-export function PreferenceList({ handleAddCategories }: any): ReactElement {
+export function PreferenceList({
+  handleAddCategories,
+  filterByValue,
+}: any): ReactElement {
   const { data: preferenceList } = useGetPreferenceList();
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
 
   const setCommunityId = useHomeStore(
     useCallback((state) => state.setCommunityId, [])
@@ -22,6 +29,7 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
     useGetPostByCategories({
       communityCategoryId: communityId,
     });
+
   const handleScroll = useCallback(
     (e: any) => {
       const bottom =
@@ -58,18 +66,19 @@ export function PreferenceList({ handleAddCategories }: any): ReactElement {
         <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
         <span>Pinned categories</span>
       </h5>
-      <ul className="space-y-1 text-sm max-h-52 overflow-y-scroll">
-        {/* <li className="flex justify-between w-full items-center cursor-pointer truncate rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800">
-          Newtork security
-          <span className="size-[6px] bg-red-600 rounded-full flex-shrink-0" />
-        </li> */}
-
+      <ul className="space-y-1 text-sm max-h-52 overflow-y-scroll pr-2">
         {preferenceList &&
           preferenceList?.map((item: any, index: number) => (
             <li
-              className="flex w-full  cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800"
+              className={`flex w-full cursor-pointer rounded px-3 py-1 text-slate-700 hover:bg-slate-300/50 hover:text-slate-800 ${
+                selectedCategoryId === item?.communityCategoryID &&
+                filterByValue === ""
+                  ? "bg-sky-200/50"
+                  : ""
+              }`}
               key={`${index}${item?.communityCategoryID}`}
               onClick={() => {
+                setSelectedCategoryId(item?.communityCategoryID);
                 setCommunityId(item?.communityCategoryID);
                 setFilterByValue("");
               }}
