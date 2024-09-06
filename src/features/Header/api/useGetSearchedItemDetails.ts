@@ -1,8 +1,6 @@
 import {
   useMutation,
   UseMutationResult,
-  useQuery,
-  UseQueryResult,
 } from "react-query";
 
 import { getBookMarks } from "../../../utils/urls";

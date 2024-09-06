@@ -218,7 +218,7 @@ export default function Header(): ReactElement {
           </div>
         </div>
       </div>
-      {isOpen ? <Search isOpen={isOpen} close={closeSearch} /> : null}
+      {isOpen ? <Search isOpen={isOpen} close={closeSearch} setIsOpen={setIsOpen}/> : null}
       {isLogOut ? (
         <div>
           <DialogBox
