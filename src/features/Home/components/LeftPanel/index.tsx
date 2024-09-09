@@ -78,13 +78,13 @@ export default function LeftPanel(): ReactElement {
   useQuery(
     ["get_threadIDs", savedPosts],
     () => {
-      savedPosts?.forEach((student) => {
+      savedPosts?.forEach((savedPost) => {
         const parsedToken = getParsedToken();
-        if (parsedToken && tokenType && student?.threadID)
+        if (parsedToken && tokenType && savedPost?.threadID)
           getBookMarkedData({
             token: parsedToken,
             tokenType: tokenType,
-            threadId: student?.threadID,
+            threadId: savedPost?.threadID,
           });
       });
     },
