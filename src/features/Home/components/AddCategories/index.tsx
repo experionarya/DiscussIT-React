@@ -116,7 +116,7 @@ export function AddCategories({
                     <input
                       type="checkbox"
                       className="size-4"
-                      id={item?.communityID.toString()}
+                      id={item?.communityCategoryID?.toString()}
                       onChange={handleCheckboxChange}
                       name={item?.communityCategoryID?.toString()}
                       checked={
@@ -126,7 +126,7 @@ export function AddCategories({
 
                     <label
                       className="text-sm text-slate-700"
-                      htmlFor={item?.communityID.toString()}
+                      htmlFor={item?.communityCategoryID?.toString()}
                     >
                       {item?.communityCategoryName}
                     </label>
