@@ -75,4 +75,11 @@ export const useCreatePostStore = create<any>()((set, get) => ({
       );
     }
   },
+  clearPostDetails() {
+    set(
+      produce((state: any) => {
+        state.postDetails = undefined;
+      })
+    );
+  }
 }));

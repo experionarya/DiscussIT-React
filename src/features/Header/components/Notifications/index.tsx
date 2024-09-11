@@ -125,7 +125,7 @@ export function Notifications(): ReactElement {
                           <span>Your comment:</span>
                         </p>
                         <p
-                          className="text-sm text-slate-900 truncate"
+                          className="text-sm text-slate-900 line-clamp-1"
                           dangerouslySetInnerHTML={createMarkup(
                             item?.parentReplyContent
                           )}

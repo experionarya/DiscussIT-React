@@ -48,6 +48,9 @@ export default function CreatePost(): ReactElement {
     useCallback((state) => state.isEditing, [])
   );
 
+  const clearPostDetails = useCreatePostStore(
+    useCallback((state) => state.clearPostDetails, [])
+  );
 
   const { data, isLoading: isCommunityListLoading } = useGetCommunityList();
   const { mutate: createNewPost, isLoading: isCreatingPost } =
@@ -133,6 +136,7 @@ export default function CreatePost(): ReactElement {
     createNewPost(postValue, {
       onSuccess: () => {
         navigate("/home");
+        clearPostDetails();
       },
     });
   }
