@@ -53,7 +53,7 @@ export function SingleReply({
   postDetails,
   bestAnswer,
 }: IndividualReplyType): ReactElement {
-  const { tokenType, token } = useAuth();
+  const { tokenType } = useAuth();
   const userId = getUserIdFromToken();
 
   const communityId = parseInt(localStorage.getItem("communityId") || "");
@@ -208,8 +208,20 @@ export function SingleReply({
 
   function getDays() {
     const day = dayjs().diff(reply?.createdAt, "day");
-    if (day === 1) return `.${day} day`;
-    else return `.${day} days`;
+    const hour = dayjs().diff(reply?.createdAt, "hour");
+    const week = dayjs().diff(reply?.createdAt, "week");
+    const month = dayjs().diff(reply?.createdAt, "month");
+    const year = dayjs().diff(reply?.createdAt, "year");
+
+    if (day === 0) return `.${hour} ${hour === 1 ? "hour" : "hours"}`;
+    if (day >= 1 && day < 7) return `.${day} ${day === 1 ? "day" : "days"}`;
+    if (day >= 7 && day < 30)
+      return `.${week} ${week === 1 ? "week" : "weeks"}`;
+    if (day >= 30 && day < 365)
+      return `.${month} ${month === 1 ? "month" : "months"}`;
+    if (day >= 365) return `.${year} ${year === 1 ? "year" : "years"}`;
+
+    return `.${day} days`;
   }
 
   function getChildRepliesLabel() {

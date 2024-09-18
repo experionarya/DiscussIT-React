@@ -29,7 +29,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
   function getCommunityId() {
     const community = communityList?.find(
       (community) => community.communityName === item.communityName
-    );    
+    );
     if (community) {
       localStorage.setItem("communityId", community.communityID.toString());
     }
@@ -72,13 +72,17 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             </button>
           ))}
         </div>
-        <p
-          className="text-slate-900 pt-1"
-          dangerouslySetInnerHTML={createMarkup(trimHTMLContent(item?.content))}
-        />
-        {getHtmlTextLength(item?.content) > 100 && (
-          <button className="text-primary-800 underline">(More)</button>
-        )}
+        <p>
+          <span
+            className="text-slate-900 pt-1 prevent-text-break-out"
+            dangerouslySetInnerHTML={createMarkup(
+              trimHTMLContent(item?.content)
+            )}
+          />
+          {getHtmlTextLength(item?.content) > 100 && (
+            <button className="text-primary-800 underline">(More)</button>
+          )}
+        </p>
       </div>
       <div
         className="flex space-x-3"

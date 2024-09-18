@@ -59,7 +59,7 @@ export default function Bookmarks({
                   ))}
                 </div>
                 <p
-                  className="text-slate-900 pt-1"
+                  className="text-slate-900 pt-1 prevent-text-break-out"
                   dangerouslySetInnerHTML={createMarkup(
                     trimHTMLContent(item?.content)
                   )}
