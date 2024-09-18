@@ -25,9 +25,19 @@ export default function Bookmarks({
 }): ReactElement {
   const navigate = useNavigate();
 
-  function gotoPost() {
-    navigate(`/community/category-posts/replies`);
+  function gotoPost(id: number) {
+    navigate(`/community/category-posts/replies?threadId=${id}`, {
+      state: { from: window.location.pathname },
+    });
   }
+
+  function handleItemClick(event: React.MouseEvent, threadID: number) {
+    if ((event.target as HTMLElement).closest("a")) {
+      return;
+    }
+    gotoPost(threadID);
+  }
+
   return (
     <div className="pt-40 pb-7">
       <div className="space-y-3">
@@ -49,26 +59,36 @@ export default function Bookmarks({
                   </p>
                 </div>
               </div>
-              <div className="space-y-1 cursor-pointer" onClick={gotoPost}>
+              <div
+                className="space-y-1 cursor-pointer"
+                onClick={(event) => handleItemClick(event, item?.threadID)}
+              >
                 <h5 className="font-semibold text-slate-900">{item?.title}</h5>
-                <div className="flex gap-2">
+                <div className="flex gap-2 pb-2">
                   {item?.tagNames?.map((tagNameItem: string) => (
                     <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
                       {tagNameItem}
                     </button>
                   ))}
                 </div>
-                <p
-                  className="text-slate-900 pt-1 prevent-text-break-out"
-                  dangerouslySetInnerHTML={createMarkup(
-                    trimHTMLContent(item?.content)
+                <p className="text-slate-900 prevent-text-break-out inline">
+                  <span
+                    className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+                    dangerouslySetInnerHTML={createMarkup(
+                      trimHTMLContent(item?.content)
+                    )}
+                  />
+                  {getHtmlTextLength(item?.content) > 150 && (
+                    <button className="text-primary-800 underline inline">
+                      (More)
+                    </button>
                   )}
-                />
-                {getHtmlTextLength(item?.content) > 100 && (
-                  <button className="text-primary-800 underline">(More)</button>
-                )}
+                </p>
               </div>
-              <div className="flex space-x-3" onClick={gotoPost}>
+              <div
+                className="flex space-x-3"
+                onClick={() => gotoPost(item?.threadID)}
+              >
                 <button
                   title="Up vote"
                   className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
@@ -88,7 +108,6 @@ export default function Bookmarks({
                 <button
                   title="Comment"
                   className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                  onClick={gotoPost}
                 >
                   <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
                   <span className="sr-only">Comment</span>

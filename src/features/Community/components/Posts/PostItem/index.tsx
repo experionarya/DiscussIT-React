@@ -78,6 +78,13 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
     getPostDetails(id, userMode, tokenType, tagOptions);
   });
 
+  function handleItemClick(event: React.MouseEvent, threadID: number) {
+    if ((event.target as HTMLElement).closest("a")) {
+      return;
+    }
+    gotoPost(threadID);
+  }
+
   return (
     <>
       <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
@@ -94,25 +101,29 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
         </div>
         <div
           className="space-y-1 cursor-pointer"
-          onClick={() => gotoPost(postItem?.threadID)}
+          onClick={(event) => handleItemClick(event, postItem?.threadID)}
         >
           <h5 className="font-semibold text-slate-900">{postItem?.title}</h5>
-          <div className="flex gap-2">
+          <div className="flex gap-2 pb-2">
             {postItem?.tagNames?.map((tagItem: string) => (
               <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
                 {tagItem}
               </button>
             ))}
           </div>
-          <p
-            className="text-slate-900 pt-1 prevent-text-break-out"
-            dangerouslySetInnerHTML={createMarkup(
-              trimHTMLContent(postItem?.content)
+          <p className="text-slate-900 prevent-text-break-out inline">
+            <span
+              className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+              dangerouslySetInnerHTML={createMarkup(
+                trimHTMLContent(postItem?.content)
+              )}
+            />
+            {getHtmlTextLength(postItem?.content) > 150 && (
+              <button className="text-primary-800 underline inline">
+                (More)
+              </button>
             )}
-          />
-          {getHtmlTextLength(postItem?.content) > 100 && (
-            <button className="text-primary-800 underline">(More)</button>
-          )}
+          </p>
         </div>
         <div
           className="flex space-x-3"

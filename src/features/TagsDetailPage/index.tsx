@@ -72,6 +72,13 @@ export default function TagsDetailPage(): ReactElement {
     });
   }
 
+  function handleItemClick(event: React.MouseEvent, threadID: number) {
+    if ((event.target as HTMLElement).closest("a")) {
+      return;
+    }
+    gotoPost(threadID);
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44" />
@@ -161,12 +168,14 @@ export default function TagsDetailPage(): ReactElement {
                     </div>
                     <div
                       className="space-y-1 cursor-pointer"
-                      onClick={() => gotoPost(item.threadID)}
+                      onClick={(event) =>
+                        handleItemClick(event, item?.threadID)
+                      }
                     >
                       <h5 className="font-semibold text-slate-900">
                         {item.title}
                       </h5>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 pb-2">
                         {item.tagNames?.map((tagNameItem: string) => (
                           <button
                             key={tagNameItem}
@@ -176,17 +185,19 @@ export default function TagsDetailPage(): ReactElement {
                           </button>
                         ))}
                       </div>
-                      <p
-                        className="text-slate-900 pt-1 prevent-text-break-out"
-                        dangerouslySetInnerHTML={createMarkup(
-                          trimHTMLContent(item.content)
+                      <p className="text-slate-900 prevent-text-break-out inline">
+                        <span
+                          className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+                          dangerouslySetInnerHTML={createMarkup(
+                            trimHTMLContent(item?.content)
+                          )}
+                        />
+                        {getHtmlTextLength(item?.content) > 150 && (
+                          <button className="text-primary-800 underline inline">
+                            (More)
+                          </button>
                         )}
-                      />
-                      {getHtmlTextLength(item.content) > 100 && (
-                        <button className="text-primary-800 underline">
-                          (More)
-                        </button>
-                      )}
+                      </p>
                     </div>
                     <div
                       className="flex space-x-3"
