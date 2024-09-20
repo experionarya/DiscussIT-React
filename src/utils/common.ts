@@ -33,16 +33,34 @@ function stripHTML(node: any, maxLength: number, currentLength = 0) {
 
 // Function to trim HTML content
 export function trimHTMLContent(html: string) {
-  const maxLength = 100;
+  const maxLength = 150;
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const body = doc.body;
 
   const { trimmedNode } = stripHTML(body, maxLength);
+
+  convertBlockToInline(trimmedNode);
+
   const wrapper = document.createElement("div");
   if (trimmedNode) wrapper.appendChild(trimmedNode);
 
   return wrapper.innerHTML;
+}
+
+function convertBlockToInline(node: Node | null) {
+  if (!node || !(node instanceof Element)) return;
+
+  const blockElements = ['P'];
+
+  blockElements.forEach((block) => {
+    const blockNodes = node.getElementsByTagName(block);
+    Array.from(blockNodes).forEach((blockNode) => {
+      const span = document.createElement("span");
+      span.innerHTML = blockNode.innerHTML;
+      blockNode.replaceWith(span);
+    });
+  });
 }
 
 export const createMarkup = (data?: string) => {

@@ -373,7 +373,7 @@ export function SingleReply({
         </div>
         <div className="w-full">
           <p
-            className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out"
+            className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
             dangerouslySetInnerHTML={createMarkup(reply?.content)}
           />
         </div>

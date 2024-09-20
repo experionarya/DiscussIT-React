@@ -35,6 +35,13 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
     }
   }
 
+  function handleItemClick(event: React.MouseEvent, threadID: number) {
+    if ((event.target as HTMLElement).closest("a")) {
+      return;
+    }
+    gotoPost(threadID);
+  }
+
   return (
     <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
       <div className="flex min-w-0 gap-x-2">
@@ -56,13 +63,13 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
       </div>
       <div
         className="space-y-1 cursor-pointer"
-        onClick={() => {
+        onClick={(event) => {
           getCommunityId();
-          gotoPost(item?.threadID);
+          handleItemClick(event, item?.threadID);
         }}
       >
         <h5 className="font-bold text-slate-900">{item?.title}</h5>
-        <div className="flex gap-2">
+        <div className="flex gap-2 pb-2">
           {item?.tagNames?.map((tagItem, index) => (
             <button
               key={`${index}${tagItem}`}
@@ -72,15 +79,17 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
             </button>
           ))}
         </div>
-        <p>
+        <p className="text-slate-900 prevent-text-break-out inline">
           <span
-            className="text-slate-900 pt-1 prevent-text-break-out"
+            className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
             dangerouslySetInnerHTML={createMarkup(
               trimHTMLContent(item?.content)
             )}
           />
-          {getHtmlTextLength(item?.content) > 100 && (
-            <button className="text-primary-800 underline">(More)</button>
+          {getHtmlTextLength(item?.content) > 150 && (
+            <button className="text-primary-800 underline inline">
+              (More)
+            </button>
           )}
         </p>
       </div>
