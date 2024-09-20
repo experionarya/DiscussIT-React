@@ -17,19 +17,22 @@ import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
 
-import {
-  getEmailFromToken,
-  getNameFromToken,
-} from "src/utils/authenticationHelper/tokenHandler";
+import { useLogoutUserAccount } from "./api/useLogoutAccount";
+import { useGetUserDetails } from "./api/useGetUserDetails";
+
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
+import { getEmailFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
 
-  const userName = getNameFromToken();
-
   let [isOpen, setIsOpen] = useState(false);
-
   const [isLogOut, setIsLogOut] = useState(false);
+
+  const { logout } = useAuth();
+
+  const { mutate: LogoutAccount } = useLogoutUserAccount();
+  const { data: userDetails } = useGetUserDetails();
 
   function handleLogOutDialogBox() {
     setIsLogOut(true);
@@ -39,7 +42,17 @@ export default function Header(): ReactElement {
     setIsLogOut(false);
   }
 
-  function handleLogOut() {}
+  function handleLogOut() {
+    if (userDetails?.userID) {
+      LogoutAccount({ userId: userDetails.userID });
+      logout();
+    } else {
+      console.error("User ID is undefined.");
+    }
+    setIsLogOut(false);
+    navigate("/");
+  }
+
   const openSearch = useCallback(() => {
     setIsOpen(true);
   }, []);
@@ -182,7 +195,7 @@ export default function Header(): ReactElement {
                 aria-haspopup="true"
                 className="rounded-full p-1"
               >
-                <Avatar userName={userName || ""} size="medium"/>
+                <Avatar userName={userDetails?.name || ""} size="medium" />
               </PopoverButton>
               <PopoverPanel
                 transition
@@ -195,9 +208,11 @@ export default function Header(): ReactElement {
                     className="flex gap-2 items-center"
                     onClick={handleViewProfile}
                   >
-                    <Avatar userName={userName} size="medium" />
+                    <Avatar userName={userDetails?.name || ""} size="medium" />
                     <div className="flex flex-col items-start">
-                      <p className="text-sm font-semibold">{userName}</p>
+                      <p className="text-sm font-semibold">
+                        {userDetails?.name}
+                      </p>
                       <p className="text-xs text-slate-500">
                         {getEmailFromToken()}
                       </p>
@@ -218,7 +233,9 @@ export default function Header(): ReactElement {
           </div>
         </div>
       </div>
-      {isOpen ? <Search isOpen={isOpen} close={closeSearch} setIsOpen={setIsOpen}/> : null}
+      {isOpen ? (
+        <Search isOpen={isOpen} close={closeSearch} setIsOpen={setIsOpen} />
+      ) : null}
       {isLogOut ? (
         <div>
           <DialogBox
