@@ -7,11 +7,11 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Thread } from "./components/Thread";
 import { Comments } from "./components/Comments";
 import { Replies } from "./components/Replies";
-import { Loading } from "src/components";
 
 import { usePostDetailsStore } from "./store/postDetailsStore";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
+import { Loading } from "src/components";
 
 export default function PostDetails(): ReactElement {
   const location = useLocation();
@@ -34,6 +34,7 @@ export default function PostDetails(): ReactElement {
   );
   const threadId = location.search.split("threadId=")[1];
 
+  console.log("threadId1", threadId);
   const from = location.state?.from || "/"; // Default to '/' if no state is present
  
   useEffect(() => {
