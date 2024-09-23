@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
@@ -14,6 +14,7 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export default function PostDetails(): ReactElement {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -35,16 +36,6 @@ export default function PostDetails(): ReactElement {
   const threadId = location.search.split("threadId=")[1];
 
   const from = location.state?.from || "/"; // Default to '/' if no state is present
- 
-  useEffect(() => {
-    if (threadId) {
-      getPostDetailsInfo({
-        token: getParsedToken(),
-        tokenType,
-        threadId: threadId,
-      });
-    }
-  }, [threadId, getPostDetailsInfo, tokenType]);
 
   useQuery(
     ["get_post_details", { threadId: threadId }],
@@ -63,7 +54,10 @@ export default function PostDetails(): ReactElement {
       <div className="min-w-40 max-w-44 space-y-5 flex justify-end">
         <button
           className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center"
-          onClick={() => navigate(from)}
+          onClick={() => {
+            queryClient.invalidateQueries(['get_post_details'])
+            navigate(from)
+          }}
         >
           <ArrowLeftIcon className="size-5" />
         </button>
