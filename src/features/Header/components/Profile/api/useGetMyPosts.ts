@@ -3,7 +3,7 @@ import { useInfiniteQuery, UseInfiniteQueryResult } from "react-query";
 import { getMyPosts } from "src/utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
-import { AllPostsType } from "src/features/Community/types/postType";
+import { ThreadType } from "src/features/Community/types/postType";
 
 const pageLength = 20;
 
@@ -27,7 +27,7 @@ async function fetchMyPosts({
   return response.json();
 }
 
-type APIResult = AllPostsType;
+type APIResult = { threads: Array<ThreadType>; hasMore: boolean };
 
 type TError = { message: string };
 
@@ -66,18 +66,21 @@ function useGetMyPosts({
         return result;
       }
       return {
-        posts: { categoryDescription: "", categoryName: "", threads: [] },
-        hasMore: false,
+        categoryDescription: "",
+        categoryName: "",
+        threads: [],
       };
     },
     {
-      getNextPageParam: (lastPage: any, allPages: Array<any>) => {
-        if (lastPage !== null && lastPage?.posts?.length === pageLength)
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage !== null && lastPage?.threads.length === pageLength)
           return allPages?.length + 1;
+        return undefined;
       },
-      getPreviousPageParam: (firstPage: any, allPages: Array<any>) => {
-        if (firstPage !== null && firstPage?.data?.length === pageLength)
+      getPreviousPageParam: (firstPage, allPages) => {
+        if (firstPage !== null && firstPage?.threads?.length === pageLength)
           return allPages?.length - 1;
+        return undefined;
       },
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
