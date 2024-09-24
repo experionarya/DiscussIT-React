@@ -3,7 +3,7 @@ import { useInfiniteQuery, UseInfiniteQueryResult } from "react-query";
 import { getMyPosts } from "src/utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
-import { AllPostsType, ThreadType } from "src/features/Community/types/postType";
+import { ThreadType } from "src/features/Community/types/postType";
 
 const pageLength = 20;
 
@@ -27,9 +27,7 @@ async function fetchMyPosts({
   return response.json();
 }
 
-type APIResult =
-  | AllPostsType
-  | { threads: Array<ThreadType>; hasMore: boolean };
+type APIResult = { threads: Array<ThreadType>; hasMore: boolean };
 
 type TError = { message: string };
 
