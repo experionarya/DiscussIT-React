@@ -95,7 +95,7 @@ export const useHomeStore = create<any>()((set, get) => ({
         const temp = trendingTagsResp?.filter(
           (item: TrendingTagType) => item?.tagCount >= 3
         );
-        state.trendingTags = [...temp];
+        state.trendingTags = temp && temp.length ? [...temp] : [];
       })
     );
 
@@ -116,7 +116,8 @@ export const useHomeStore = create<any>()((set, get) => ({
 
     set(
       produce((state: any) => {
-        state.topUsers = [...topUsersResp];
+        state.topUsers =
+          topUsersResp && topUsersResp.length ? [...topUsersResp] : [];
       })
     );
   },
@@ -135,7 +136,6 @@ export const useHomeStore = create<any>()((set, get) => ({
     });
     let tempArray = [];
     tempArray.push(data);
-    console.log("temp array", tempArray);
 
     set(
       produce((state: any) => {
@@ -172,7 +172,7 @@ export const useHomeStore = create<any>()((set, get) => ({
   setAllPost: (data: Array<BookMark>) => {
     set(
       produce((state: any) => {
-        state.allPosts = [...data];
+        state.allPosts = data && data.length ? [...data] : [];
       })
     );
   },

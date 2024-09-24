@@ -1,4 +1,5 @@
 import { useMutation, UseMutationResult } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { logoutAccount } from "src/utils/urls";
@@ -43,18 +44,27 @@ function useLogoutUserAccount(): UseMutationResult<
   TVariables,
   TContext
 > {
+  const navigate = useNavigate();
+
   const { tokenType } = useAuth();
 
-  return useMutation(async (params: TVariables) => {
-    const { userId } = params;
-    const response = await logoutUserAccount({
-      token: getParsedToken(),
-      tokenType,
-      userId,
-    });
+  return useMutation(
+    async (params: TVariables) => {
+      const { userId } = params;
+      const response = await logoutUserAccount({
+        token: getParsedToken(),
+        tokenType,
+        userId,
+      });
 
-    return response;
-  });
+      return response;
+    },
+    {
+      onSuccess: () => {
+        navigate("/");
+      },
+    }
+  );
 }
 
 export { useLogoutUserAccount };

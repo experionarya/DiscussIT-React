@@ -63,13 +63,14 @@ export const AuthProvider = ({ children }: any) => {
       console.error(error);
     } finally {
       setIsInteractionInProgress(false);
+      window.location.replace("/home");
     }
   };
 
   const logout = () => {
     if (isInteractionInProgress) return;
     setIsInteractionInProgress(true);
-
+    window.location.replace("/");
     msalInstance
       .logoutPopup()
       .then(() => {
@@ -94,7 +95,6 @@ export const AuthProvider = ({ children }: any) => {
       try {
         const tokenResponse: AuthenticationResult =
           await msalInstance.acquireTokenSilent(silentRequest);
-        console.log("tokenResponse", tokenResponse);
         setIdToken(tokenResponse?.idToken);
         setToken(tokenResponse?.accessToken);
         return tokenResponse.accessToken;

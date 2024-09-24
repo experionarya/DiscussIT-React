@@ -41,7 +41,6 @@ export default function LeftPanel(): ReactElement {
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
 
   const {
-    data: postDetails,
     hasNextPage,
     fetchNextPage,
   } = useGetAllPosts({
@@ -67,7 +66,6 @@ export default function LeftPanel(): ReactElement {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
-    console.log("scroll");
     return () => {
       window.removeEventListener("scroll", handleScroll, true);
     };

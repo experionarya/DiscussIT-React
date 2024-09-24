@@ -5,7 +5,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 
 import MyPost from "./Components/MyPost";
 import Bookmarks from "./Components/Bookmarks";
-import Drafts from "./Components/Drafts";
+// import Drafts from "./Components/Drafts";
 import { Avatar } from "src/components";
 
 import { useGetSavedThreads } from "src/features/Home/api/useGetSavedThreads";
@@ -61,7 +61,6 @@ export default function Profile(): ReactElement {
     }
   }, [location]);
 
-  console.log("userDetails", userDetails?.userID);
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 sm:px-2 lg:px-8">
       <div className="min-w-40 max-w-44" />
@@ -104,9 +103,9 @@ export default function Profile(): ReactElement {
               <TabPanel>
                 <Bookmarks bookMarks={bookMarks} />
               </TabPanel>
-              <TabPanel>
+              {/* <TabPanel>
                 <Drafts />
-              </TabPanel>
+              </TabPanel> */}
             </TabPanels>
           </TabGroup>
         </div>

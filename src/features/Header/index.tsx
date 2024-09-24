@@ -31,7 +31,7 @@ export default function Header(): ReactElement {
 
   const { logout } = useAuth();
 
-  const { mutate: LogoutAccount } = useLogoutUserAccount();
+  const { mutate: logoutAccount } = useLogoutUserAccount();
   const { data: userDetails } = useGetUserDetails();
 
   function handleLogOutDialogBox() {
@@ -44,13 +44,12 @@ export default function Header(): ReactElement {
 
   function handleLogOut() {
     if (userDetails?.userID) {
-      LogoutAccount({ userId: userDetails.userID });
+      logoutAccount({ userId: userDetails.userID });
       logout();
     } else {
       console.error("User ID is undefined.");
     }
     setIsLogOut(false);
-    navigate("/");
   }
 
   const openSearch = useCallback(() => {
@@ -239,7 +238,7 @@ export default function Header(): ReactElement {
       {isLogOut ? (
         <div>
           <DialogBox
-            title="Please Confirm Logout"
+            title="Logout"
             description="Are you sure you want to log out? You will be signed out of your account."
             button1="Cancel"
             button2="Logout"
