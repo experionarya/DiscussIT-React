@@ -1,12 +1,13 @@
 import React, { ReactElement, useCallback } from "react";
 
 import { PostItem } from "./PostItem";
+import { Loading } from "src/components";
 
-import { useHomeStore } from "../../store/homeStore";
+import { useGetAllPosts } from "../../api";
 
 import { BookMark } from "../../types/bookMarkDataType";
-import { Loading } from "src/components";
-import { useGetAllPosts } from "../../api";
+import { useHomeStore } from "../../store/homeStore";
+
 
 export default function MiddlePanel(): ReactElement {
   const allPost = useHomeStore(useCallback((state) => state.allPosts, []));
