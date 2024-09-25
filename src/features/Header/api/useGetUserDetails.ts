@@ -36,7 +36,7 @@ function useGetUserDetails(): UseQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const userId = getUserIdFromToken();
   return useQuery(
-    ["get_user_details"],
+    ["get_user_details", userId],
     async () => {
       const result = await fetchUserDetails({
         token: getParsedToken(),

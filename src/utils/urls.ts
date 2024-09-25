@@ -191,3 +191,6 @@ export const unMarkBestAnswer = (replyId: number, modifiedBy: string) =>
 
 export const getBestAnswer = (replyId: number) =>
   `${apiBaseUrl}Reply/GetBestAnswer/${replyId}`;
+
+export const logoutAccount = (userId: string) =>
+  `${apiBaseUrl}Login/Logout?userId=${userId}`;

@@ -6,18 +6,23 @@ import Community from "src/features/Community";
 import Notifications from "src/features/Notifications";
 import Header from "src/features/Header";
 import Login from "src/features/Login";
-import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import PostDetails from "src/features/PostDetails";
 import CreatePost from "src/features/CreatePost";
 import Profile from "src/features/Header/components/Profile";
 import TagsDetailPage from "src/features/TagsDetailPage";
 
+import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
+
+import { useAuth } from "src/utils/authenticationHelper/authProvider";
+
 function PrivatePage(): ReactElement {
   const { account } = useAuth();
 
+  const { data: userDetails } = useGetUserDetails();
+
   return (
     <div className="flex w-full flex-col">
-      {account !== null && <Header />}
+      {account !== null && userDetails && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
