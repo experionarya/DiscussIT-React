@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import Home from "src/features/Home";
 import Community from "src/features/Community";
@@ -16,13 +16,14 @@ import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 function PrivatePage(): ReactElement {
+  const location = useLocation();
   const { account } = useAuth();
-
   const { data: userDetails } = useGetUserDetails();
-
+  const showHeader =
+    account !== null && userDetails && location.pathname !== "/";
   return (
     <div className="flex w-full flex-col">
-      {account !== null && userDetails && <Header />}
+      {showHeader && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
