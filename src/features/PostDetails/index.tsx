@@ -36,7 +36,7 @@ export default function PostDetails(): ReactElement {
   const threadId = location.search.split("threadId=")[1];
 
   console.log("threadId1", threadId);
-  const from = location.state?.from || "/"; // Default to '/' if no state is present
+  const from = location.state?.from || "/home"; // Default to '/home' if no state is present
 
   useQuery(
     ["get_post_details", { threadId: threadId }],

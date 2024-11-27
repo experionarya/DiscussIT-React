@@ -23,7 +23,9 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
   const navigate = useNavigate();
 
   function gotoPost(id: number) {
-    navigate(`/community/category-posts/replies?threadId=${id}`);
+    navigate(`/community/category-posts/replies?threadId=${id}`, {
+      state: { from: window.location.pathname },
+    });
   }
 
   function getCommunityId() {
