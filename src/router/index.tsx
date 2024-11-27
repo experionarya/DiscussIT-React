@@ -19,11 +19,11 @@ function PrivatePage(): ReactElement {
   const location = useLocation();
   const { account } = useAuth();
   const { data: userDetails } = useGetUserDetails();
-  const showHeader =
-    account !== null && userDetails && location.pathname !== "/";
   return (
     <div className="flex w-full flex-col">
-      {showHeader && <Header />}
+      {account !== null && userDetails && location.pathname !== "/" && (
+        <Header />
+      )}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
