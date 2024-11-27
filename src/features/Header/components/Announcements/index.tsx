@@ -10,6 +10,7 @@ import { NoData } from "src/components";
 
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 import { useGetAnnouncementByCommunity } from "../../api/useGetAnnouncementByCommunity";
+import { useGetAllAnnouncements } from "../../api/useGetAllAnnouncement";
 
 import { CommunityType } from "src/features/Community/types/communityType";
 import { AnnouncementType } from "../../types/announcementType";
@@ -17,10 +18,11 @@ import { AnnouncementType } from "../../types/announcementType";
 dayjs.extend(utc);
 
 export function Announcements(): ReactElement {
-  const [communityId, setCommunityId] = useState<number | undefined>();
+  const [communityId, setCommunityId] = useState<number | undefined>(0);
 
   const { data: communityList } = useGetCommunityList();
   const { data: announcementList } = useGetAnnouncementByCommunity(communityId);
+  const { data: allAnnouncements } = useGetAllAnnouncements();
 
   return (
     <Popover>
@@ -38,9 +40,8 @@ export function Announcements(): ReactElement {
                 className={`size-6 ${open ? "text-primary-800" : ""}`}
               />
             </PopoverButton>
-            <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2" />
+            {/* <div className="bg-red-600 size-2 text-xs rounded-full absolute top-2 right-2 flex items-center justify-center text-white transform translate-x-1/2 -translate-y-1/2" /> */}
           </div>
-
           <PopoverPanel
             anchor="bottom end"
             modal
@@ -59,13 +60,13 @@ export function Announcements(): ReactElement {
                 }}
               >
                 {/* <div className="flex justify-between">
-              <button className="absolute bg-gradient-to-r from-white to-transparent">
+                <button className="absolute bg-gradient-to-r from-white to-transparent">
                 <ChevronLeftIcon className="size-6 text-gray-600" />
-              </button>
-              <button className="absolute bg-gradient-to-l from-white to-transparent">
+                </button>
+                <button className="absolute bg-gradient-to-l from-white to-transparent">
                 <ChevronRightIcon className="size-6 text-gray-600" />
-              </button>
-            </div> */}
+                </button>
+                </div> */}
                 <li
                   className={`text-sm flex-shrink-0 font-medium flex items-center leading-none px-2 py-1 border ${
                     communityId === 0 ? "bg-slate-300" : ""
@@ -90,9 +91,33 @@ export function Announcements(): ReactElement {
                 {/* <style>{`ul::-webkit-scrollbar { display: none; }`}</style> */}
               </ul>
             </div>
-            <div className="divide-y divide-slate-200  overflow-y-scroll h-64">
-              {announcementList && announcementList?.length ? (
-                announcementList?.map((announcementItem: AnnouncementType) => (
+            <div className="divide-y divide-slate-200 overflow-y-scroll h-64">
+              {communityId === 0 ? (
+                allAnnouncements && allAnnouncements.length ? (
+                  allAnnouncements.map(
+                    (allAnnouncementsItem: AnnouncementType) => (
+                      <div className="px-4 py-3">
+                        <h5 className="font-semibold text-sm text-slate-900 leading-tight">
+                          {allAnnouncementsItem?.title}
+                        </h5>
+                        <span className="truncate text-xs leading-tight text-slate-500 inline-block">
+                          {dayjs(allAnnouncementsItem?.createdAt).format(
+                            "MMM D, YYYY"
+                          )}
+                        </span>
+                        <p className="text-sm text-slate-900">
+                          {allAnnouncementsItem?.content}
+                        </p>
+                      </div>
+                    )
+                  )
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <NoData data={"No announcements available"} />
+                  </div>
+                )
+              ) : announcementList && announcementList.length ? (
+                announcementList.map((announcementItem: AnnouncementType) => (
                   <div className="px-4 py-3">
                     <h5 className="font-semibold text-sm text-slate-900 leading-tight">
                       {announcementItem?.title}
@@ -107,7 +132,7 @@ export function Announcements(): ReactElement {
                 ))
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <NoData data={"No data available"} />
+                  <NoData data={"No announcements available"} />
                 </div>
               )}
             </div>
