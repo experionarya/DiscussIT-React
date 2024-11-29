@@ -194,3 +194,5 @@ export const getBestAnswer = (replyId: number) =>
 
 export const logoutAccount = (userId: string) =>
   `${apiBaseUrl}Login/Logout?userId=${userId}`;
+
+export const getAllAnnouncements = `${apiBaseUrl}Notice`;
