@@ -2,8 +2,9 @@ import React, { ReactElement } from "react";
 
 export function Loading(): ReactElement {
   return (
-    <>
-      <div className="border-gray-300 size-16 animate-spin rounded-full border-8 border-t-primary" />
-    </>
+    <div className="relative">
+      <div className="size-16 rounded-full absolute border border-solid border-gray-200"></div>
+      <div className="size-16 rounded-full animate-spin absolute border border-solid border-primary-800 border-t-transparent shadow-md"></div>
+    </div>
   );
 }
