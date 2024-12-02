@@ -111,7 +111,7 @@ export function AddCategories({
                 {searchedValues?.map((item: AllCategoryType) => (
                   <div
                     className="flex items-center gap-3"
-                    key={item?.communityID}
+                    key={`${item?.communityCategoryID}-${item?.communityID}`}
                   >
                     <input
                       type="checkbox"
