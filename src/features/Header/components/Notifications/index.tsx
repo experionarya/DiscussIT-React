@@ -171,7 +171,11 @@ export function Notifications(): ReactElement {
               )}
               {(markNotificationReadLoading ||
                 markAllNotificationReadLoading ||
-                notificationListLoading) && <Loading />}
+                notificationListLoading) && (
+                <div className="flex justify-center items-center">
+                  <Loading />
+                </div>
+              )}
             </div>
           </PopoverPanel>
         </>
