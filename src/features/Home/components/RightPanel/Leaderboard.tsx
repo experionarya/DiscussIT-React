@@ -3,6 +3,8 @@ import { MedalSolid } from "iconoir-react";
 
 import { TrophyIcon } from "@heroicons/react/16/solid";
 
+import { NoData } from "src/components";
+
 import { useHomeStore } from "../../store/homeStore";
 
 import { TopUsersType } from "../../types/topUsers";
@@ -68,10 +70,15 @@ export default function LeaderBoard(): ReactElement {
           </h3>
         </div>
         <div className="space-y-2 pl-3 pr-2 max-h-56 overflow-y-scroll">
-          {topUsers &&
+          {topUsers ? (
             topUsers?.map((item: TopUsersType, index: number) =>
               renderTopUsers(item, index)
-            )}
+            )
+          ) : (
+            <div className="flex items-center justify-center h-56">
+              <NoData data={"No data available"} />
+            </div>
+          )}
         </div>
       </section>
     </>
