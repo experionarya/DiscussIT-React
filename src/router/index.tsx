@@ -10,6 +10,7 @@ import PostDetails from "src/features/PostDetails";
 import CreatePost from "src/features/CreatePost";
 import Profile from "src/features/Header/components/Profile";
 import TagsDetailPage from "src/features/TagsDetailPage";
+import { NotFound } from "src/features/NotFound";
 
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 
@@ -40,6 +41,7 @@ function PrivatePage(): ReactElement {
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tags/tag-threads/:tagName" element={<TagsDetailPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
