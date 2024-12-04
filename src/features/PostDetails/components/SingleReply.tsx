@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-
 import {
   ArrowDownIcon as ArrowDownIconMicro,
   XMarkIcon,
@@ -215,22 +214,23 @@ export function SingleReply({
     const userTime = utcTime.tz(userTimeZone);
     const now = dayjs().tz(userTimeZone);
 
-    const min = now.diff(userTime,"minute");
+    const min = now.diff(userTime, "minute");
     const day = now.diff(userTime, "day");
     const hour = now.diff(userTime, "hour");
     const week = now.diff(userTime, "week");
     const month = now.diff(userTime, "month");
     const year = now.diff(userTime, "year");
 
-    if (hour===0) return `${min} ${min === 1 ? "minute ago" : "minutes ago"}`;
+    if (hour === 0) return `${min} ${min === 1 ? "minute ago" : "minutes ago"}`;
     if (day === 0) return `${hour} ${hour === 1 ? "hour ago" : "hours ago"}`;
-    if (day >= 1 && day < 7) return `${day} ${day === 1 ? "day ago" : "days ago"}`;
+    if (day >= 1 && day < 7)
+      return `${day} ${day === 1 ? "day ago" : "days ago"}`;
     if (day >= 7 && day < 30)
       return `${week} ${week === 1 ? "week ago" : "weeks ago"}`;
     if (day >= 30 && day < 365)
       return `${month} ${month === 1 ? "month ago" : "months ago"}`;
     if (day >= 365) return `${year} ${year === 1 ? "year ago" : "years ago"}`;
-      return `${day} days ago`;
+    return `${day} days ago`;
   }
 
   function getChildRepliesLabel() {
@@ -257,7 +257,7 @@ export function SingleReply({
   function handleMarkAsBestAnswer() {
     const params = {
       replyId: reply?.replyID,
-      createdBy: reply?.createdBy,
+      createdBy: postDetails?.createdBy,
     };
     markAsBestAnswerType({ ...params });
   }
