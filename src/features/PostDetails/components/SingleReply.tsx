@@ -1,6 +1,8 @@
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
 
 import {
   ArrowDownIcon as ArrowDownIconMicro,
@@ -35,6 +37,7 @@ import { ReplyType, SingleReplyType } from "../types/replies";
 import { ThreadType } from "src/features/Community/types/postType";
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 type IndividualReplyType = {
   reply: SingleReplyType;
@@ -207,21 +210,27 @@ export function SingleReply({
   }
 
   function getDays() {
-    const day = dayjs().diff(reply?.createdAt, "day");
-    const hour = dayjs().diff(reply?.createdAt, "hour");
-    const week = dayjs().diff(reply?.createdAt, "week");
-    const month = dayjs().diff(reply?.createdAt, "month");
-    const year = dayjs().diff(reply?.createdAt, "year");
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcTime = dayjs.utc(reply?.createdAt);
+    const userTime = utcTime.tz(userTimeZone);
+    const now = dayjs().tz(userTimeZone);
 
-    if (day === 0) return `.${hour} ${hour === 1 ? "hour" : "hours"}`;
-    if (day >= 1 && day < 7) return `.${day} ${day === 1 ? "day" : "days"}`;
+    const min = now.diff(userTime,"minute");
+    const day = now.diff(userTime, "day");
+    const hour = now.diff(userTime, "hour");
+    const week = now.diff(userTime, "week");
+    const month = now.diff(userTime, "month");
+    const year = now.diff(userTime, "year");
+
+    if (hour===0) return `${min} ${min === 1 ? "minute ago" : "minutes ago"}`;
+    if (day === 0) return `${hour} ${hour === 1 ? "hour ago" : "hours ago"}`;
+    if (day >= 1 && day < 7) return `${day} ${day === 1 ? "day ago" : "days ago"}`;
     if (day >= 7 && day < 30)
-      return `.${week} ${week === 1 ? "week" : "weeks"}`;
+      return `${week} ${week === 1 ? "week ago" : "weeks ago"}`;
     if (day >= 30 && day < 365)
-      return `.${month} ${month === 1 ? "month" : "months"}`;
-    if (day >= 365) return `.${year} ${year === 1 ? "year" : "years"}`;
-
-    return `.${day} days`;
+      return `${month} ${month === 1 ? "month ago" : "months ago"}`;
+    if (day >= 365) return `${year} ${year === 1 ? "year ago" : "years ago"}`;
+      return `${day} days ago`;
   }
 
   function getChildRepliesLabel() {
