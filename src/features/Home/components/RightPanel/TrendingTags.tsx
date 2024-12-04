@@ -1,6 +1,8 @@
 import React, { ReactElement } from "react";
 import { HashtagIcon } from "@heroicons/react/24/outline";
 
+import { NoData } from "src/components";
+
 import { useHomeStore } from "../../store/homeStore";
 
 import { TrendingTagType } from "../../types/trendingTags";
@@ -40,10 +42,15 @@ export default function TrendingTags(): ReactElement {
             Trending tags
           </h3>
         </div>
-        <div className="flex flex-wrap pl-2 max-h-56 overflow-y-scroll">
-          {trendingTags &&
-            trendingTags?.map((item: TrendingTagType) => renderTags(item))}
-        </div>
+        {trendingTags ? (
+          <div className="flex flex-wrap pl-2 max-h-56 overflow-y-scroll">
+            {trendingTags?.map((item: TrendingTagType) => renderTags(item))}
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-56">
+            <NoData data={"No data available"} />
+          </div>
+        )}
       </section>
     </div>
   );
