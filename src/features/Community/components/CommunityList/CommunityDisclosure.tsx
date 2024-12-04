@@ -145,7 +145,7 @@ export function CommunityDisclosure(): ReactElement {
                         }`}
                       />
                     </DisclosureButton>
-                    <DisclosurePanel className="text-sm text-black/50 pl-6 overflow-x-hidden">
+                    <DisclosurePanel className="text-sm text-black/50 pl-4 overflow-x-hidden">
                       <ul>
                         <div className="flex border-b border-slate-200 mb-3">
                           <button>
