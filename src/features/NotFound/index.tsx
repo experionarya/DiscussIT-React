@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+
 import notfound from "../../assets/gif/notfound.gif";
 
 export function NotFound(): ReactElement {
