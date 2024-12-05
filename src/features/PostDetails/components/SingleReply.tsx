@@ -1,8 +1,13 @@
-import React, { ReactElement, useCallback, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-
 
 import {
   ArrowDownIcon as ArrowDownIconMicro,
@@ -35,6 +40,7 @@ import { usePostDetailsStore } from "../store/postDetailsStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
 import { ThreadType } from "src/features/Community/types/postType";
+import { validateUrlsInContent } from "../../../utils/urlValidator";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -67,6 +73,10 @@ export function SingleReply({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [replyValue, setReplyValue] = useState<string>();
   const [isTextArea, setIsTextArea] = useState<boolean>();
+  const [contentUrlWarning, setContentUrlWarning] = useState<{
+    isInvalid: boolean;
+    invalidUrl: string | null;
+  } | null>(null);
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
@@ -95,6 +105,14 @@ export function SingleReply({
   const { mutate: markAsBestAnswerType } = useMarkAsBestAnswer();
   const { mutate: unMarkBestAnswerType } = useUnmarkBestAnswer();
 
+  useEffect(() => {
+    if (replyDet) {
+      const warning = validateUrlsInContent(replyDet);
+      setContentUrlWarning(warning); // Update the warning if invalid URL is found
+    } else {
+      setContentUrlWarning(null); // Clear the warning if content is empty
+    }
+  }, [replyDet]);
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};
     const rootReplies: Array<ReplyType> = [];
@@ -215,22 +233,23 @@ export function SingleReply({
     const userTime = utcTime.tz(userTimeZone);
     const now = dayjs().tz(userTimeZone);
 
-    const min = now.diff(userTime,"minute");
+    const min = now.diff(userTime, "minute");
     const day = now.diff(userTime, "day");
     const hour = now.diff(userTime, "hour");
     const week = now.diff(userTime, "week");
     const month = now.diff(userTime, "month");
     const year = now.diff(userTime, "year");
 
-    if (hour===0) return `${min} ${min === 1 ? "minute ago" : "minutes ago"}`;
+    if (hour === 0) return `${min} ${min === 1 ? "minute ago" : "minutes ago"}`;
     if (day === 0) return `${hour} ${hour === 1 ? "hour ago" : "hours ago"}`;
-    if (day >= 1 && day < 7) return `${day} ${day === 1 ? "day ago" : "days ago"}`;
+    if (day >= 1 && day < 7)
+      return `${day} ${day === 1 ? "day ago" : "days ago"}`;
     if (day >= 7 && day < 30)
       return `${week} ${week === 1 ? "week ago" : "weeks ago"}`;
     if (day >= 30 && day < 365)
       return `${month} ${month === 1 ? "month ago" : "months ago"}`;
     if (day >= 365) return `${year} ${year === 1 ? "year ago" : "years ago"}`;
-      return `${day} days ago`;
+    return `${day} days ago`;
   }
 
   function getChildRepliesLabel() {
@@ -299,6 +318,11 @@ export function SingleReply({
                   {contentWarning}
                 </p>
               )}
+              {contentUrlWarning && (
+                <p className="text-red-500 text-xs pl-2 pt-1">
+                  {contentUrlWarning.invalidUrl}
+                </p>
+              )}
               <div className="flex gap-1 justify-end m-1">
                 <Button
                   size="medium"
@@ -311,7 +335,10 @@ export function SingleReply({
                   size="medium"
                   variant="primary"
                   onClick={handleSubmitReplies}
-                  disabled={replyDet?.length < 20}
+                  disabled={
+                    replyDet?.length < 20 ||
+                    contentUrlWarning?.isInvalid === true
+                  }
                 >
                   Reply
                 </Button>
