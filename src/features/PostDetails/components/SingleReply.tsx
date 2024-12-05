@@ -276,7 +276,7 @@ export function SingleReply({
   function handleMarkAsBestAnswer() {
     const params = {
       replyId: reply?.replyID,
-      createdBy: reply?.createdBy,
+      createdBy: postDetails?.createdBy,
     };
     markAsBestAnswerType({ ...params });
   }
