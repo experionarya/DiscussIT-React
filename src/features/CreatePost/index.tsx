@@ -27,6 +27,7 @@ import {
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 import { useCreatePostStore } from "./store/createPostStore";
+import { validateUrlsInContent } from "../../utils/urlValidator";
 
 export default function CreatePost(): ReactElement {
   const postDetails = useCreatePostStore(
@@ -68,6 +69,11 @@ export default function CreatePost(): ReactElement {
     isCommunityListLoading;
 
   const [userMode, updateUserMode] = useState<string>("");
+  //for warning in url
+  const [contentUrlWarning, setContentUrlWarning] = useState<{
+    isInvalid: boolean;
+    invalidUrl: string | null;
+  } | null>(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -81,6 +87,14 @@ export default function CreatePost(): ReactElement {
     if (location?.pathname.split("/").includes("createpost"))
       updateUserMode && updateUserMode("Create");
   }, [location?.pathname, updateUserMode]);
+
+  //for warning the url
+  useEffect(() => {
+    if (postDetails?.content) {
+      const warning = validateUrlsInContent(postDetails.content);
+      setContentUrlWarning(warning);
+    }
+  }, [postDetails?.content]); // Trigger validation whenever content changes
 
   const { tokenType } = useAuth();
 
@@ -151,10 +165,12 @@ export default function CreatePost(): ReactElement {
         postDetails?.Category === -1 ||
         postDetails?.Category === undefined ||
         postDetails?.Community === undefined) &&
-        userMode !== "Edit")
+        userMode !== "Edit") ||
+      contentUrlWarning?.isInvalid
     ) {
       return true;
     }
+    return false;
   }
 
   function renderSelectDropDowns({
@@ -322,6 +338,11 @@ export default function CreatePost(): ReactElement {
                 />
                 {showWarning(postDetails, "content") && (
                   <p className="text-red-500 text-sm">{contentWarning}</p>
+                )}
+                {contentUrlWarning && (
+                  <p className="text-red-500 text-sm">
+                    {contentUrlWarning.invalidUrl}
+                  </p>
                 )}
               </div>
               {renderReactSelectWithTooltip()}
