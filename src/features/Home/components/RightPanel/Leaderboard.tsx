@@ -3,7 +3,7 @@ import { MedalSolid } from "iconoir-react";
 
 import { TrophyIcon } from "@heroicons/react/16/solid";
 
-import { NoData } from "src/components";
+import { Avatar, NoData } from "src/components";
 
 import { useHomeStore } from "../../store/homeStore";
 
@@ -28,13 +28,13 @@ export default function LeaderBoard(): ReactElement {
             : ""
         } px-2 py-1`}
       >
-        <img
+        <div
           className={`h-6 w-6 flex-none rounded-full bg-gray-50  ${
             index < 3 ? "ring-2 ring-amber-500" : ""
           }`}
-          src={require(`src/assets/images/person-1.jpg`)}
-          alt="person"
-        />
+        >
+          <Avatar userName={item.name} size="small" />
+        </div>
         <div className="min-w-0 flex-auto">
           <p
             className={`text-xs font-semibold leading-tight ${
