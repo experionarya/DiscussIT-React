@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Button, DialogBox, TextEditor, Avatar } from "src/components";
@@ -15,6 +15,9 @@ import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { contentWarning } from "src/features/CreatePost/utils/postConstants";
 
 import { usePostDetailsStore } from "../store/postDetailsStore";
+import { truncateSync } from "fs";
+
+import { validateUrlsInContent } from "../../../utils/urlValidator";
 
 export function Comments({ postDetails }: { postDetails: any }): ReactElement {
   const { tokenType } = useAuth();
@@ -29,6 +32,15 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
   const { data: userDetails } = useGetUserDetails();
   const { data: communityList } = useGetCommunityList();
   const { mutate: saveReply } = useSaveReply();
+  const [contentUrlWarning, setContentUrlWarning] = useState<{
+    isInvalid: boolean;
+    invalidUrl: string | null;
+  } | null>(null);
+
+  useEffect(() => {
+    const warning = validateUrlsInContent(reply);
+    setContentUrlWarning(warning);
+  }, [reply]);
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
@@ -100,6 +112,11 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
                   {contentWarning}
                 </p>
               )}
+              {contentUrlWarning && (
+                <p className="text-red-500 text-xs pl-2 pt-1">
+                  {contentUrlWarning.invalidUrl}
+                </p>
+              )}
               <div className="flex gap-1 justify-end m-1 pb-1">
                 <Button size="medium" variant="secondary" onClick={handleClose}>
                   Cancel
@@ -108,7 +125,9 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
                   size="medium"
                   variant="primary"
                   onClick={saveComment}
-                  disabled={reply?.length < 20}
+                  disabled={
+                    reply?.length < 20 || contentUrlWarning?.isInvalid === true
+                  }
                 >
                   Reply
                 </Button>

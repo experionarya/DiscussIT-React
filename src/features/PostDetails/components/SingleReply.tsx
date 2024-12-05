@@ -1,4 +1,10 @@
-import React, { ReactElement, useCallback, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -34,6 +40,7 @@ import { usePostDetailsStore } from "../store/postDetailsStore";
 
 import { ReplyType, SingleReplyType } from "../types/replies";
 import { ThreadType } from "src/features/Community/types/postType";
+import { validateUrlsInContent } from "../../../utils/urlValidator";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -66,6 +73,10 @@ export function SingleReply({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [replyValue, setReplyValue] = useState<string>();
   const [isTextArea, setIsTextArea] = useState<boolean>();
+  const [contentUrlWarning, setContentUrlWarning] = useState<{
+    isInvalid: boolean;
+    invalidUrl: string | null;
+  } | null>(null);
 
   const getPostDetailsInfo = usePostDetailsStore(
     React.useCallback((state: any) => state.getPostDetailsInfo, [])
@@ -94,6 +105,14 @@ export function SingleReply({
   const { mutate: markAsBestAnswerType } = useMarkAsBestAnswer();
   const { mutate: unMarkBestAnswerType } = useUnmarkBestAnswer();
 
+  useEffect(() => {
+    if (replyDet) {
+      const warning = validateUrlsInContent(replyDet);
+      setContentUrlWarning(warning); // Update the warning if invalid URL is found
+    } else {
+      setContentUrlWarning(null); // Clear the warning if content is empty
+    }
+  }, [replyDet]);
   function transformReplies(replies: Array<SingleReplyType>) {
     const replyMap: { [key: number]: ReplyType } = {};
     const rootReplies: Array<ReplyType> = [];
@@ -299,6 +318,11 @@ export function SingleReply({
                   {contentWarning}
                 </p>
               )}
+              {contentUrlWarning && (
+                <p className="text-red-500 text-xs pl-2 pt-1">
+                  {contentUrlWarning.invalidUrl}
+                </p>
+              )}
               <div className="flex gap-1 justify-end m-1">
                 <Button
                   size="medium"
@@ -311,7 +335,10 @@ export function SingleReply({
                   size="medium"
                   variant="primary"
                   onClick={handleSubmitReplies}
-                  disabled={replyDet?.length < 20}
+                  disabled={
+                    replyDet?.length < 20 ||
+                    contentUrlWarning?.isInvalid === true
+                  }
                 >
                   Reply
                 </Button>
