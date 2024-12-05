@@ -7,7 +7,6 @@ import { fetchBookMarks } from "src/features/Home/store/apiStore";
 
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 
-
 export const useCreatePostStore = create<any>()((set, get) => ({
   postDetails: null,
   setPostDetails: (key: string, value: any) => {
@@ -16,7 +15,7 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         state.postDetails = { ...get().postDetails, [key]: value };
       })
     );
-  },  
+  },
   showWarning: (postDetails: any, param: string) => {
     if (param === "title") {
       if (
@@ -27,9 +26,7 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         return true;
       }
     } else if (param === "content") {
-      if (
-        postDetails?.content?.length < 20
-      ) {
+      if (postDetails?.content?.length < 20) {
         return true;
       }
     } else if (param === "tagNames") {
@@ -62,10 +59,11 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         tokenType: tokenType,
         threadId: id,
       });
-      const tagArray = tagOptions?.filter((item) => {
-        if (item?.label.includes(response?.tagNames)) return item;
-      });
-
+      const tagArray = tagOptions?.filter((item) =>
+        response?.tagNames?.some((tagName: string) =>
+          item?.label.includes(tagName)
+        )
+      );
       set(
         produce((state: any) => {
           state.postDetails = { ...response };
@@ -81,5 +79,5 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         state.postDetails = undefined;
       })
     );
-  }
+  },
 }));

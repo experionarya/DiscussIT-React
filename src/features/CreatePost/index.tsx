@@ -66,7 +66,7 @@ export default function CreatePost(): ReactElement {
     trendingTagLoading ||
     isCategoryListLoading ||
     isCommunityListLoading;
-    
+
   const [userMode, updateUserMode] = useState<string>("");
 
   const location = useLocation();
@@ -217,7 +217,10 @@ export default function CreatePost(): ReactElement {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <button className="absolute top-5 transform -translate-y-1/2 right-2">
+                <button
+                  className="absolute top-5 transform -translate-y-1/2 right-2 cursor-pointer"
+                  disabled
+                >
                   <InformationCircleIcon className="h-6 w-6 text-gray-500" />
                 </button>
               </Tooltip.Trigger>
