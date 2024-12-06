@@ -45,6 +45,8 @@ export function Thread({
   const { data: userDetails } = useGetUserDetails();
   const { mutate: saveBookmark } = useBookmarks();
 
+  const userID=getUserIdFromToken();
+
   useEffect(() => {
     if (postDetails) {
       setThreads(postDetails);
@@ -152,9 +154,10 @@ export function Thread({
       });
   };
 
-  function handleBookmark(thredId: number | undefined) {
-    saveBookmark(thredId);
+  function handleBookmark(threadID: number | undefined,userID:string | undefined) {
+    saveBookmark({threadID,userID});
   }
+
 
   return (
     <>
@@ -261,7 +264,7 @@ export function Thread({
         <button
           title="Bookmark"
           className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
-          onClick={() => handleBookmark(threads?.threadID)}
+          onClick={() => handleBookmark(threads?.threadID,userID)}
         >
           <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
           <span className="sr-only">Bookmark</span>
