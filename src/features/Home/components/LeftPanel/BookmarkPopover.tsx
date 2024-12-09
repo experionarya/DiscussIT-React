@@ -18,8 +18,8 @@ export function BookMarkPopover({
   const navigate = useNavigate();
   const hoverDelay = 400; // Delay in milliseconds
 
-  function goToPost() {
-    navigate(`/community/category-posts/replies`);
+  function goToPost(threadID: number) {
+    navigate(`/community/category-posts/replies?threadId=${threadID}`);
   }
 
   const handleMouseEnter = (index: number) => {
@@ -51,7 +51,8 @@ export function BookMarkPopover({
                 className="inline-block cursor-pointer w-full overflow-hidden rounded-md px-3 hover:bg-slate-300/50"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
-                onClick={goToPost}
+                // onClick={goToPost}
+                onClick={() => goToPost(item.threadID)}
               >
                 <span className="flex text-xs text-slate-400 justify-start truncate">
                   {item?.categoryName}
@@ -66,7 +67,8 @@ export function BookMarkPopover({
                   static
                   anchor="top start"
                   className="w-60 divide-y -ml-5 divide-white/5 rounded-md bg-white shadow-lg text-sm/6 ease-in-out cursor-pointer"
-                  onClick={goToPost}
+                  // onClick={goToPost}
+                  onClick={() => goToPost(item.threadID)}
                   onMouseEnter={() => setHoverIndex(index)}
                   onMouseLeave={() => setHoverIndex(null)}
                 >
