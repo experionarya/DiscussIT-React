@@ -5,12 +5,16 @@ import { getPreferenceList } from "../../../utils/urls";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { useHomeStore } from "../store/homeStore";
+import { getUserIdFromToken} from "src/utils/authenticationHelper/tokenHandler";
+ 
+const userID=getUserIdFromToken();
 
 async function fetchPreferenceList({
   token,
   tokenType,
+  userID,
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getPreferenceList, {
+  const response = await fetch(`${getPreferenceList}?userId=${userID}`, {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -25,6 +29,7 @@ type TError = { message: string };
 type TVariables = {
   token: string | null;
   tokenType: string;
+  userID: string
 };
 
 function useGetPreferenceList(): UseQueryResult<APIResult, TError> {
@@ -40,6 +45,7 @@ function useGetPreferenceList(): UseQueryResult<APIResult, TError> {
         const result = await fetchPreferenceList({
           token,
           tokenType,
+          userID,
         });
         const allCommunityIds = result?.map(
           (item) => item?.communityCategoryID
