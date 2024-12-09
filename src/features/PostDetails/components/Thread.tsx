@@ -137,7 +137,9 @@ export function Thread({
   };
 
   function onEdit() {
-    navigate(`/community/category-posts/edit-posts?threadId=${threadId}`);
+    navigate(`/community/category-posts/edit-posts?threadId=${threadId}`, {
+      state: { from: window.location.pathname },
+    });
   }
 
   const copyUrlToClipboard = () => {

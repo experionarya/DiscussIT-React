@@ -35,8 +35,11 @@ export default function PostDetails(): ReactElement {
   );
   const threadId = location.search.split("threadId=")[1];
 
-  console.log("threadId1", threadId);
-  const from = location.state?.from || "/home"; // Default to '/home' if no state is present
+  useEffect(() => {
+    if (location && location.state?.from) {
+      localStorage.setItem("navigation", location.state.from);
+    }
+  }, [location]);
 
   useQuery(
     ["get_post_details", { threadId: threadId }],
@@ -56,8 +59,9 @@ export default function PostDetails(): ReactElement {
         <button
           className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center"
           onClick={() => {
-            queryClient.invalidateQueries(['get_post_details'])
-            navigate(from)
+            const nav = localStorage.getItem("navigation") || "";
+            navigate(nav);
+            queryClient.invalidateQueries(["get_post_details"]);
           }}
         >
           <ArrowLeftIcon className="size-5" />
@@ -65,11 +69,20 @@ export default function PostDetails(): ReactElement {
       </div>
       <div className="grid grow grid-cols-3 gap-4 pl-10">
         <div className="col-span-2 space-y-2 pb-7">
-          {isPostDetailsLoading ? <div className="flex justify-center items-center h-screen"><Loading/></div> : <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
-            <Thread postDetails={postDetails} setShowComment={setShowComment} />
-            <Comments postDetails={postDetails} />
-            <Replies postDetails={postDetails} />
-          </article>}
+          {isPostDetailsLoading ? (
+            <div className="flex justify-center items-center h-96">
+              <Loading />
+            </div>
+          ) : (
+            <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
+              <Thread
+                postDetails={postDetails}
+                setShowComment={setShowComment}
+              />
+              <Comments postDetails={postDetails} />
+              <Replies postDetails={postDetails} />
+            </article>
+          )}
         </div>
         <div className="col-span-1" />
       </div>

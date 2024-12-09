@@ -10,7 +10,7 @@ import { Button } from "src/components/Button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 import { ReactSelect, TextEditor, Loading } from "src/components";
 
@@ -30,6 +30,8 @@ import { useCreatePostStore } from "./store/createPostStore";
 import { validateUrlsInContent } from "../../utils/urlValidator";
 
 export default function CreatePost(): ReactElement {
+  const queryClient = useQueryClient();
+
   const postDetails = useCreatePostStore(
     useCallback((state) => state.postDetails, [])
   );
@@ -149,7 +151,12 @@ export default function CreatePost(): ReactElement {
 
     createNewPost(postValue, {
       onSuccess: () => {
-        navigate("/home");
+        queryClient.invalidateQueries(["get_post_details"]);
+        navigate(
+          location.state?.from
+            ? `${location.state.from}?threadId=${id}`
+            : "/home"
+        );
         clearPostDetails();
       },
     });
@@ -363,7 +370,7 @@ export default function CreatePost(): ReactElement {
               </div>
             </form>
           ) : (
-            <div className="flex mx-auto justify-center h-full items-center">
+            <div className="flex justify-center h-96 items-center">
               <Loading />
             </div>
           )}
