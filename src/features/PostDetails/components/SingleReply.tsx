@@ -18,7 +18,7 @@ import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/sol
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
-import { Avatar, Button, DialogBox, TextEditor } from "src/components";
+import { Avatar, Button, DialogBox, Loading, TextEditor } from "src/components";
 
 import {
   useDeleteReply,
@@ -101,7 +101,7 @@ export function SingleReply({
   const { data: userDetails } = useGetUserDetails();
   const { mutate: deleteReply } = useDeleteReply();
   const { mutate: replaceDeletedComment } = useReplaceDeletedComment();
-  const { mutate: childReply } = useGetChildReply();
+  const { mutate: childReply, isLoading: isChildReply } = useGetChildReply();
   const { mutate: markAsBestAnswerType } = useMarkAsBestAnswer();
   const { mutate: unMarkBestAnswerType } = useUnmarkBestAnswer();
 
@@ -223,6 +223,7 @@ export function SingleReply({
           tokenType: tokenType,
           threadId: reply?.threadID,
         });
+        setReplyValue("");
       },
     });
   }
@@ -337,7 +338,8 @@ export function SingleReply({
                   onClick={handleSubmitReplies}
                   disabled={
                     replyDet?.length < 20 ||
-                    contentUrlWarning?.isInvalid === true
+                    contentUrlWarning?.isInvalid === true ||
+                    isChildReply
                   }
                 >
                   Reply
@@ -346,6 +348,11 @@ export function SingleReply({
             </div>
           )
         ) : null}
+        {isChildReply && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+            <Loading />
+          </div>
+        )}
         {isDeleteConfirm ? (
           <div>
             <DialogBox

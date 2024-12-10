@@ -1,7 +1,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { Button, DialogBox, TextEditor, Avatar } from "src/components";
+import { Button, DialogBox, TextEditor, Avatar, Loading } from "src/components";
 
 import { useSaveReply } from "../api/useSaveReply";
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
@@ -31,7 +31,7 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
 
   const { data: userDetails } = useGetUserDetails();
   const { data: communityList } = useGetCommunityList();
-  const { mutate: saveReply } = useSaveReply();
+  const { mutate: saveReply, isLoading: isSavingReply } = useSaveReply();
   const [contentUrlWarning, setContentUrlWarning] = useState<{
     isInvalid: boolean;
     invalidUrl: string | null;
@@ -82,7 +82,7 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
     });
   }
   return (
-    <>
+    <div className="relative">
       <div className="grid grow grid-cols-12 bg-slate-100 rounded-md p-3">
         <div className="col-span-1 items-start">
           <Avatar userName={userDetails?.name || ""} size="medium" />
@@ -126,7 +126,9 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
                   variant="primary"
                   onClick={saveComment}
                   disabled={
-                    reply?.length < 20 || contentUrlWarning?.isInvalid === true
+                    reply?.length < 20 ||
+                    contentUrlWarning?.isInvalid === true ||
+                    isSavingReply
                   }
                 >
                   Reply
@@ -136,6 +138,12 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
           )}
         </div>
       </div>
+      {isSavingReply && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+          <Loading />
+        </div>
+      )}
+
       {isDiscardChanges ? (
         <div>
           <DialogBox
@@ -150,6 +158,6 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
           />
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
