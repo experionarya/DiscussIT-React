@@ -82,7 +82,6 @@ export function AddCategories({
     });
   }
 
-  console.log("checkedItems", checkedItems);
   return (
     <>
       <Dialog
