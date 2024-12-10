@@ -4,6 +4,8 @@ import { useQueryClient } from "react-query";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
+
 import dayjs from "dayjs";
 
 import { Button } from "src/components/Button";
@@ -80,6 +82,7 @@ export function AddCategories({
     });
   }
 
+  console.log("checkedItems", checkedItems);
   return (
     <>
       <Dialog
@@ -117,7 +120,15 @@ export function AddCategories({
                   value={categorySearchParam}
                 />
               </div>
-              <div className="max-h-80 overflow-y-scroll space-y-4 pl-7 pr-5 pt-3">
+              {checkedItems && (
+                <div className="m-5 mt-3 mb-0 pt-2 pb-2 pl-2 rounded-md bg-blue-50 flex items-center gap-1">
+                  <InformationCircleIcon className="h-5 w-5 text-blue-500" />
+                  <p className="text-xs text-blue-500">
+                    At least one must be selected.
+                  </p>
+                </div>
+              )}
+              <div className="max-h-80 overflow-y-scroll space-y-4 pl-7 pr-5 pt-2">
                 {searchedValues && searchedValues.length > 0 ? (
                   searchedValues?.map((item: AllCategoryType) => (
                     <div
