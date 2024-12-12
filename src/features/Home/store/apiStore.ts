@@ -109,6 +109,10 @@ export async function fetchBookMarks({
         Authorization: `${tokenType} ${token}`,
       },
     });
-    return response.json();
+    const result=await response.json();
+    console.log("hiiiiiiiii",result);
+    return result;
+    
+
   }
 }

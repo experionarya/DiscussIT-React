@@ -72,7 +72,7 @@ export default function LeftPanel(): ReactElement {
   }, [handleScroll]);
   const { tokenType } = useAuth();
 
-  //calling the book mark apis\
+  //calling the book mark apis
   useQuery(
     ["get_threadIDs", savedPosts],
     () => {

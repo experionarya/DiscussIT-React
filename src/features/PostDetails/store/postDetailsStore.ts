@@ -16,10 +16,20 @@ export const usePostDetailsStore = create<any>()((set, get) => ({
   innerReplies: [],
   nestedReplies: [],
   replyDetails: [],
+  isBookmark: false,
+
+  setIsBookmark: (value: boolean) => {
+    set(
+      produce((state: any) => {
+        state.isBookmark = value;
+      })
+    );
+  },
+
 
   getPostDetailsInfo: async ({
     token,
-    tokenType,
+    tokenType,  
     threadId,
   }: Partial<{ token: string; tokenType: string; threadId: number }>) => {
     set(
@@ -39,6 +49,13 @@ export const usePostDetailsStore = create<any>()((set, get) => ({
         state.postDetails = { ...postDetails };
       })
     );
+    
+    set(
+      produce((state: any) => {
+        state.isBookmark = postDetails.isBookmark;
+      })
+    );
+
 
     const primaryReplies = await fetchPrimaryReplies({
       token,
@@ -103,3 +120,4 @@ export const usePostDetailsStore = create<any>()((set, get) => ({
     );
   },
 }));
+

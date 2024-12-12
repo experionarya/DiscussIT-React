@@ -22,8 +22,13 @@ import { createMarkup } from "src/utils/common";
 import { ThreadType } from "src/features/Community/types/postType";
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 import { useBookmarks } from "../api/useBookmarks";
+import { usePostDetailsStore } from "../store/postDetailsStore";
+import { useQueryClient } from "react-query";
+import { useUnSaveBookmark } from "../api/useUnsaveBookmark";
+
 
 dayjs.extend(utc);
+
 
 type PostThreadType = {
   postDetails: ThreadType;
@@ -46,6 +51,12 @@ export function Thread({
   const { mutate: saveBookmark } = useBookmarks();
 
   const userID=getUserIdFromToken();
+  const isBookmark = usePostDetailsStore((state) => state.isBookmark);
+  const queryClient = useQueryClient();
+  const { mutate: unSaveBookmark } = useUnSaveBookmark();
+  
+
+
 
   useEffect(() => {
     if (postDetails) {
@@ -154,12 +165,33 @@ export function Thread({
       });
   };
 
-  function handleBookmark(threadID: number | undefined,userID:string | undefined) {
-    saveBookmark({threadID,userID});
+  
+  function handleBookmark(threadID: number | undefined, userID: string | undefined) {
+    const { isBookmark } = usePostDetailsStore.getState();
+    const updatedIsBookmark = !isBookmark;
+    
+    usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+  
+    const bookmarkAction = isBookmark ? unSaveBookmark : saveBookmark;
+    
+    bookmarkAction({ threadID, userID }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_saved_post_list"]);
+        queryClient.invalidateQueries(["get_all_post"]);
+        
+        queryClient.refetchQueries(["get_saved_post_list"]);
+        
+         usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+      },
+      onError: () => {
+        // Revert the bookmark state on error
+        usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
+        console.log(`Error ${isBookmark ? 'unsaving' : 'saving'} bookmark`);
+      },
+    });
   }
-
-
-  return (
+    return (
     <>
       <div className="flex min-w-0 gap-x-2">
         <Avatar userName={threads?.createdByUser || ""} size="medium" />
@@ -266,7 +298,9 @@ export function Thread({
           className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
           onClick={() => handleBookmark(threads?.threadID,userID)}
         >
-          <BookmarkIconMicro className="ml-1 size-4 text-gray-600" />
+          
+          {/* <BookmarkIconMicro className="ml-1 size-4 text-gray-600" /> */}
+          <BookmarkIconMicro className={`size-4 ${isBookmark ? "text-orange-600" : "text-gray-600"}`} />
           <span className="sr-only">Bookmark</span>
         </button>
       </div>
