@@ -75,7 +75,10 @@ export default function Header(): ReactElement {
 
   const handleKeyPress = useCallback(
     (event: any) => {
-      if (event.ctrlKey && event.key === "k") {
+      if (
+        (event.ctrlKey && event.key === "k") ||
+        (event.ctrlKey && event.key === "K")
+      ) {
         event.preventDefault();
         openSearch();
       }

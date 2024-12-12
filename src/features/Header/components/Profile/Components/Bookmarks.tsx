@@ -8,7 +8,7 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 
-import { NoData } from "src/components";
+import { Avatar, NoData } from "src/components";
 
 import {
   createMarkup,
@@ -18,11 +18,14 @@ import {
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 
+import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
+
 export default function Bookmarks({
   bookMarks,
 }: {
   bookMarks: Array<BookMark>;
 }): ReactElement {
+  const { data: userDetails } = useGetUserDetails();
   const navigate = useNavigate();
 
   function gotoPost(id: number) {
@@ -45,11 +48,7 @@ export default function Bookmarks({
           bookMarks?.map((item) => (
             <article className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm">
               <div className="flex min-w-0 gap-x-2">
-                <img
-                  className="h-8 w-8 flex-none rounded-full bg-gray-50"
-                  src={require(`src/assets/images/person-4.jpg`)}
-                  alt=""
-                />
+                <Avatar userName={userDetails?.name || ""} size="medium" />
                 <div className="min-w-0 flex-auto">
                   <p className="text-sm font-semibold leading-tight text-slate-900">
                     {item?.createdByUser}
