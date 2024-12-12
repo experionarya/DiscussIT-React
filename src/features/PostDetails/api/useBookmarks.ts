@@ -56,11 +56,13 @@ function useBookmarks(): UseMutationResult<any, TError, any, unknown> {
       return result;
     },
     {
-      onSettled: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries(["get_saved_post_list"], {
           refetchInactive: true,
         });
         queryClient.refetchQueries(["get_saved_post_list"]);
+        queryClient.invalidateQueries(["get_all_post"]);
+        queryClient.invalidateQueries(["get_post_details"]);
       },
     }
   );

@@ -52,15 +52,13 @@ type TError = { message: string };
           threadID,
           userID,
         });
+        queryClient.invalidateQueries(["get_saved_post_list"], {
+          refetchInactive: true,
+       });
+       queryClient.refetchQueries(["get_saved_post_list"]);
+       queryClient.invalidateQueries(["get_all_post"]);
+       queryClient.invalidateQueries(["get_post_details"]);
         return result;
-      },
-      {
-        onSettled: () => {
-          queryClient.invalidateQueries(["get_saved_post_list"], {
-            refetchInactive: true,
-          });
-          queryClient.refetchQueries(["get_saved_post_list"]);
-        },
       }
     );
   }

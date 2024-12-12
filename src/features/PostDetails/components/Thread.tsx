@@ -176,16 +176,16 @@ export function Thread({
     
     bookmarkAction({ threadID, userID }, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["get_post_details"]);
-        queryClient.invalidateQueries(["get_saved_post_list"]);
-        queryClient.invalidateQueries(["get_all_post"]);
+        // queryClient.invalidateQueries(["get_post_details"]);
+        // queryClient.invalidateQueries(["get_all_post"]);
+        // queryClient.invalidateQueries(["get_saved_post_list"]);
         
-        queryClient.refetchQueries(["get_saved_post_list"]);
+        // queryClient.refetchQueries(["get_saved_post_list"]);
         
          usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+         queryClient.refetchQueries(["get_saved_post_list"]);
       },
       onError: () => {
-        // Revert the bookmark state on error
         usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
         console.log(`Error ${isBookmark ? 'unsaving' : 'saving'} bookmark`);
       },
