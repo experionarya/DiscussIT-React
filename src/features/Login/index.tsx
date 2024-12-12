@@ -1,5 +1,8 @@
 import React from "react";
 
+import Discussitlogo from "../../assets/images/Discussitlogo.png";
+import logoexperion from "../../assets/images/logoexperion.png";
+
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 export default function Login() {
@@ -36,11 +39,7 @@ export default function Login() {
           <div className="col-span-1 h-screen bg-white">
             <div className="flex grow flex-col md:h-svh md:w-full">
               <div className="flex flex-col grow items-center justify-center gap-10">
-                <img
-                  src={require(`src/assets/images/Discussit-logo.png`)}
-                  alt="logo"
-                  className="h-16"
-                />
+                <img src={Discussitlogo} alt="logo" className="h-16" />
                 <button
                   onClick={() => {
                     login();
@@ -98,11 +97,7 @@ export default function Login() {
                 </button>
               </div>
               <div className="flex justify-center p-5">
-                <img
-                  src={require(`src/assets/images/logo-experion.png`)}
-                  alt="logo"
-                  className="h-7"
-                />
+                <img src={logoexperion} alt="logo" className="h-7" />
               </div>
             </div>
           </div>

@@ -16,6 +16,7 @@ import { Button, Avatar, DialogBox } from "src/components";
 import Search from "src/features/Header/components/Search";
 import { Announcements } from "./components/Announcements";
 import { Notifications } from "./components/Notifications";
+import Discussitlogo from "../../assets/images/Discussitlogo.png";
 
 import { useLogoutUserAccount } from "./api/useLogoutAccount";
 import { useGetUserDetails } from "./api/useGetUserDetails";
@@ -132,13 +133,13 @@ export default function Header(): ReactElement {
           </button>
           <div className="flex flex-shrink-0 items-center ml-2">
             <img
-              src="https://discussit-dev.experionglobal.dev/assets/images/Logo.png"
+              src={Discussitlogo}
+              alt="logo"
               className="h-10 cursor-pointer"
-              alt="Tailwind Play"
               onClick={goToHome}
             />
           </div>
-          <nav className="hidden gap-2 self-stretch md:flex">
+          <nav className="hidden gap-4 self-stretch md:flex ml-8">
             <NavLink
               to="/home"
               className={({ isActive }) =>
