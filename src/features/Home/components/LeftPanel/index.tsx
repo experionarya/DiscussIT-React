@@ -27,7 +27,6 @@ export default function LeftPanel(): ReactElement {
     useCallback((state: any) => state.bookMarks, [])
   );
 
-  console.log("bookmark",bookMarks)
 
   const filterByValue = useHomeStore(
     useCallback((state) => state.filterByValue, [])
@@ -78,7 +77,6 @@ export default function LeftPanel(): ReactElement {
   useQuery(
     ["get_threadIDs", savedPosts],
     () => {
-      console.log("Saved ",savedPosts)
       savedPosts?.forEach((savedPost) => {
         const parsedToken = getParsedToken();
         if (parsedToken && tokenType && savedPost?.threadID)
@@ -89,7 +87,7 @@ export default function LeftPanel(): ReactElement {
           });
       });
     },
-    { staleTime: Infinity }
+    // { staleTime: Infinity }
   );
 
   function handleClose() {
