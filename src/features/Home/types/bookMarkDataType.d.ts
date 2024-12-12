@@ -9,6 +9,7 @@ export type BookMark = {
   modifiedAt: string;
   threadStatusName: string;
   isAnswered: boolean;
+  isBookmark: boolean;
   upVoteCount:  number;
   downVoteCount: number;
   isEdited: boolean;
