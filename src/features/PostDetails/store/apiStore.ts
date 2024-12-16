@@ -4,9 +4,11 @@ import {
   getPrimaryRepliesOfThread,
   getReplyDetails,
 } from "src/utils/urls";
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 export async function fetchPostDetails({ token, tokenType, threadId }: any) {
-  const response = await fetch(getPostDetails(threadId), {
+  const userId = getUserIdFromToken();
+  const response = await fetch(getPostDetails(threadId,userId), {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,

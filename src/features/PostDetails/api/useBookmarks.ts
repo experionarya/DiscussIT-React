@@ -18,15 +18,21 @@ async function saveBookmarks({
     method: "POST",
     headers: {
       Authorization: `${tokenType} ${token}`,
-      // "Content-Type": "application/json",
-      // "Content-Type":"multipart/form-data"
     },
     body: formData
   });
-  return response.json();
+  // return response.json();
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  
+  // return { success: true, message: "Bookmark saved successfully" }; // Default response
+  return { success: true, message: "Bookmark saved successfully", threadID, userID };
 }
 
-type APIResult = SaveBookmark;
+
+type APIResult = SaveBookmark  & { success: boolean; message: string; };
 
 type TError = { message: string };
 type TVariables = {
@@ -50,10 +56,13 @@ function useBookmarks(): UseMutationResult<any, TError, any, unknown> {
       return result;
     },
     {
-      onSettled: () => {
-        queryClient.invalidateQueries("get_saved_post_list", {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_saved_post_list"], {
           refetchInactive: true,
         });
+        queryClient.refetchQueries(["get_saved_post_list"]);
+        queryClient.invalidateQueries(["get_all_post"]);
+        queryClient.invalidateQueries(["get_post_details"]);
       },
     }
   );

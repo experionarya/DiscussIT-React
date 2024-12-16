@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -20,10 +21,11 @@ import { useUpdateThreadVote } from "../api/useUpdateThreadVote";
 import { useBookmarks } from "../api/useBookmarks";
 import { useDeletePost } from "../api/useDeletePost";
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
+import { useUnSaveBookmark } from "../api/useUnsaveBookmark";
 
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 import { createMarkup } from "src/utils/common";
-
+import { usePostDetailsStore } from "../store/postDetailsStore";
 
 dayjs.extend(utc);
 
@@ -50,6 +52,9 @@ export function Thread({
   const { mutate: deleteReply, isLoading: deleteLoading } = useDeletePost();
 
   const userID = getUserIdFromToken();
+  const isBookmark = usePostDetailsStore((state) => state.isBookmark);
+  const queryClient = useQueryClient();
+  const { mutate: unSaveBookmark } = useUnSaveBookmark();
 
   useEffect(() => {
     if (postDetails) {
@@ -168,7 +173,26 @@ export function Thread({
     threadID: number | undefined,
     userID: string | undefined
   ) {
-    saveBookmark({ threadID, userID });
+    const { isBookmark } = usePostDetailsStore.getState();
+    const updatedIsBookmark = !isBookmark;
+
+    usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+
+    const bookmarkAction = isBookmark ? unSaveBookmark : saveBookmark;
+
+    bookmarkAction(
+      { threadID, userID },
+      {
+        onSuccess: () => {
+          usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+          queryClient.refetchQueries(["get_saved_post_list"]);
+        },
+        onError: () => {
+          usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
+          console.log(`Error ${isBookmark ? "unsaving" : "saving"} bookmark`);
+        },
+      }
+    );
   }
 
   function handleDeletePost() {
@@ -308,7 +332,11 @@ export function Thread({
           className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
           onClick={() => handleBookmark(threads?.threadID, userID)}
         >
-          <BookmarkIconMicro className="size-4 text-gray-600" />
+          <BookmarkIconMicro
+            className={`size-4 ${
+              isBookmark ? "text-orange-600" : "text-gray-600"
+            }`}
+          />
           <span className="sr-only">Bookmark</span>
         </button>
         {threads?.createdBy === userDetails?.userID && (

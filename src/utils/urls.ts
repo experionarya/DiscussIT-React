@@ -60,9 +60,10 @@ export const getAllCategories = `${apiBaseUrl}CommunityCategory/all-categories`;
 export const getAllPosts = (
   filterBy: string,
   pageNumber: number,
-  pageSize: number
+  pageSize: number,
+  userID:string
 ) =>
-  `${apiBaseUrl}Thread/Getall_threads?filterBy=${filterBy}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  `${apiBaseUrl}Thread/Getall_threads?filterBy=${filterBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&userId=${userID}`;
 
 //getting all post based on category
 export const getCategorywisePost = (
@@ -95,8 +96,8 @@ export const savePost = (
 ) =>
   `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
 // post details by thread id
-export const getPostDetails = (threadId: number) =>
-  `${apiBaseUrl}Thread/${threadId}`;
+export const getPostDetails = (threadId: number,userID:string) =>
+  `${apiBaseUrl}Thread/${threadId}?userId=${userID}`;
 
 // get the replies by thread
 export const getPrimaryRepliesOfThread = (threadId: number) =>
@@ -182,6 +183,9 @@ export const getMyPosts = (
 Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
 
 export const Bookmarks = `${apiBaseUrl}SavedPost/save`;
+
+export const unSaveBookmark = (threadID: number|undefined, userID: string|undefined) =>
+  `${apiBaseUrl}SavedPost/${userID}/${threadID}`;
 
 export const markAsBestAnswer = (replyId: number, createdBy: string) =>
   `${apiBaseUrl}Reply/MarkAsBestAnswer/${replyId}?createdBy=${createdBy}`;

@@ -13,16 +13,19 @@ import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { useHomeStore } from "../store/homeStore";
 
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
+import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 const pageLength = 20;
+const userID=getUserIdFromToken();
 
 async function fetchAllPosts({
   token,
   tokenType,
   filterBy,
   pageParam,
+  userID
 }: TVariables): Promise<APIResult> {
-  const response = await fetch(getAllPosts(filterBy, pageParam, pageLength), {
+  const response = await fetch(getAllPosts(filterBy, pageParam, pageLength,userID), {
     method: "GET",
     headers: {
       Authorization: `${tokenType} ${token}`,
@@ -39,10 +42,12 @@ type TVariables = {
   tokenType: string;
   filterBy: string;
   pageParam: number;
+  userID:string
 };
 
 function useGetAllPosts({
   filterBy,
+  
 }: {
   filterBy: string;
 }): UseInfiniteQueryResult<APIResult, TError> {
@@ -57,6 +62,7 @@ function useGetAllPosts({
         tokenType,
         filterBy,
         pageParam,
+        userID,
       });
       setAllPost(result?.posts);
       return result;
