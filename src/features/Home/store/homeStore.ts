@@ -139,7 +139,11 @@ export const useHomeStore = create<any>()((set, get) => ({
 
     set(
       produce((state: any) => {
-        state.bookMarks = [...state.bookMarks, ...tempArray];
+        const temp = [...state.bookMarks, ...tempArray]
+        const uniqueArray = temp.filter((o, index, arr) =>
+          arr.findIndex(item => JSON.stringify(item) === JSON.stringify(o)) === index
+      );
+        state.bookMarks = [...uniqueArray]
       })
     );
   },

@@ -40,7 +40,6 @@ export function BookMarkPopover({
   }
 
   const limitedData = useMemo(() => data.slice(0, 3), [data]);
-  console.log("hii",limitedData,data)
 
 
   return (

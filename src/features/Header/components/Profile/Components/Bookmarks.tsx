@@ -123,7 +123,7 @@ export default function Bookmarks({
                   className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                   title="Bookmark"
                 >
-                  <BookmarkIconMicro className="size-4 text-gray-600" />
+                  <BookmarkIconMicro className="size-4 text-orange-600" />
                   <span className="sr-only">Bookmark</span>
                 </button>
               </div>

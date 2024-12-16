@@ -179,20 +179,16 @@ export function Thread({
     usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
 
     const bookmarkAction = isBookmark ? unSaveBookmark : saveBookmark;
-
-    bookmarkAction(
-      { threadID, userID },
-      {
-        onSuccess: () => {
-          usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
-          queryClient.refetchQueries(["get_saved_post_list"]);
-        },
-        onError: () => {
-          usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
-          console.log(`Error ${isBookmark ? "unsaving" : "saving"} bookmark`);
-        },
-      }
-    );
+    
+    bookmarkAction({ threadID, userID }, {
+      onSuccess: () => {
+         usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+         queryClient.refetchQueries(["get_saved_post_list"]);
+      },
+      onError: () => {
+        usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
+      },
+    });
   }
 
   function handleDeletePost() {

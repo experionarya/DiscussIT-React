@@ -110,9 +110,6 @@ export async function fetchBookMarks({
       },
     });
     const result=await response.json();
-    console.log("hiiiiiiiii",result);
     return result;
-    
-
   }
 }

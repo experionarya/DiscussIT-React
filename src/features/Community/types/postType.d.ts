@@ -30,6 +30,7 @@ export type ThreadType = {
   createdByUser: string;
   downVoteCount: number;
   isAnswered: boolean;
+  isBookmark: boolean;
   isEdited: null;
   modifiedAt: string;
   modifiedBy: string;
