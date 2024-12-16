@@ -196,3 +196,17 @@ export const logoutAccount = (userId: string) =>
   `${apiBaseUrl}Login/Logout?userId=${userId}`;
 
 export const getAllAnnouncements = `${apiBaseUrl}Notice`;
+
+export const getMyDrafts = (
+  userId: string,
+  pageNumber: number,
+  pageSize: number
+) =>
+  `${apiBaseUrl}Thread/GetMyDrafts?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+export const deletePost = (
+  threadId: number,
+  modifierId: string,
+  communityID: number
+) =>
+  `${apiBaseUrl}Thread/${threadId}?ModifierId=${modifierId}&communityID=${communityID}`;
