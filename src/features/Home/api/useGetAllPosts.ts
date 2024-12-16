@@ -78,7 +78,7 @@ function useGetAllPosts({
           return allPages?.length - 1;
       },
 
-      staleTime: 60 * 1000,
+      staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
       enabled: filterBy !== "",
     }
