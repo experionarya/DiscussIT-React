@@ -2,20 +2,21 @@ import React, { ReactElement } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowDownIcon as ArrowDownIconMicro,
-  ArrowUpIcon as ArrowUpIconMicro,
-  ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro,
-  ShareIcon as ShareIconMicro,
-  BookmarkIcon as BookmarkIconMicro,
-} from "@heroicons/react/16/solid";
+  ArrowBigUp,
+  MessageSquare,
+  ArrowBigDown,
+  Bookmark,
+  Share2,
+} from "lucide-react";
+
+import { BookMark } from "src/features/Home/types/bookMarkDataType";
+import { Avatar } from "src/components";
 
 import {
   createMarkup,
   getHtmlTextLength,
   trimHTMLContent,
 } from "src/utils/common";
-import { BookMark } from "src/features/Home/types/bookMarkDataType";
-import { Avatar } from "src/components";
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
 
 export function PostItem({ item }: { item: BookMark }): ReactElement {
@@ -96,7 +97,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
         </p>
       </div>
       <div
-        className="flex space-x-3"
+        className="flex space-x-3 items-center"
         onClick={() => {
           getCommunityId();
           gotoPost(item?.threadID);
@@ -104,42 +105,45 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
       >
         <button
           title="Up vote"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
         >
-          <ArrowUpIconMicro className="size-4 text-gray-600" />
+          <ArrowBigUp size={23} className="text-gray-600" />
           <span className="sr-only">Up vote</span>
           <span>{item?.upVoteCount}</span>
         </button>
         <button
           title="Down vote"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
         >
-          <ArrowDownIconMicro className="size-4 text-gray-600" />
+          <ArrowBigDown size={23} className="text-gray-600" />
           <span className="sr-only">Down vote</span>
           <span>{item?.downVoteCount}</span>
         </button>
         <button
           title="Comment"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
         >
-          <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+          <MessageSquare size={15} className="text-gray-600" strokeWidth={3} />
           <span className="sr-only">Comment</span>
           <span>{item?.replyCount}</span>
         </button>
         <button
-          title="Share"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+          title={`${item.isBookmark ? "Bookmarked" : "Bookmark"}`}
         >
-          <ShareIconMicro className="size-4 text-gray-600" />
-          <span className="sr-only">Share</span>
+          <Bookmark
+            size={15}
+            className={`text-gray-600 ${item.isBookmark ? "fill-gray-600" : null}`}
+            strokeWidth={3}
+          />
+          <span className="sr-only">Bookmark</span>
         </button>
         <button
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-          title="Bookmark"
+          title="Share"
+          className="flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
         >
-          {/* <BookmarkIconMicro className="size-4 text-gray-600" /> */}
-          <BookmarkIconMicro className={`size-4 ${item.isBookmark ? "text-orange-600" : "text-gray-600"}`} />
-          <span className="sr-only">Bookmark</span>
+          <Share2 strokeWidth={3} className="text-slate-600" size={14} />
+          <span className="sr-only">Share</span>
         </button>
       </div>
     </article>

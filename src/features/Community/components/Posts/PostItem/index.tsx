@@ -10,11 +10,13 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
-import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
-import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
-import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
+import {
+  ArrowBigUp,
+  MessageSquare,
+  ArrowBigDown,
+  Bookmark,
+  Share2,
+} from "lucide-react";
 
 import { Avatar } from "src/components";
 
@@ -133,7 +135,7 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
             title="Up vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           >
-            <ArrowUpIconMicro className="size-4 text-gray-600" />
+            <ArrowBigUp size={23} className="text-gray-600" />
             <span className="sr-only">Up vote</span>
             <span>{postItem?.upVoteCount}</span>
           </button>
@@ -141,31 +143,41 @@ export function PostItem({ postItem }: PostItemType): ReactElement {
             title="Down vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           >
-            <ArrowDownIconMicro className="size-4 text-gray-600" />
+            <ArrowBigDown size={23} className="text-gray-600" />
             <span className="sr-only">Down vote</span>
             <span>{postItem?.downVoteCount}</span>
           </button>
           <button
             title="Comment"
-            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
           >
-            <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+            <MessageSquare
+              size={15}
+              className="text-gray-600"
+              strokeWidth={3}
+            />{" "}
             <span className="sr-only">Comment</span>
             <span>{postItem?.replyCount}</span>
           </button>
           <button
-            title="Share"
-            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-          >
-            <ShareIconMicro className="size-4 text-gray-600" />
-            <span className="sr-only">Share</span>
-          </button>
-          <button
-            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
             title="Bookmark"
           >
-            <BookmarkIconMicro className="size-4 text-gray-600" />
+            <Bookmark
+              size={15}
+              className={`text-gray-600 ${
+                postItem?.isBookmark ? "fill-gray-600" : null
+              }`}
+              strokeWidth={3}
+            />{" "}
             <span className="sr-only">Bookmark</span>
+          </button>
+          <button
+            title="Share"
+            className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+          >
+            <Share2 strokeWidth={3} className="text-slate-600" size={14} />
+            <span className="sr-only">Share</span>
           </button>
         </div>
       </article>

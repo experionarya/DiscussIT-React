@@ -38,10 +38,11 @@ export const getAllPostsByCategory = (
   pageNumber: number,
   pageSize: number,
   filterOption: number,
-  sortOption: number
+  sortOption: number,
+  userID: string
 ) =>
   `${apiBaseUrl}Thread?CommunityCategoryMappingID=${communityCategoryMappingId}
-&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
+&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}&userId=${userID}`;
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 
@@ -61,7 +62,7 @@ export const getAllPosts = (
   filterBy: string,
   pageNumber: number,
   pageSize: number,
-  userID:string
+  userID: string
 ) =>
   `${apiBaseUrl}Thread/Getall_threads?filterBy=${filterBy}&pageNumber=${pageNumber}&pageSize=${pageSize}&userId=${userID}`;
 
@@ -96,7 +97,7 @@ export const savePost = (
 ) =>
   `${apiBaseUrl}Thread?communityMappingId=${communityMappingId}&userId=${userId}&communityID=${communityID}`;
 // post details by thread id
-export const getPostDetails = (threadId: number,userID:string) =>
+export const getPostDetails = (threadId: number, userID: string) =>
   `${apiBaseUrl}Thread/${threadId}?userId=${userID}`;
 
 // get the replies by thread
@@ -133,9 +134,10 @@ export const getTrendingTagsDetails = (
   pageNumber: number,
   pageSize: number,
   filterOption: number,
-  sortOption: number
+  sortOption: number,
+  userID: string
 ) =>
-  `${apiBaseUrl}Thread/displaySearchedThreads?searchTerm=${tagName}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}&searchType=1`;
+  `${apiBaseUrl}Thread/displaySearchedThreads?searchTerm=${tagName}&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}&searchType=1&userId=${userID}`;
 
 //update post details
 export const editPostDetails = (
@@ -184,8 +186,10 @@ Thread/MyThreads?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}&
 
 export const Bookmarks = `${apiBaseUrl}SavedPost/save`;
 
-export const unSaveBookmark = (threadID: number|undefined, userID: string|undefined) =>
-  `${apiBaseUrl}SavedPost/${userID}/${threadID}`;
+export const unSaveBookmark = (
+  threadID: number | undefined,
+  userID: string | undefined
+) => `${apiBaseUrl}SavedPost/${userID}/${threadID}`;
 
 export const markAsBestAnswer = (replyId: number, createdBy: string) =>
   `${apiBaseUrl}Reply/MarkAsBestAnswer/${replyId}?createdBy=${createdBy}`;

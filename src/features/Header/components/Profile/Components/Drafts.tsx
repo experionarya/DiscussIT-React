@@ -4,13 +4,13 @@ import dayjs from "dayjs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import {
-  ArrowDownIcon as ArrowDownIconMicro,
-  ArrowUpIcon as ArrowUpIconMicro,
-  ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro,
-  ShareIcon as ShareIconMicro,
-  BookmarkIcon as BookmarkIconMicro,
-} from "@heroicons/react/16/solid";
-import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
+  ArrowBigUp,
+  MessageSquare,
+  ArrowBigDown,
+  Bookmark,
+  Share2,
+  Trash2,
+} from "lucide-react";
 
 import { Avatar, DialogBox, Loading, NoData } from "src/components";
 
@@ -153,7 +153,7 @@ export default function Drafts({
                       )}
                     </p>
                   </div>
-                  <div className="flex space-x-3">
+                  <div className="flex items-center space-x-3">
                     <div
                       onClick={() => gotoPost(item?.threadID)}
                       className="flex space-x-3"
@@ -162,7 +162,7 @@ export default function Drafts({
                         title="Up vote"
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
-                        <ArrowUpIconMicro className="size-4 text-gray-600" />
+                        <ArrowBigUp size={23} className="text-gray-600" />
                         <span className="sr-only">Up vote</span>
                         <span>{item?.upVoteCount}</span>
                       </button>
@@ -170,7 +170,7 @@ export default function Drafts({
                         title="Down vote"
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
-                        <ArrowDownIconMicro className="size-4 text-gray-600" />
+                        <ArrowBigDown size={23} className="text-gray-600" />
                         <span className="sr-only">Down vote</span>
                         <span>{item?.downVoteCount}</span>
                       </button>
@@ -178,32 +178,49 @@ export default function Drafts({
                         title="Comment"
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
-                        <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+                        <MessageSquare
+                          size={15}
+                          className="text-gray-600"
+                          strokeWidth={3}
+                        />{" "}
                         <span className="sr-only">Comment</span>
                         <span>{item?.replyCount}</span>
                       </button>
+
                       <button
-                        title="Share"
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                      >
-                        <ShareIconMicro className="size-4 text-gray-600" />
-                        <span className="sr-only">Share</span>
-                      </button>
-                      <button
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                        className="flex items-center justify-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
                         title="Bookmark"
                       >
-                        <BookmarkIconMicro className="size-4 text-gray-600" />
+                        <Bookmark
+                          size={15}
+                          className="text-gray-600"
+                          strokeWidth={3}
+                        />{" "}
                         <span className="sr-only">Bookmark</span>
                       </button>
                     </div>
                     <button
                       title="Delete"
                       onClick={() => handleDeletePost(item)}
-                      className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      className="flex items-center justify-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
                     >
-                      <TrashIconMicro className="size-4 text-gray-600" />
+                      <Trash2
+                        strokeWidth={3}
+                        className="text-gray-600"
+                        size={15}
+                      />
                       <span className="sr-only">Delete</span>
+                    </button>
+                    <button
+                      title="Share"
+                      className="flex items-center justify-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+                    >
+                      <Share2
+                        strokeWidth={3}
+                        className="text-slate-600"
+                        size={14}
+                      />
+                      <span className="sr-only">Share</span>
                     </button>
                   </div>
                 </article>

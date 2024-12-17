@@ -82,7 +82,7 @@ function useGetMyPosts({
           return allPages?.length - 1;
         return undefined;
       },
-      staleTime: 60 * 1000,
+      staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
       enabled: userId !== undefined,
     }

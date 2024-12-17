@@ -15,6 +15,7 @@ async function fetchTrendingTagsDetails({
   pageParam,
   filterOption,
   sortOption,
+  userID,
 }: TVariables): Promise<APIResult> {
   const response = await fetch(
     getTrendingTagsDetails(
@@ -22,7 +23,8 @@ async function fetchTrendingTagsDetails({
       pageParam,
       pageLength,
       filterOption,
-      sortOption
+      sortOption,
+      userID
     ),
     {
       method: "GET",
@@ -49,16 +51,19 @@ type TVariables = {
   pageParam: number;
   filterOption: number;
   sortOption: number;
+  userID: string;
 };
 
 function useGetTrendingTagsDetails({
   tagName,
   filterOption,
   sortOption,
+  userID,
 }: {
   tagName: string;
   filterOption: number;
   sortOption: number;
+  userID: string | undefined;
 }): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const token = getParsedToken();
@@ -66,7 +71,7 @@ function useGetTrendingTagsDetails({
   return useInfiniteQuery(
     ["get_trending_tags_details", tagName, filterOption, sortOption],
     async ({ pageParam = 1 }) => {
-      if (tagName && token) {
+      if (tagName && token && userID) {
         return await fetchTrendingTagsDetails({
           token,
           tokenType,
@@ -74,6 +79,7 @@ function useGetTrendingTagsDetails({
           pageParam,
           filterOption,
           sortOption,
+          userID: userID,
         });
       }
     },
@@ -94,7 +100,7 @@ function useGetTrendingTagsDetails({
           return allPages?.length - 1;
         return undefined;
       },
-      staleTime: 60 * 1000,
+      staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
       enabled: Boolean(tagName && token),
     }

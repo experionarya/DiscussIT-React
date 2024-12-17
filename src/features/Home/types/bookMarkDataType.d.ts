@@ -1,16 +1,18 @@
 export type BookMark = {
   threadID: number;
   title: string;
-  content:string;  createdBy: string;
+  content: string;
+  createdBy: string;
   createdByUser: string;
   createdAt: string;
+  communityID: number;
   modifiedBy: string;
   modifiedByUser: string;
   modifiedAt: string;
   threadStatusName: string;
   isAnswered: boolean;
   isBookmark: boolean;
-  upVoteCount:  number;
+  upVoteCount: number;
   downVoteCount: number;
   isEdited: boolean;
   replyCount: number;
