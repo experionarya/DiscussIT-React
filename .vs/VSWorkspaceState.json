@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\src",
+    "\\src\\components",
+    "\\src\\features",
+    "\\src\\features\\Home",
+    "\\src\\features\\Home\\api"
+  ],
+  "SelectedNode": "\\src\\features\\Home\\api\\useGetAllPosts.ts",
+  "PreviewInSolutionExplorer": false
+}

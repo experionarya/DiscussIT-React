@@ -16,7 +16,6 @@ import { BookMark } from "src/features/Home/types/bookMarkDataType";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 
 const pageLength = 20;
-const userID=getUserIdFromToken();
 
 async function fetchAllPosts({
   token,
@@ -53,6 +52,8 @@ function useGetAllPosts({
 }): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
+  const userID=getUserIdFromToken();
+
 
   return useInfiniteQuery(
     ["get_all_post", filterBy],
@@ -80,7 +81,8 @@ function useGetAllPosts({
 
       staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
-      enabled: filterBy !== "",
+      //enabled: filterBy !== "",
+      enabled: !!userID && filterBy !== ""
     }
   );
 }
