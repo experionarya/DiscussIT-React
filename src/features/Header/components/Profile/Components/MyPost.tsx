@@ -12,6 +12,7 @@ import { Avatar, Loading, NoData } from "src/components";
 
 import { useGetMyPosts } from "../api/useGetMyPosts";
 import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
+import { useHomeStore } from "src/features/Home/store/homeStore";
 
 import {
   createMarkup,
@@ -24,6 +25,8 @@ export default function MyPost(): ReactElement {
   const { data: userDetails } = useGetUserDetails();
   const [filterOption, setFilterOption] = useState<number>(0);
   const [sortOption, setSortOption] = useState<number>(0);
+
+  const bookmarkedThreadIds=useHomeStore((state) => state.bookMarks.map((bookmark:{threadID:number}) => bookmark.threadID)||[]);
 
   const {
     data: myPosts,
@@ -228,8 +231,8 @@ export default function MyPost(): ReactElement {
                       className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       title="Bookmark"
                     >
-                      {/* <BookmarkIconMicro className="size-4 text-gray-600" /> */}
-                      <BookmarkIconMicro className={`size-4 ${item.isBookmark ? "text-orange-600" : "text-gray-600"}`}/>
+      
+                      <BookmarkIconMicro className={`size-4 ${bookmarkedThreadIds.includes(item.threadID)? 'text-orange-600':'text-gray-600'}`} />
                       <span className="sr-only">Bookmark</span>
                     </button>
                   </div>
