@@ -56,6 +56,12 @@ export default function Profile(): ReactElement {
     const section = searchParams.get("section");
     if (section === "bookmarks") {
       setSelectedTab(1);
+    }else if (section === "drafts")
+    {
+      setSelectedTab(2);
+    }
+    else {
+      setSelectedTab(0); //defaut to myposts
     }
   }, [location]);
 
@@ -80,7 +86,21 @@ export default function Profile(): ReactElement {
               <p className="text-xs font-semibold">{`Points: ${userDetails?.score}`}</p>
             </div>
           </div>
-          <TabGroup selectedIndex={selectedTab} onChange={setSelectedTab}>
+          {/* <TabGroup selectedIndex={selectedTab} onChange={setSelectedTab}> */}
+          <TabGroup
+            selectedIndex={selectedTab}
+            onChange={(index) => {
+              setSelectedTab(index); // Update the selected tab in state
+              const section = index === 1 ? "bookmarks" : index === 2 ? "drafts":"myposts";
+              const newSearchParams = new URLSearchParams(location.search); // Parse existing search params
+              newSearchParams.set("section", section);
+              window.history.replaceState(
+                null,
+                "",
+                `?${newSearchParams.toString()}`
+              );
+            }}
+          >
             {" "}
             <div className="border-b border-slate-300 pb-3 fixed mt-24 w-[645px] bg-fill">
               <TabList className="flex gap-4">

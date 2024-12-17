@@ -67,7 +67,7 @@ export default function MyPost(): ReactElement {
 
   function gotoPost(id: number) {
     navigate(`/community/category-posts/replies?threadId=${id}`, {
-      state: { from: window.location.pathname },
+      state: { from: window.location.pathname + window.location.search},
     });
   }
 
