@@ -12,6 +12,8 @@ import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { Avatar, Loading, NoData } from "src/components";
 
 import { useGetTrendingTagsDetails } from "./api/useGetTrendingTagsDetails";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+
 
 import {
   createMarkup,
@@ -81,7 +83,18 @@ export default function TagsDetailPage(): ReactElement {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 sm:px-2 lg:px-8">
-      <div className="min-w-40 max-w-44" />
+       <div className="min-w-40 max-w-44">
+        <div className="min-w-40 max-w-44 space-y-5 flex justify-end ml-9 mt-5">
+          <button
+            className="fixed size-10 border border-stroke-stong/50 text-slate-700 bg-white rounded-full flex justify-center items-center"
+            onClick={() => {
+              navigate("/home");
+            }}
+          >
+            <ArrowLeftIcon className="size-5" />
+          </button>
+        </div>
+      </div>
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 space-y-2 pl-10">
           <div className="fixed w-[645px] bg-fill pt-6">
