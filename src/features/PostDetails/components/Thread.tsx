@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -10,25 +11,23 @@ import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicon
 import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
 import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 import * as Toast from "@radix-ui/react-toast";
 
-import { Avatar } from "src/components";
+import { Avatar, DialogBox, Loading } from "src/components";
+import { ThreadType } from "src/features/Community/types/postType";
 
 import { useUpdateThreadVote } from "../api/useUpdateThreadVote";
+import { useBookmarks } from "../api/useBookmarks";
+import { useDeletePost } from "../api/useDeletePost";
+import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
+import { useUnSaveBookmark } from "../api/useUnsaveBookmark";
 
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 import { createMarkup } from "src/utils/common";
-
-import { ThreadType } from "src/features/Community/types/postType";
-import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
-import { useBookmarks } from "../api/useBookmarks";
 import { usePostDetailsStore } from "../store/postDetailsStore";
-import { useQueryClient } from "react-query";
-import { useUnSaveBookmark } from "../api/useUnsaveBookmark";
-
 
 dayjs.extend(utc);
-
 
 type PostThreadType = {
   postDetails: ThreadType;
@@ -45,18 +44,17 @@ export function Thread({
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const [hasDownvoted, setHasDownvoted] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
 
   const { mutate: updateVoteByThread } = useUpdateThreadVote();
   const { data: userDetails } = useGetUserDetails();
   const { mutate: saveBookmark } = useBookmarks();
+  const { mutate: deleteReply, isLoading: deleteLoading } = useDeletePost();
 
-  const userID=getUserIdFromToken();
+  const userID = getUserIdFromToken();
   const isBookmark = usePostDetailsStore((state) => state.isBookmark);
   const queryClient = useQueryClient();
   const { mutate: unSaveBookmark } = useUnSaveBookmark();
-  
-
-
 
   useEffect(() => {
     if (postDetails) {
@@ -80,6 +78,12 @@ export function Thread({
     setHasUpvoted(savedVoteStatus[postId]?.hasUpvoted || false);
     setHasDownvoted(savedVoteStatus[postId]?.hasDownvoted || false);
   }, [threads?.threadID]);
+
+  useEffect(() => {
+    if (location && location.state?.from) {
+      localStorage.setItem("navigation", location.state.from);
+    }
+  }, [location]);
 
   const handleUpvote = () => {
     const communityId = parseInt(localStorage.getItem("communityId") || "");
@@ -165,13 +169,15 @@ export function Thread({
       });
   };
 
-  
-  function handleBookmark(threadID: number | undefined, userID: string | undefined) {
+  function handleBookmark(
+    threadID: number | undefined,
+    userID: string | undefined
+  ) {
     const { isBookmark } = usePostDetailsStore.getState();
     const updatedIsBookmark = !isBookmark;
-    
+
     usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
-  
+
     const bookmarkAction = isBookmark ? unSaveBookmark : saveBookmark;
     
     bookmarkAction({ threadID, userID }, {
@@ -184,8 +190,39 @@ export function Thread({
       },
     });
   }
-    return (
-    <>
+
+  function handleDeletePost() {
+    setIsDeleteConfirm(true);
+  }
+  function handleDeleteConfirmClose() {
+    setIsDeleteConfirm(false);
+  }
+
+  function handleDeleteConfirmPost(
+    threadID: number | undefined,
+    modifierID: string | undefined,
+    communityID: number | undefined
+  ) {
+    if (threadID && modifierID && communityID) {
+      setIsDeleteConfirm(false);
+      deleteReply(
+        {
+          threadId: threadID,
+          modifierId: modifierID,
+          communityID: communityID,
+        },
+        {
+          onSuccess: () => {
+            const nav = localStorage.getItem("navigation") || "";
+            navigate(nav);
+          },
+        }
+      );
+    }
+  }
+
+  return (
+    <div className="relative">
       <div className="flex min-w-0 gap-x-2">
         <Avatar userName={threads?.createdByUser || ""} size="medium" />
         <div className="min-w-0 flex-auto">
@@ -289,14 +326,48 @@ export function Thread({
         <button
           title="Bookmark"
           className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
-          onClick={() => handleBookmark(threads?.threadID,userID)}
+          onClick={() => handleBookmark(threads?.threadID, userID)}
         >
-          
-          {/* <BookmarkIconMicro className="ml-1 size-4 text-gray-600" /> */}
-          <BookmarkIconMicro className={`size-4 ${isBookmark ? "text-orange-600" : "text-gray-600"}`} />
+          <BookmarkIconMicro
+            className={`size-4 ${
+              isBookmark ? "text-orange-600" : "text-gray-600"
+            }`}
+          />
           <span className="sr-only">Bookmark</span>
         </button>
+        {threads?.createdBy === userDetails?.userID && (
+          <button
+            title="Delete"
+            onClick={handleDeletePost}
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          >
+            <TrashIconMicro className="size-4 text-gray-600" />
+            <span className="sr-only">Delete</span>
+          </button>
+        )}
       </div>
-    </>
+      {isDeleteConfirm && (
+        <DialogBox
+          title="Delete Post"
+          description="Are you sure you want to delete this Post?"
+          button1="Cancel"
+          button2="Delete"
+          opened={isDeleteConfirm}
+          handleClose={handleDeleteConfirmClose}
+          handleAction={() =>
+            handleDeleteConfirmPost(
+              threads?.threadID,
+              userDetails?.userID,
+              threads?.communityID
+            )
+          }
+        />
+      )}
+      {deleteLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black opacity-65">
+          <Loading />
+        </div>
+      )}
+    </div>
   );
 }

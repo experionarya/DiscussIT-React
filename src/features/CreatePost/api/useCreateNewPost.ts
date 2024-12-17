@@ -17,6 +17,7 @@ async function createNewPost({
     Title: params?.title,
     Content: params?.content,
     Tags: params?.tagNames?.map((item: any, index: number) => item?.label),
+    isDraft: params?.isDraft
   };
   const url =
     params?.userMode !== "Edit"
@@ -45,6 +46,7 @@ type TVariables = {
   userMode: string;
   threadId: number;
   communityId: number;
+  isDraft: boolean;
 };
 
 type TError = string;

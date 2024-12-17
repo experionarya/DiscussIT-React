@@ -147,6 +147,7 @@ export default function CreatePost(): ReactElement {
       communityId: dropdownOptions?.find(
         (item) => item?.name === postDetails?.communityName
       )?.value,
+      isDraft: false,
     };
 
     createNewPost(postValue, {
@@ -162,6 +163,30 @@ export default function CreatePost(): ReactElement {
     });
   }
 
+  function draftPost() {
+    let draftValue = {
+      ...postDetails,
+      userId: getUserIdFromToken(),
+      userMode: userMode,
+      threadId: id,
+      communityId: dropdownOptions?.find(
+        (item) => item?.name === postDetails?.communityName
+      )?.value,
+      isDraft: true,
+    };
+
+    createNewPost(draftValue, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_post_details"]);
+        navigate(
+          location.state?.from
+            ? `${location.state.from}?threadId=${id}`
+            : "/home"
+        );
+        clearPostDetails();
+      },
+    });
+  }
   //check disbaled
   function isDisabled() {
     if (
@@ -295,7 +320,11 @@ export default function CreatePost(): ReactElement {
                   {" "}
                   <PencilIcon className="size-6 text-primary-700" />
                 </span>
-                {userMode === "Edit" ? "Edit Post" : "Create Post"}
+                {postDetails?.isDraft
+                  ? "Publish Draft"
+                  : userMode === "Edit"
+                  ? "Edit Post"
+                  : "Create Post"}
               </h1>
               {userMode !== "Edit" && (
                 <div className="flex items-center justify-between">
@@ -354,7 +383,14 @@ export default function CreatePost(): ReactElement {
               </div>
               {renderReactSelectWithTooltip()}
               <div className="flex justify-end items-center gap-3">
-                <Button size="medium" variant="secondary">
+                <Button
+                  size="medium"
+                  variant="secondary"
+                  onClick={() => {
+                    draftPost();
+                  }}
+                  disabled={isDisabled()}
+                >
                   Saved draft
                 </Button>
                 <Button
@@ -365,7 +401,11 @@ export default function CreatePost(): ReactElement {
                   }}
                   disabled={isDisabled()}
                 >
-                  {userMode === "Edit" ? "Edit" : "Post"}
+                  {postDetails?.isDraft
+                    ? "Publish Draft"
+                    : userMode === "Edit"
+                    ? "Edit Post"
+                    : "Create Post"}
                 </Button>
               </div>
             </form>

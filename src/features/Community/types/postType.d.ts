@@ -23,6 +23,7 @@ export type PostType = {
 export type ThreadType = {
   categoryName: null | string;
   communityName: null | string;
+  communityID: number;
   content: string;
   createdAt: string;
   createdBy: string;

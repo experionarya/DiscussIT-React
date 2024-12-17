@@ -5,7 +5,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 
 import MyPost from "./Components/MyPost";
 import Bookmarks from "./Components/Bookmarks";
-// import Drafts from "./Components/Drafts";
+import Drafts from "./Components/Drafts";
 import { Avatar } from "src/components";
 
 import { useGetSavedThreads } from "src/features/Home/api/useGetSavedThreads";
@@ -24,8 +24,8 @@ export default function Profile(): ReactElement {
   const { tokenType } = useAuth();
 
   const { data: userDetails } = useGetUserDetails();
+  const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
 
-  
   const getBookMarkedData = useHomeStore(
     useCallback((state: any) => state.getBookMarkedData, [])
   );
@@ -33,8 +33,6 @@ export default function Profile(): ReactElement {
   const bookMarks = useHomeStore(
     useCallback((state: any) => state.bookMarks, [])
   );
-
-  const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
 
   //calling the book mark apis\
   useQuery(
@@ -67,8 +65,8 @@ export default function Profile(): ReactElement {
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 pl-10 h-full">
           <div className="flex gap-4 items-center pt-5 pb-5 fixed w-[645px] bg-fill">
-          <Avatar userName={userDetails?.name|| ""} size="large"/>
-          <div>
+            <Avatar userName={userDetails?.name || ""} size="large" />
+            <div>
               <p className="text-lg font-semibold">{userDetails?.name}</p>
               <div className="flex items-center">
                 <p className="text-xs text-slate-500 pr-2">
@@ -94,18 +92,18 @@ export default function Profile(): ReactElement {
                     {item.name}
                   </Tab>
                 ))}
-              </TabList>            
+              </TabList>
             </div>
             <TabPanels>
               <TabPanel>
-                <MyPost/>
+                <MyPost />
               </TabPanel>
               <TabPanel>
                 <Bookmarks bookMarks={bookMarks} />
               </TabPanel>
-              {/* <TabPanel>
-                <Drafts />
-              </TabPanel> */}
+              <TabPanel>
+                {userDetails && <Drafts userDetails={userDetails} />}
+              </TabPanel>
             </TabPanels>
           </TabGroup>
         </div>
