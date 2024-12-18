@@ -76,7 +76,7 @@ export function BookMarkPopover({
                       {item.title}
                     </span>
                     <span
-                      className="inline-block w-full text-xs leading-tight text-slate-700 truncate"
+                      className="inline-block w-full text-xs max-h-10 leading-tight text-slate-700 truncate"
                       dangerouslySetInnerHTML={createMarkup(
                         item?.content || ""
                       )}
