@@ -18,7 +18,7 @@ import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/sol
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
 
-import { Avatar, Button, DialogBox, Loading, TextEditor } from "src/components";
+import { Avatar, Button, classNames, DialogBox, Loading, TextEditor } from "src/components";
 
 import {
   useDeleteReply,
@@ -371,7 +371,8 @@ export function SingleReply({
   }
 
   return (
-    <div className="flex w-full gap-x-2 p-3">
+    <>
+     <div className={classNames("flex w-full gap-x-2 p-3  peer", reply.parentReplyID===null ? 'parent-thread' : '')}>
       <div>
         <Avatar userName={reply?.createdUserName || ""} size="small" />
       </div>
@@ -479,24 +480,27 @@ export function SingleReply({
             </button>
           )}
         </div>
-        <div>
-          {renderPostActions()}
-
-          {showReplies && reply?.childReplyCount !== 0
-            ? children?.map((innerItem: SingleReplyType) => (
-                <SingleReply
-                  key={innerItem.replyID}
-                  reply={innerItem}
-                  postDetails={postDetails}
-                  bestAnswer={bestAnswer}
-                  onUpvote={onUpvote}
-                  onDownvote={onDownvote}
-                  votes={votes}
-                />
-              ))
-            : null}
-        </div>
       </div>
+        
     </div>
+      <div className="peer-[.parent-thread]:ml-8">
+        {renderPostActions()}
+
+        {showReplies && reply?.childReplyCount !== 0
+          ? children?.map((innerItem: SingleReplyType) => (
+              <SingleReply
+                key={innerItem.replyID}
+                reply={innerItem}
+                postDetails={postDetails}
+                bestAnswer={bestAnswer}
+                onUpvote={onUpvote}
+                onDownvote={onDownvote}
+                votes={votes}
+              />
+            ))
+          : null}
+      </div>     
+    </>
+   
   );
 }
