@@ -391,7 +391,7 @@ export default function CreatePost(): ReactElement {
                   }}
                   disabled={isDisabled()}
                 >
-                  Saved draft
+                  Save as draft
                 </Button>
                 <Button
                   size="medium"
