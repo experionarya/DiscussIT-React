@@ -13,6 +13,7 @@ import {
 import { Avatar, Loading, NoData } from "src/components";
 
 import { useGetTrendingTagsDetails } from "./api/useGetTrendingTagsDetails";
+import { useGetUserDetails } from "../Header/api/useGetUserDetails";
 
 import {
   createMarkup,
@@ -32,6 +33,7 @@ export default function TagsDetailPage(): ReactElement {
   const appendedParam = `# ${tagName}`;
   const encodedQueryParam = encodeURIComponent(appendedParam);
 
+  const { data: userDetails } = useGetUserDetails();
   const {
     data: tagsDetails,
     isLoading,
@@ -41,6 +43,7 @@ export default function TagsDetailPage(): ReactElement {
     tagName: encodedQueryParam || "",
     filterOption,
     sortOption,
+    userID: userDetails?.userID,
   });
 
   const handleScroll = useCallback(
