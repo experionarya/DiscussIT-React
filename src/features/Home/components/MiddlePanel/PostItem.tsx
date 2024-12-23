@@ -83,7 +83,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
         </div>
         <p className="text-slate-900 prevent-text-break-out inline">
           <span
-            className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+            className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm ql-editor"
             dangerouslySetInnerHTML={createMarkup(
               trimHTMLContent(item?.content)
             )}

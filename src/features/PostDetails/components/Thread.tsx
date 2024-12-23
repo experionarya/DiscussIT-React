@@ -254,7 +254,7 @@ export function Thread({
           ))}
         </div>
         <p
-          className="text-slate-900 pt-1 prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+          className="text-slate-900 pt-1 prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm ql-editor"
           dangerouslySetInnerHTML={createMarkup(threads?.content)}
         />
       </div>
