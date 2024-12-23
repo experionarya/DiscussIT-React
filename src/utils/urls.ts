@@ -38,10 +38,11 @@ export const getAllPostsByCategory = (
   pageNumber: number,
   pageSize: number,
   filterOption: number,
-  sortOption: number
+  sortOption: number,
+  userID: string
 ) =>
   `${apiBaseUrl}Thread?CommunityCategoryMappingID=${communityCategoryMappingId}
-&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}`;
+&pageNumber=${pageNumber}&pageSize=${pageSize}&filterOption=${filterOption}&sortOption=${sortOption}&userId=${userID}`;
 
 export const getPreferenceList = `${apiBaseUrl}CommunityCategory/Get_PreferredCategory`;
 

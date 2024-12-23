@@ -4,6 +4,7 @@ import { PostItem } from "src/features/Community/components/Posts/PostItem";
 import { Loading, NoData } from "src/components";
 
 import { useGetAllPosts } from "../../api/useGetAllPosts";
+import { useGetUserDetails } from "src/features/Header/api/useGetUserDetails";
 
 import { useCommunityStore } from "../../store/communityStore";
 import { ThreadType } from "../../types/postType";
@@ -15,11 +16,13 @@ export default function Post(): ReactElement {
 
   const [filterOption, setFilterOption] = useState<number>(0);
   const [sortOption, setSortOption] = useState<number>(0);
-
+  
+  const { data: userDetails } = useGetUserDetails();
   const { data, isLoading, fetchNextPage, hasNextPage } = useGetAllPosts({
     communityCategoryMappingId: category?.categoryId,
     filterOption,
     sortOption,
+    userID: userDetails?.userID
   });
 
   const handleScroll = useCallback(

@@ -15,6 +15,7 @@ async function fetchPostsByCategory({
   pageParam,
   filterOption,
   sortOption,
+  userID,
 }: TVariables): Promise<APIResult> {
   const response = await fetch(
     getAllPostsByCategory(
@@ -22,7 +23,8 @@ async function fetchPostsByCategory({
       pageParam,
       pageLength,
       filterOption,
-      sortOption
+      sortOption,
+      userID
     ),
     {
       method: "GET",
@@ -50,24 +52,32 @@ type TVariables = {
   pageParam: number;
   filterOption: number;
   sortOption: number;
+  userID: string;
 };
 
 function useGetAllPosts({
   communityCategoryMappingId,
   filterOption,
   sortOption,
+  userID,
 }: {
   communityCategoryMappingId: number | undefined;
   filterOption: number;
   sortOption: number;
+  userID: string | undefined;
 }): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const token = getParsedToken();
 
   return useInfiniteQuery(
-    ["get_all_posts_by_category", communityCategoryMappingId, filterOption, sortOption],
+    [
+      "get_all_posts_by_category",
+      communityCategoryMappingId,
+      filterOption,
+      sortOption,
+    ],
     async ({ pageParam = 1 }) => {
-      if (communityCategoryMappingId && token) {
+      if (communityCategoryMappingId && token && userID) {
         return await fetchPostsByCategory({
           token: getParsedToken(),
           tokenType,
@@ -75,6 +85,7 @@ function useGetAllPosts({
           pageParam,
           filterOption,
           sortOption,
+          userID,
         });
       }
       return null;
@@ -90,7 +101,7 @@ function useGetAllPosts({
           return allPages?.length - 1;
         return undefined;
       },
-      staleTime: 60 * 1000,
+      staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
       enabled: communityCategoryMappingId !== undefined && token !== null,
     }
