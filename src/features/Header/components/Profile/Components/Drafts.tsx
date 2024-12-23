@@ -51,7 +51,7 @@ export default function Drafts({
 
   function gotoPost(id: number) {
     navigate(`/community/category-posts/edit-posts?threadId=${id}`, {
-      state: { from: window.location.pathname },
+      state: { from: window.location.pathname + window.location.search },
     });
   }
 

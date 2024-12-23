@@ -41,6 +41,14 @@ export function BookMarkPopover({
 
   const limitedData = useMemo(() => data.slice(0, 3), [data]);
 
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center text-sm text-slate-500 p-3">
+        You haven't bookmarked anything yet.
+      </div>
+    );
+  }
+
 
   return (
     <>
