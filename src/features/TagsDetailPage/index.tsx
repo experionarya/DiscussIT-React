@@ -85,7 +85,7 @@ export default function TagsDetailPage(): ReactElement {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-auto gap-6 sm:px-2 lg:px-8">
-      <div className="min-w-40 max-w-44" />
+      <div className="min-w-40 max-w-44"/>
       <div className="grid grow grid-cols-3 gap-4">
         <div className="col-span-2 space-y-2 pl-10">
           <div className="fixed w-[645px] bg-fill pt-6">
