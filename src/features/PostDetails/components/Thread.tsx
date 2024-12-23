@@ -5,14 +5,16 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
-import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
-import { BookmarkIcon as BookmarkIconMicro } from "@heroicons/react/16/solid";
-import { ShareIcon as ShareIconMicro } from "@heroicons/react/16/solid";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
+import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import * as Toast from "@radix-ui/react-toast";
+import {
+  ArrowBigUp,
+  MessageSquare,
+  ArrowBigDown,
+  Bookmark,
+  Share2,
+  Trash2,
+} from "lucide-react";
 
 import { Avatar, DialogBox, Loading } from "src/components";
 import { ThreadType } from "src/features/Community/types/postType";
@@ -52,7 +54,6 @@ export function Thread({
   const { mutate: deleteReply, isLoading: deleteLoading } = useDeletePost();
 
   const userID = getUserIdFromToken();
-  const isBookmark = usePostDetailsStore((state) => state.isBookmark);
   const queryClient = useQueryClient();
   const { mutate: unSaveBookmark } = useUnSaveBookmark();
 
@@ -179,16 +180,19 @@ export function Thread({
     usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
 
     const bookmarkAction = isBookmark ? unSaveBookmark : saveBookmark;
-    
-    bookmarkAction({ threadID, userID }, {
-      onSuccess: () => {
-         usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
-         queryClient.refetchQueries(["get_saved_post_list"]);
-      },
-      onError: () => {
-        usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
-      },
-    });
+
+    bookmarkAction(
+      { threadID, userID },
+      {
+        onSuccess: () => {
+          usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
+          queryClient.refetchQueries(["get_saved_post_list"]);
+        },
+        onError: () => {
+          usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
+        },
+      }
+    );
   }
 
   function handleDeletePost() {
@@ -254,53 +258,78 @@ export function Thread({
           dangerouslySetInnerHTML={createMarkup(threads?.content)}
         />
       </div>
-      <div className="flex space-x-3">
+      <div className="flex items-center space-x-3">
         <button
           title="Up vote"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           onClick={() => handleUpvote()}
         >
-          <ArrowUpIconMicro className="size-4 text-gray-600" />
+          <ArrowBigUp size={23} className="text-gray-600" />{" "}
           <span className="sr-only">Up vote</span>
           <span>{threads?.upVoteCount}</span>
         </button>
         <button
           title="Down vote"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           onClick={() => handleDownvote()}
         >
-          <ArrowDownIconMicro className="size-4 text-gray-600" />
+          <ArrowBigDown size={23} className="text-gray-600" />{" "}
           <span className="sr-only">Down vote</span>
           <span>{threads?.downVoteCount}</span>
         </button>
         <button
           title="Comment"
-          className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+          className="flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
           onClick={() => {
             setShowComment(true);
           }}
         >
-          <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+          <MessageSquare size={15} className="text-gray-600" strokeWidth={3} />{" "}
           <span className="sr-only">Comment</span>
           <span>{threads?.replyCount}</span>
         </button>
+        <button
+          title="Bookmark"
+          className="flex items-center justify-center rounded-full px-1.5 py-1.5 hover:bg-slate-200"
+          onClick={() => handleBookmark(threads?.threadID, userID)}
+        >
+          <Bookmark
+            size={15}
+            className={`text-gray-600 ${
+              threads?.isBookmark ? "fill-gray-600" : null
+            }`}
+            strokeWidth={3}
+          />{" "}
+          <span className="sr-only">Bookmark</span>
+        </button>
+
         {userDetails?.userID === threads?.createdBy ? (
           <button
-            className="flex items-center rounded-full px-1 py-0.5 hover:bg-slate-200"
+            className="flex items-center justify-center rounded-full px-1.5 py-1.5 hover:bg-slate-200"
             title="Edit"
             onClick={() => onEdit()}
           >
-            <PencilIcon className="size-4 text-gray-600" />
+            <PencilSquareIconMicro className="size-4 text-gray-600" />
             <span className="sr-only">Edit</span>
           </button>
         ) : null}
+        {threads?.createdBy === userDetails?.userID && (
+          <button
+            title="Delete"
+            onClick={handleDeletePost}
+            className="flex items-center justify-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+          >
+            <Trash2 strokeWidth={3} className="text-gray-600" size={15} />{" "}
+            <span className="sr-only">Delete</span>
+          </button>
+        )}
         <Toast.Provider swipeDirection="left">
           <button
             title="Share"
             className="flex items-center rounded-full px-1 py-0.5 hover:bg-slate-200"
             onClick={copyUrlToClipboard}
           >
-            <ShareIconMicro className="size-4 text-gray-600" />
+            <Share2 strokeWidth={3} className="text-slate-600" size={14} />
             <span className="sr-only">Share</span>
           </button>
           <Toast.Root
@@ -323,28 +352,6 @@ export function Thread({
           </Toast.Root>
           <Toast.Viewport className="[--viewport-padding:_25px] fixed top-12 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
         </Toast.Provider>
-        <button
-          title="Bookmark"
-          className="flex items-center rounded-full px-1 pr-2 py-0.5 hover:bg-slate-200"
-          onClick={() => handleBookmark(threads?.threadID, userID)}
-        >
-          <BookmarkIconMicro
-            className={`size-4 ${
-              isBookmark ? "text-orange-600" : "text-gray-600"
-            }`}
-          />
-          <span className="sr-only">Bookmark</span>
-        </button>
-        {threads?.createdBy === userDetails?.userID && (
-          <button
-            title="Delete"
-            onClick={handleDeletePost}
-            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-          >
-            <TrashIconMicro className="size-4 text-gray-600" />
-            <span className="sr-only">Delete</span>
-          </button>
-        )}
       </div>
       {isDeleteConfirm && (
         <DialogBox

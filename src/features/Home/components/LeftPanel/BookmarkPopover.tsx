@@ -1,9 +1,8 @@
 import React, { ReactElement, useState, useRef, useMemo } from "react";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { ArrowDownIcon as ArrowDownIconMicro } from "@heroicons/react/16/solid";
-import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
-import { ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconMicro } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
+
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { ArrowBigUp, MessageSquare, ArrowBigDown } from "lucide-react";
 
 import { BookMark } from "../../types/bookMarkDataType";
 import { createMarkup } from "src/utils/common";
@@ -49,7 +48,7 @@ export function BookMarkPopover({
     );
   }
 
-
+  
   return (
     <>
       {limitedData?.map((item, index) => (
@@ -60,13 +59,12 @@ export function BookMarkPopover({
                 className="inline-block cursor-pointer w-full overflow-hidden rounded-md px-3 hover:bg-slate-300/50"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
-                // onClick={goToPost}
                 onClick={() => goToPost(item.threadID)}
               >
                 <span className="flex text-xs text-slate-400 justify-start truncate">
                   {item?.categoryName}
                 </span>
-                <span className="inline-block w-full truncate text-sm leading-tight text-slate-700">
+                <span className="flex items-start w-full truncate text-sm leading-tight text-slate-700">
                   {item?.title}
                 </span>
               </PopoverButton>
@@ -76,7 +74,6 @@ export function BookMarkPopover({
                   static
                   anchor="top start"
                   className="w-60 divide-y -ml-5 divide-white/5 rounded-md bg-white shadow-lg text-sm/6 ease-in-out cursor-pointer"
-                  // onClick={goToPost}
                   onClick={() => goToPost(item.threadID)}
                   onMouseEnter={() => setHoverIndex(index)}
                   onMouseLeave={() => setHoverIndex(null)}
@@ -86,24 +83,28 @@ export function BookMarkPopover({
                       {item.title}
                     </span>
                     <span
-                      className="inline-block w-full text-xs leading-tight text-slate-700 truncate"
+                      className="inline-block w-full text-xs leading-tight max-h-10 text-slate-700 truncate"
                       dangerouslySetInnerHTML={createMarkup(
                         item?.content || ""
                       )}
                     ></span>
                     <div className="flex space-x-3">
                       <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-                        <ArrowUpIconMicro className="size-4 text-gray-600" />
+                        <ArrowBigUp size={23} className="text-gray-600" />{" "}
                         <span className="sr-only">Up vote</span>
                         <span>{item?.upVoteCount}</span>
                       </button>
                       <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-                        <ArrowDownIconMicro className="size-4 text-gray-600" />
+                        <ArrowBigDown size={23} className="text-gray-600" />{" "}
                         <span className="sr-only">Down vote</span>
                         <span>{item?.downVoteCount}</span>
                       </button>
-                      <button className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200">
-                        <ChatBubbleOvalLeftIconMicro className="size-4 text-gray-600" />
+                      <button className="flex items-center gap-1 rounded-full px-1 py-1.5 text-xs hover:bg-slate-200">
+                        <MessageSquare
+                          size={15}
+                          className="text-gray-600"
+                          strokeWidth={3}
+                        />{" "}
                         <span className="sr-only">Comment</span>
                         <span>{item?.replyCount}</span>
                       </button>
@@ -115,12 +116,14 @@ export function BookMarkPopover({
           )}
         </Popover>
       ))}
-      {data.length > 3 ? <button
-        className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
-        onClick={goToBookmarks}
-      >
-        View all bookmarks
-      </button> : null}
+      {data.length > 3 ? (
+        <button
+          className="inline-flex w-full cursor-pointer items-center gap-1 rounded px-3 py-1 text-xs font-semibold text-primary-800 underline hover:bg-sky-200/50"
+          onClick={goToBookmarks}
+        >
+          View all bookmarks
+        </button>
+      ) : null}
     </>
   );
 }

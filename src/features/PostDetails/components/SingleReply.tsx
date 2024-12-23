@@ -9,14 +9,10 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-import {
-  ArrowDownIcon as ArrowDownIconMicro,
-  XMarkIcon,
-} from "@heroicons/react/16/solid";
-import { ArrowUpIcon as ArrowUpIconMicro } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/solid";
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
-import { TrashIcon as TrashIconMicro } from "@heroicons/react/16/solid";
+import { ArrowBigUp, ArrowBigDown, Trash2 } from "lucide-react";
 
 import { Avatar, Button, classNames, DialogBox, Loading, TextEditor } from "src/components";
 
@@ -421,13 +417,13 @@ export function SingleReply({
             dangerouslySetInnerHTML={createMarkup(reply?.content)}
           />
         </div>
-        <div className="flex mt-2 space-x-3">
+        <div className="flex mt-2 space-x-3 items-center">
           <button
             title="Up vote"
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={() => onUpvote(reply.replyID)}
           >
-            <ArrowUpIconMicro className="size-4 text-gray-600" />
+            <ArrowBigUp size={23} className="text-gray-600" />{" "}
             <span className="sr-only">Up vote</span>
             <span>{reply?.upvoteCount}</span>
           </button>
@@ -436,12 +432,12 @@ export function SingleReply({
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={() => onDownvote(reply.replyID)}
           >
-            <ArrowDownIconMicro className="size-4 text-gray-600" />
+            <ArrowBigDown size={23} className="text-gray-600" />{" "}
             <span className="sr-only">Down vote</span>
             <span>{reply?.downvoteCount}</span>
           </button>
           <button
-            className="rounded-full px-1 py-0.5 text-xs hover:bg-slate-200 font-semibold text-gray-600"
+            className="rounded-full px-1 py-1.5 text-xs hover:bg-slate-200 font-semibold text-gray-600"
             onClick={handleReplay}
           >
             Reply
@@ -451,7 +447,7 @@ export function SingleReply({
               <button
                 title="Edit"
                 onClick={handleEdit}
-                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
               >
                 <PencilSquareIconMicro className="size-4 text-gray-600" />
                 <span className="sr-only">Edit</span>
@@ -459,9 +455,9 @@ export function SingleReply({
               <button
                 title="Delete"
                 onClick={handleDelete}
-                className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                className="flex items-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
               >
-                <TrashIconMicro className="size-4 text-gray-600" />
+                <Trash2 strokeWidth={3} className="text-gray-600" size={15} />{" "}
                 <span className="sr-only">Delete</span>
               </button>
             </>
