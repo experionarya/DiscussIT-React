@@ -26,7 +26,10 @@ export const useCreatePostStore = create<any>()((set, get) => ({
         return true;
       }
     } else if (param === "content") {
-      if (postDetails?.content?.length < 20) {
+      if (
+        postDetails?.content?.length < 20 ||
+        postDetails?.content?.length >= 4000
+      ) {
         return true;
       }
     } else if (param === "tagNames") {
