@@ -20,10 +20,9 @@ export default function MiddlePanel(): ReactElement {
     filterBy: filterByValue,
   });
 
+  //Save scroll position and avoid unwanted scrolling
   const location = useLocation();
-
   useEffect(() => {
-    // We want to remember scroll position only when we leave Page1
     const savedScrollPosition = sessionStorage.getItem('page1-scroll');
 
     if (savedScrollPosition) {
@@ -31,14 +30,11 @@ export default function MiddlePanel(): ReactElement {
     }
 
     const handleScroll = () => {
-      // Store scroll position in sessionStorage whenever the user scrolls
       sessionStorage.setItem('page1-scroll', window.scrollY.toString());
     };
 
-    // Add scroll event listener to track scroll position
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup the event listener on unmount or when the location changes
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
