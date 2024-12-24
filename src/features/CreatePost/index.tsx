@@ -389,9 +389,9 @@ export default function CreatePost(): ReactElement {
                   onClick={() => {
                     draftPost();
                   }}
-                  disabled={isDisabled()}
+                  disabled={isDisabled() || userMode === "Edit"}
                 >
-                  Save as draft
+                  Saved draft
                 </Button>
                 <Button
                   size="medium"

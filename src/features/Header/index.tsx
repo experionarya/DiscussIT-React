@@ -23,6 +23,7 @@ import { useGetUserDetails } from "./api/useGetUserDetails";
 
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getEmailFromToken } from "src/utils/authenticationHelper/tokenHandler";
+import { useCreatePostStore } from "../CreatePost/store/createPostStore";
 
 export default function Header(): ReactElement {
   const navigate = useNavigate();
@@ -34,6 +35,10 @@ export default function Header(): ReactElement {
 
   const { mutate: logoutAccount } = useLogoutUserAccount();
   const { data: userDetails } = useGetUserDetails();
+
+  const clearPostDetails = useCreatePostStore(
+    useCallback((state) => state.clearPostDetails, [])
+  );
 
   function handleLogOutDialogBox() {
     setIsLogOut(true);
@@ -62,6 +67,7 @@ export default function Header(): ReactElement {
   }, []);
 
   function goToCreatePost() {
+    clearPostDetails();
     navigate(`/createpost`);
   }
 
