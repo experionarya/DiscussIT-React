@@ -62,7 +62,7 @@ export function PreferenceList({
 
   return (
     <div>
-      <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
+      <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900">
         <PinSolid className="-ml-2 h-4 w-4 stroke-slate-400 text-slate-400" />
         <span>Pinned categories</span>
       </h5>

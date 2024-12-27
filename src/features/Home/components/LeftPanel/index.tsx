@@ -148,7 +148,7 @@ export default function LeftPanel(): ReactElement {
             filterByValue={filterByValue}
           />
           <div>
-            <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900 dark:text-slate-200">
+            <h5 className="mb-2 flex text-lg items-center gap-1 font-semibold text-slate-900">
               <BookmarkSolid className="-ml-2 size-4 text-slate-400" />
               <span>Bookmarks</span>
             </h5>

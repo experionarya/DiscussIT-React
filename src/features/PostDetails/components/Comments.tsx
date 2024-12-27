@@ -94,7 +94,7 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
               className="border border-stroke-weak rounded-md bg-white h-9 w-full flex justify-start items-center pl-2 cursor-text"
               onClick={handleTextArea}
             >
-              <span className="sr-only md:not-sr-only md:text-slate-400 md:dark:text-slate-400">
+              <span className="sr-only md:not-sr-only md:text-slate-400">
                 Add comment
               </span>
             </button>

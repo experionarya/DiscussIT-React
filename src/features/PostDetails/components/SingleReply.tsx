@@ -296,7 +296,7 @@ export function SingleReply({
               className="border border-stroke-weak rounded-md bg-white h-9 w-full flex justify-start items-center pl-2 cursor-text"
               onClick={handleTextArea}
             >
-              <span className="sr-only md:not-sr-only md:text-slate-400 md:dark:text-slate-400">
+              <span className="sr-only md:not-sr-only md:text-slate-400">
                 Add comment
               </span>
             </button>
@@ -413,7 +413,7 @@ export function SingleReply({
         </div>
         <div className="w-full">
           <p
-            className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+            className="text-slate-900 mt-1 prevent-text-break-out prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
             dangerouslySetInnerHTML={createMarkup(reply?.content)}
           />
         </div>

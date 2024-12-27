@@ -100,7 +100,7 @@ export default function Header(): ReactElement {
   }, [handleKeyPress]);
 
   return (
-    <header className="sticky top-0 z-10 bg-white shadow-md shadow-slate-900/5 transition duration-500 dark:bg-slate-800 dark:shadow-none">
+    <header className="sticky top-0 z-10 bg-white shadow-md shadow-slate-900/5 transition duration-500">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 grow items-center gap-5 md:gap-10">
           <button
@@ -153,8 +153,8 @@ export default function Header(): ReactElement {
               to="/home"
               className={({ isActive }) =>
                 isActive
-                  ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-[''] dark:bg-slate-800/50"
-                  : "flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-slate-200"
+                  ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-['']"
+                  : "flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-800"
               }
               aria-current="page"
             >
@@ -164,8 +164,8 @@ export default function Header(): ReactElement {
               to="/community/category-posts"
               className={({ isActive }) =>
                 isActive
-                  ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-[''] dark:bg-slate-800/50"
-                  : "flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-slate-200"
+                  ? "relative flex items-center px-3 py-2 text-sm font-medium text-primary-800 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary-800 after:content-['']"
+                  : "flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-800"
               }
               aria-current="page"
             >
@@ -175,14 +175,14 @@ export default function Header(): ReactElement {
 
           <button
             type="button"
-            className="group ml-auto flex h-6 w-6 items-center justify-center sm:justify-start md:ml-0 md:h-auto md:w-60 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-400 lg:w-80 xl:w-96 dark:md:ring-slate-600"
+            className="group ml-auto flex h-6 w-6 items-center justify-center sm:justify-start md:ml-0 md:h-auto md:w-60 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-400 lg:w-80 xl:w-96"
             onClick={openSearch}
           >
             <MagnifyingGlassIcon className="h-5 w-5 fill-slate-400" />
-            <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">
+            <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500">
               Search Discuss it
             </span>
-            <kbd className="ml-auto hidden font-medium text-slate-400 md:block dark:text-sky-200/50">
+            <kbd className="ml-auto hidden font-medium text-slate-400 md:block">
               <kbd className="font-sans">Ctrl </kbd>
               <kbd className="font-sans">K</kbd>
             </kbd>
