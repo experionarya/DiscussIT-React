@@ -17,10 +17,19 @@ import {
 import { BookMark } from "src/features/Home/types/bookMarkDataType";
 import { Avatar } from "src/components";
 import { useGetCommunityList } from "src/features/Community/api/useGetCommunityList";
+import { useHomeStore } from "../../store/homeStore";
 
 export function PostItem({ item }: { item: BookMark }): ReactElement {
   const { data: communityList } = useGetCommunityList();
   const navigate = useNavigate();
+  const {bookMarks} =useHomeStore();
+
+  let isBookmarked = false;
+  for (let i = 0; i < bookMarks.length; i++) {
+    if (bookMarks[i].threadID === item.threadID) {
+      isBookmarked = true;
+    }
+  }
 
   function gotoPost(id: number) {
     navigate(`/community/category-posts/replies?threadId=${id}`, {
@@ -133,7 +142,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           <Bookmark
             size={15}
             className={`text-gray-600 ${
-              item?.isBookmark ? "fill-gray-600" : null
+              isBookmarked ? "fill-gray-600" : null
             }`}
             strokeWidth={3}
           />{" "}

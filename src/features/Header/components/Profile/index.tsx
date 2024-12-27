@@ -29,13 +29,13 @@ export default function Profile(): ReactElement {
   const getBookMarkedData = useHomeStore(
     useCallback((state: any) => state.getBookMarkedData, [])
   );
-
   const bookMarks = useHomeStore(
-    useCallback((state: any) => state.bookMarks, [])
+    useCallback((state: any) => {
+      return state.bookMarks;
+    }, [])
   );
-
   //calling the book mark apis\
-  useQuery(
+ const {refetch:refetchBookmarks}= useQuery(
     ["get_threadIDs", savedPosts],
     () => {
       savedPosts?.forEach((savedPost) => {
@@ -48,7 +48,7 @@ export default function Profile(): ReactElement {
           });
       });
     },
-    { staleTime: Infinity }
+    // { staleTime: Infinity }
   );
 
   useEffect(() => {
@@ -99,6 +99,9 @@ export default function Profile(): ReactElement {
                 "",
                 `?${newSearchParams.toString()}`
               );
+              if (index === 1) {
+                refetchBookmarks();
+              }
             }}
           >
             {" "}

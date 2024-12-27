@@ -187,6 +187,7 @@ export function Thread({
         onSuccess: () => {
           usePostDetailsStore.setState({ isBookmark: updatedIsBookmark });
           queryClient.refetchQueries(["get_saved_post_list"]);
+          queryClient.invalidateQueries(["get_all_post"]);
         },
         onError: () => {
           usePostDetailsStore.setState({ isBookmark: !updatedIsBookmark });
