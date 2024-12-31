@@ -163,11 +163,19 @@ export default function TagsDetailPage(): ReactElement {
                       <Avatar userName={item.createdByUser} size="medium" />
                       <div className="min-w-0 flex-auto">
                         <p className="text-sm font-semibold leading-tight text-slate-900">
-                          {item.createdByUser}
+                          {item?.createdByUser}
                         </p>
-                        <p className="truncate text-xs leading-tight text-slate-500">
-                          {dayjs(item.createdAt).format("MMM D, YYYY")}
-                        </p>
+                        <div className="flex">
+                          <p className="truncate text-xs text-slate-500">
+                            {item?.communityName}/{item?.categoryName}
+                          </p>
+                          <span className="text-[9px] text-slate-400 pl-2 pr-1">
+                            ●
+                          </span>
+                          <p className="truncate text-xs text-slate-500">
+                            {dayjs(item?.createdAt).format("MMM D, YYYY")}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div
