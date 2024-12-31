@@ -149,14 +149,22 @@ export default function MyPost(): ReactElement {
                   className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm"
                 >
                   <div className="flex min-w-0 gap-x-2">
-                    <Avatar userName={userDetails?.name || ""} size="medium" />
+                    <Avatar userName={item.createdByUser} size="medium" />
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-tight text-slate-900">
                         {item?.createdByUser}
                       </p>
-                      <p className="truncate text-xs text-slate-500">
-                        {dayjs(item?.createdAt).format("MMM D, YYYY")}
-                      </p>
+                      <div className="flex">
+                        <p className="truncate text-xs text-slate-500">
+                          {item?.communityName}/{item?.categoryName}
+                        </p>
+                        <span className="text-[9px] text-slate-400 pl-2 pr-1">
+                          ●
+                        </span>
+                        <p className="truncate text-xs text-slate-500">
+                          {dayjs(item?.createdAt).format("MMM D, YYYY")}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -247,7 +255,6 @@ export default function MyPost(): ReactElement {
                       />
                       <span className="sr-only">Share</span>
                     </button>
-                   
                   </div>
                 </article>
               ))
