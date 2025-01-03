@@ -153,6 +153,7 @@ export default function CreatePost(): ReactElement {
     createNewPost(postValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_all_post"]);
+        queryClient.invalidateQueries(["get_post_details"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
@@ -178,6 +179,7 @@ export default function CreatePost(): ReactElement {
     createNewPost(draftValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_all_post"]);
+        queryClient.invalidateQueries(["get_post_details"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
