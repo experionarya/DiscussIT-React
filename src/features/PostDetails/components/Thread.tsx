@@ -116,7 +116,14 @@ export function Thread({
       userId: getUserIdFromToken(),
       communityId: communityId,
     };
-    updateVoteByThread({ ...params });
+    updateVoteByThread(
+      { ...params },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["get_post_details"]);
+        },
+      }
+    );
   };
 
   const handleDownvote = () => {
@@ -149,7 +156,14 @@ export function Thread({
       userId: getUserIdFromToken(),
       communityId: communityId,
     };
-    updateVoteByThread({ ...params });
+    updateVoteByThread(
+      { ...params },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["get_post_details"]);
+        },
+      }
+    );
   };
 
   function onEdit() {
@@ -264,7 +278,12 @@ export function Thread({
           className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           onClick={() => handleUpvote()}
         >
-          <ArrowBigUp size={23} className="text-gray-600" />{" "}
+          <ArrowBigUp
+            size={23}
+            className={`text-gray-600 ${
+              threads?.isUpvoted ? "fill-gray-600" : null
+            }`}
+          />{" "}
           <span className="sr-only">Up vote</span>
           <span>{threads?.upVoteCount}</span>
         </button>
@@ -273,7 +292,12 @@ export function Thread({
           className="flex items-center justify-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
           onClick={() => handleDownvote()}
         >
-          <ArrowBigDown size={23} className="text-gray-600" />{" "}
+          <ArrowBigDown
+            size={23}
+            className={`text-gray-600 ${
+              threads?.isUpvoted === false ? "fill-gray-600" : null
+            }`}
+          />{" "}
           <span className="sr-only">Down vote</span>
           <span>{threads?.downVoteCount}</span>
         </button>
