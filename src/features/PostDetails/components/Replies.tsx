@@ -45,11 +45,14 @@ export function Replies({ postDetails }: PostType): ReactElement {
   }, []);
 
   const handleUpvote = (replyID: number) => {
+    console.log("replyID handleUpvote", replyID)
     setVotes((prevVotes) => {
       const currentVote = prevVotes[replyID] || {
         upvoted: false,
         downvoted: false,
       };
+
+      console.log("handleUpvote currentVote", currentVote)
       const newVote = {
         upvoted: !currentVote.upvoted,
         downvoted:
@@ -57,6 +60,8 @@ export function Replies({ postDetails }: PostType): ReactElement {
             ? false
             : currentVote.downvoted,
       };
+
+      console.log("handleUpvote newVote", newVote)
 
       localStorage.setItem(
         "votes",
@@ -118,6 +123,7 @@ export function Replies({ postDetails }: PostType): ReactElement {
     const communityId = parseInt(localStorage.getItem("communityId") || "");
 
     const updateReplyVotes = (reply: ReplyType): ReplyType => {
+      console.log("123 children",reply.children)
       if (reply.replyID === replyID) {
         const currentVote = votes[replyID] || {
           upvoted: false,
@@ -164,14 +170,19 @@ export function Replies({ postDetails }: PostType): ReactElement {
           downvoteCount: newDownvoteCount,
         };
       }
-
-      if (reply.children) {
+      console.log("168 reply", reply);
+      if (reply.children) {      
         return { ...reply, children: reply.children.map(updateReplyVotes) };
       }
 
+      // if (reply.childReplyCount > 0) {
+      //   const childReplies = usePostDetailsStore.getState().nestedReplies;
+      //   return { ...reply, children: childReplies.map(updateReplyVotes) };
+      // }
+
       return reply;
     };
-
+    console.log("123 comments", comments);
     return comments.map(updateReplyVotes);
   };
 

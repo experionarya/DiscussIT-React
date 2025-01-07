@@ -110,24 +110,36 @@ export function SingleReply({
     }
   }, [replyDet]);
   function transformReplies(replies: Array<SingleReplyType>) {
+    console.log("123 replies", replies);
     const replyMap: { [key: number]: ReplyType } = {};
     const rootReplies: Array<ReplyType> = [];
+
+    console.log("123 Initial reply", replies);
 
     replies.forEach((replyItem: SingleReplyType) => {
       replyMap[replyItem.replyID] = { ...replyItem, children: [] };
     });
+    console.log("123 Reply map ", replyMap);
 
     replies.forEach((replyItem: SingleReplyType) => {
-      const parentReplyID = reply.parentReplyID;
+      console.log("123 Reply item", replyItem);
+      console.log("123 replies", replies);
+      const parentReplyID = replyItem.parentReplyID;
+      console.log("123 parent reply ID", parentReplyID);
+      console.log("123 Parent reply id", reply.parentReplyID,reply.replyID,reply.content);
       if (parentReplyID === null || !replyMap[parentReplyID]) {
         rootReplies.push(replyMap[replyItem.replyID]);
       } else {
         const parent = replyMap[parentReplyID];
+        console.log("123 Parent", parent);
         if (parent) {
           parent?.children?.push(replyMap[replyItem.replyID]);
+          console.log("123 Parent child", parent);
         }
       }
     });
+    console.log("123 reply mapp with children ", replyMap);
+    console.log("123 Final root replies", rootReplies);
 
     return rootReplies;
   }
@@ -144,8 +156,9 @@ export function SingleReply({
       const filteredReplies = fetchedReplies?.filter(
         (item: ReplyType) => item?.isDeleted === false
       );
-
+      console.log("123 filteredReplies", filteredReplies);
       usePostDetailsStore.getState().setNestedReply(filteredReplies);
+      console.log("transformReplies", transformReplies(filteredReplies))
       setChildren(transformReplies(filteredReplies));
     }
     setShowReplies(!showReplies);
