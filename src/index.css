@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 
+.ql-editor {
+  padding-left: 0 !important;
+}
+
 .ql-container.ql-snow {
   height: 200px;
   border-bottom-left-radius: 7px;
