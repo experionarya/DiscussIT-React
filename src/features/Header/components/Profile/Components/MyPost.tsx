@@ -207,7 +207,12 @@ export default function MyPost(): ReactElement {
                       title="Up vote"
                       className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                     >
-                      <ArrowBigUp size={23} className="text-gray-600" />{" "}
+                      <ArrowBigUp
+                        size={23}
+                        className={`text-gray-600 ${
+                          item?.isUpvoted ? "fill-gray-600" : null
+                        }`}
+                      />{" "}
                       <span className="sr-only">Up vote</span>
                       <span>{item?.upVoteCount}</span>
                     </button>
@@ -215,7 +220,12 @@ export default function MyPost(): ReactElement {
                       title="Down vote"
                       className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                     >
-                      <ArrowBigDown size={23} className="text-gray-600" />{" "}
+                      <ArrowBigDown
+                        size={23}
+                        className={`text-gray-600 ${
+                          item?.isUpvoted === false ? "fill-gray-600" : null
+                        }`}
+                      />{" "}
                       <span className="sr-only">Down vote</span>
                       <span>{item?.downVoteCount}</span>
                     </button>

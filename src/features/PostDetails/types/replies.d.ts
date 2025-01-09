@@ -6,6 +6,7 @@ export type ReplyType = {
   upvoteCount: number;
   downvoteCount: number;
   isDeleted: boolean;
+  isUpvoted: boolean;
   hasViewed: boolean;
   createdBy: string;
   createdUserName: string;

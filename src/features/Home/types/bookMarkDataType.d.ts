@@ -1,7 +1,8 @@
 export type BookMark = {
   threadID: number;
   title: string;
-  content:string;  createdBy: string;
+  content: string;
+  createdBy: string;
   createdByUser: string;
   createdAt: string;
   modifiedBy: string;
@@ -9,8 +10,9 @@ export type BookMark = {
   modifiedAt: string;
   threadStatusName: string;
   isAnswered: boolean;
+  isUpvoted: boolean;
   isBookmark: boolean;
-  upVoteCount:  number;
+  upVoteCount: number;
   downVoteCount: number;
   isEdited: boolean;
   replyCount: number;
