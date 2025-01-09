@@ -5,6 +5,10 @@
   padding-left: 0 !important;
 }
 
+.create-posts .ql-editor {
+  padding-left: 12px!important;
+}
+
 .ql-container.ql-snow {
   height: 200px;
   border-bottom-left-radius: 7px;
