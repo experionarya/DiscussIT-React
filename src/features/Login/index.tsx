@@ -2,6 +2,7 @@ import React from "react";
 
 import Discussitlogo from "../../assets/images/Discussitlogo.png";
 import logoexperion from "../../assets/images/logoexperion.png";
+import Loginleftpic from "../../assets/images/Loginleftpic.avif";
 
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
@@ -14,8 +15,7 @@ export default function Login() {
         <div className="grid grid-cols-2">
           <div
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+              backgroundImage: `url(${Loginleftpic})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
