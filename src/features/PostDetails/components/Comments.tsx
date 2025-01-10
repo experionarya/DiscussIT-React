@@ -107,7 +107,7 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
                 }}
                 id="text-editor"
               />
-              {reply && reply?.length < 20 && (
+              {reply && (reply?.length < 20 || reply?.length >4000 ) && (
                 <p className="text-red-500 text-xs pl-2 pt-1">
                   {contentWarning}
                 </p>
@@ -127,6 +127,7 @@ export function Comments({ postDetails }: { postDetails: any }): ReactElement {
                   onClick={saveComment}
                   disabled={
                     reply?.length < 20 ||
+                    reply?.length > 4000 ||
                     contentUrlWarning?.isInvalid === true ||
                     isSavingReply
                   }

@@ -1,16 +1,9 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState} from "react";
 import { useQueryClient } from "react-query";
 import dayjs from "dayjs";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-  ArrowBigUp,
-  MessageSquare,
-  ArrowBigDown,
-  Bookmark,
-  Share2,
-  Trash2,
-} from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { Avatar, DialogBox, Loading, NoData } from "src/components";
 
@@ -22,7 +15,7 @@ import {
 import { UserDetailsType } from "src/types/userDetailsTypes";
 import { ThreadType } from "src/features/Community/types/postType";
 import { useDeletePost } from "src/features/PostDetails/api/useDeletePost";
-
+import { Button } from "src/components/Button";
 import { useGetMyDrafts } from "../api/useGetDrafts";
 
 export default function Drafts({
@@ -63,6 +56,7 @@ export default function Drafts({
   }
 
   function handleDeletePost(item: ThreadType) {
+    console.log("item", item);
     setSelectedItem(item);
     setIsDeleteConfirm(true);
   }
@@ -86,8 +80,8 @@ export default function Drafts({
         },
         {
           onSuccess: () => {
-            const nav = localStorage.getItem("navigation") || "";
-            navigate(nav);
+            // const nav = localStorage.getItem("navigation") || "";
+            // navigate(nav);
             queryClient.invalidateQueries(["get_my_draft"]);
           },
         }
@@ -151,7 +145,9 @@ export default function Drafts({
                         className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
                         id="content"
                         dangerouslySetInnerHTML={createMarkup(
-                          trimHTMLContent(item?.content)
+                          trimHTMLContent(
+                            item?.content === null ? "" : item?.content
+                          )
                         )}
                       />
                       {getHtmlTextLength(item?.content) > 150 && (
@@ -163,73 +159,25 @@ export default function Drafts({
                   </div>
                   <div className="flex items-center space-x-3">
                     <div
-                      onClick={() => gotoPost(item?.threadID)}
                       className="flex space-x-3"
                     >
-                      <button
-                        title="Up vote"
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                      >
-                        <ArrowBigUp size={23} className="text-gray-600" />{" "}
-                        <span className="sr-only">Up vote</span>
-                        <span>{item?.upVoteCount}</span>
-                      </button>
-                      <button
-                        title="Down vote"
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                      >
-                        <ArrowBigDown size={23} className="text-gray-600" />{" "}
-                        <span className="sr-only">Down vote</span>
-                        <span>{item?.downVoteCount}</span>
-                      </button>
-                      <button
-                        title="Comment"
-                        className="flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
-                      >
-                        <MessageSquare
-                          size={15}
-                          className="text-gray-600"
-                          strokeWidth={3}
-                        />{" "}
-                        <span className="sr-only">Comment</span>
-                        <span>{item?.replyCount}</span>
-                      </button>
-                      <button
-                        className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
-                        title="Bookmark"
-                      >
-                        <Bookmark
-                          size={15}
-                          className={`text-gray-600 ${
-                            item?.isBookmark ? "fill-gray-600" : null
-                          }`}
-                          strokeWidth={3}
-                        />{" "}
-                        <span className="sr-only">Bookmark</span>
-                      </button>
-                      <button
-                        title="Delete"
-                        onClick={() => handleDeletePost(item)}
-                        className="flex items-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+                      
+                      <Button
+                        size="medium"
+                        variant="text"
+                        onClick={() => {
+                          handleDeletePost(item)
+                        }}
                       >
                         <Trash2
                           strokeWidth={3}
                           className="text-gray-600"
                           size={15}
+                          style={{ marginRight: "8px", marginBottom: "2px"}}
                         />{" "}
-                        <span className="sr-only">Delete</span>
-                      </button>
-                      <button
-                        title="Share"
-                        className="flex items-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
-                      >
-                        <Share2
-                          strokeWidth={3}
-                          className="text-slate-600"
-                          size={14}
-                        />
-                        <span className="sr-only">Share</span>
-                      </button>
+                        Delete Draft
+                        
+                      </Button>
                     </div>
                   </div>
                 </article>

@@ -204,6 +204,19 @@ export default function CreatePost(): ReactElement {
     }
     return false;
   }
+  function isDraftDisabled(){
+    if(showWarning(postDetails, "title") ||
+      // showWarning(postDetails, "tagNames") ||
+     (!postDetails?.title)|| 
+     ((postDetails?.Community === -1 ||
+      postDetails?.Category === -1 ||
+      postDetails?.Category === undefined ||
+      postDetails?.Community === undefined) ))
+    {
+      return true;
+    }
+    return false;
+  }
 
   function renderSelectDropDowns({
     label,
@@ -389,9 +402,10 @@ export default function CreatePost(): ReactElement {
                   onClick={() => {
                     draftPost();
                   }}
-                  disabled={isDisabled() || userMode === "Edit"}
+                   disabled={isDraftDisabled() || userMode === "Edit"}
+                  // disabled={isDraftDisabled()}
                 >
-                  Saved draft
+                  Save as Draft
                 </Button>
                 <Button
                   size="medium"

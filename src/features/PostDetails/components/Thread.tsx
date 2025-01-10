@@ -86,7 +86,7 @@ export function Thread({
     }
   }, [location]);
 
-  const handleUpvote = () => {
+   const handleUpvote = () => {
     const communityId = parseInt(localStorage.getItem("communityId") || "");
     setThreads((prevPost: any) => {
       const updatedPost = {
@@ -208,7 +208,7 @@ export function Thread({
     communityID: number | undefined
   ) {
     if (threadID && modifierID && communityID) {
-      setIsDeleteConfirm(false);
+      setIsDeleteConfirm(false);    
       deleteReply(
         {
           threadId: threadID,

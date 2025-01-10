@@ -3,7 +3,7 @@ import clsx, { ClassValue } from "clsx";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger"| "text";
   className?: ClassValue;
 };
 
@@ -28,6 +28,7 @@ export const buttonVariantClasses = {
   secondary:
     "border border-stroke-stong/50 text-slate-700 bg-white hover:bg-primary-50 hover:border-primary hover:text-primary",
   danger: "bg-red-600 text-white hover:bg-red-400",
+  text: "text-slate-700 hover:text-slate-900",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
