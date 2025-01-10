@@ -69,7 +69,7 @@ export default function Bookmarks({
                 className="space-y-1 cursor-pointer"
                 onClick={(event) => handleItemClick(event, item?.threadID)}
               >
-                <h5 className="font-semibold text-slate-900">{item?.title}</h5>
+                <h5 className="font-semibold text-slate-900 prevent-text-break-out inline">{item?.title}</h5>
                 <div className="flex gap-2 pb-2">
                   {item?.tagNames?.map((tagNameItem: string) => (
                     <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">

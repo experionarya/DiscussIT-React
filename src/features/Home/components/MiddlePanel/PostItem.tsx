@@ -230,7 +230,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
           handleItemClick(event, item?.threadID);
         }}
       >
-        <h5 className="font-bold text-slate-900">{item?.title}</h5>
+        <h5 className="font-bold text-slate-900 prevent-text-break-out inline">{item?.title}</h5>
         <div className="flex gap-2 pb-2">
           {item?.tagNames?.map((tagItem, index) => (
             <button
@@ -244,6 +244,7 @@ export function PostItem({ item }: { item: BookMark }): ReactElement {
         <p className="text-slate-900 prevent-text-break-out inline">
           <span
             className="inline prose prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm ql-editor"
+            style={{ paddingLeft: 0 }}
             dangerouslySetInnerHTML={createMarkup(
               trimHTMLContent(item?.content)
             )}
