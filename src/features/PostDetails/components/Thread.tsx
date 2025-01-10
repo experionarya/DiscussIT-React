@@ -245,7 +245,7 @@ export function Thread({
         </div>
       </div>
       <div className="space-y-1 cursor-pointer">
-        <h5 className="font-semibold text-slate-900">{threads?.title}</h5>
+        <h5 className="font-semibold text-slate-900 prevent-text-break-out inline">{threads?.title}</h5>
         <div className="flex gap-2">
           {threads?.tagNames?.map((tagNameItem: string) => (
             <button className="inline-flex cursor-pointer items-center rounded-full bg-primary-50 px-2 max-w-[300px] truncate py-1 text-xs font-medium leading-tight text-primary-800 ring-1 ring-inset ring-primary-600/10 hover:bg-primary-100 hover:ring-primary-800/10">
