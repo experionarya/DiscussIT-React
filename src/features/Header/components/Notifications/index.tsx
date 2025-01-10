@@ -164,16 +164,15 @@ export function Notifications(): ReactElement {
                     </div>
                   </div>
                 ))
+              ) : markNotificationReadLoading ||
+                markAllNotificationReadLoading ||
+                notificationListLoading ? (
+                <div className="flex justify-center items-center">
+                  <Loading />
+                </div>
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <NoData data={"No data available"} />
-                </div>
-              )}
-              {(markNotificationReadLoading ||
-                markAllNotificationReadLoading ||
-                notificationListLoading) && (
-                <div className="flex justify-center items-center">
-                  <Loading />
                 </div>
               )}
             </div>
