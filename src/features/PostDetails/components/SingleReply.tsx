@@ -14,14 +14,7 @@ import { CheckCircleIcon as CheckCircleIconMicro } from "@heroicons/react/16/sol
 import { PencilSquareIcon as PencilSquareIconMicro } from "@heroicons/react/16/solid";
 import { ArrowBigUp, ArrowBigDown, Trash2 } from "lucide-react";
 
-import {
-  Avatar,
-  Button,
-  classNames,
-  DialogBox,
-  Loading,
-  TextEditor,
-} from "src/components";
+import { Avatar, Button, classNames, DialogBox, Loading, TextEditor } from "src/components";
 
 import {
   useDeleteReply,
@@ -375,131 +368,126 @@ export function SingleReply({
 
   return (
     <>
-      <div
-        className={classNames(
-          "flex w-full gap-x-2 p-3  peer",
-          reply.parentReplyID === null ? "parent-thread" : ""
-        )}
-      >
-        <div>
-          <Avatar userName={reply?.createdUserName || ""} size="small" />
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex">
-            <p className="text-sm font-semibold leading-tight text-slate-900">
-              {reply?.createdUserName}
-            </p>
-            <p className="text-xs leading-tight text-slate-500 ml-1 mt-0.5">
-              {getDays()}
-            </p>
-            {bestAnswer === reply?.replyID ? (
-              <div className="flex rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
-                <div className="flex">
-                  <button title="Best Answer">
-                    <CheckCircleIconMicro className="size-4 text-green-500" />
+     <div className={classNames("flex w-full gap-x-2 p-3  peer", reply.parentReplyID===null ? 'parent-thread' : '')}>
+      <div>
+        <Avatar userName={reply?.createdUserName || ""} size="small" />
+      </div>
+      <div className="flex flex-col w-full">
+        <div className="flex">
+          <p className="text-sm font-semibold leading-tight text-slate-900">
+            {reply?.createdUserName}
+          </p>
+          <p className="text-xs leading-tight text-slate-500 ml-1 mt-0.5">
+            {getDays()}
+          </p>
+          {bestAnswer === reply?.replyID ? (
+            <div className="flex rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
+              <div className="flex">
+                <button title="Best Answer">
+                  <CheckCircleIconMicro className="size-4 text-green-500" />
+                </button>
+                {postDetails?.createdBy === userDetails?.userID && (
+                  <button
+                    title="Cancel Best Answer"
+                    onClick={handleUnMarkAsBestAnswer}
+                  >
+                    <XMarkIcon className="size-4 text-slate-400" />
                   </button>
-                  {postDetails?.createdBy === userDetails?.userID && (
-                    <button
-                      title="Cancel Best Answer"
-                      onClick={handleUnMarkAsBestAnswer}
-                    >
-                      <XMarkIcon className="size-4 text-slate-400" />
-                    </button>
-                  )}
-                </div>
+                )}
               </div>
-            ) : postDetails?.createdBy === userDetails?.userID &&
-              (postDetails?.createdBy !== reply?.createdBy ||
-                (postDetails?.createdBy === reply?.createdBy &&
-                  bestAnswer !== reply?.replyID)) ? (
-              <div className="flex items-center rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
-                <button
-                  title="Mark as Best Answer"
-                  onClick={handleMarkAsBestAnswer}
-                >
-                  <CheckCircleIconMicro className="size-4 text-slate-500" />
-                  <span className="sr-only">Best Answer</span>
-                </button>
-              </div>
-            ) : null}
-          </div>
-          <div className="w-full">
-            <p
-              className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
-              dangerouslySetInnerHTML={createMarkup(reply?.content)}
-            />
-          </div>
-          <div className="flex mt-2 space-x-3 items-center">
-            <button
-              title="Up vote"
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-              onClick={() => onUpvote(reply.replyID)}
-            >
-              <ArrowBigUp
-                size={23}
-                className={`text-gray-600 ${
-                  reply?.isUpvoted ? "fill-gray-600" : null
-                }`}
-              />{" "}
-              <span className="sr-only">Up vote</span>
-              <span>{reply?.upvoteCount}</span>
-            </button>
-            <button
-              title="Down vote"
-              className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-              onClick={() => onDownvote(reply.replyID)}
-            >
-              <ArrowBigDown
-                size={23}
-                className={`text-gray-600 ${
-                  reply?.isUpvoted === false ? "fill-gray-600" : null
-                }`}
-              />{" "}
-              <span className="sr-only">Down vote</span>
-              <span>{reply?.downvoteCount}</span>
-            </button>
-            <button
-              className="rounded-full px-1 py-1.5 text-xs hover:bg-slate-200 font-semibold text-gray-600"
-              onClick={handleReplay}
-            >
-              Reply
-            </button>
-            {isHideEditDelete() && (
-              <>
-                <button
-                  title="Edit"
-                  onClick={handleEdit}
-                  className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
-                >
-                  <PencilSquareIconMicro className="size-4 text-gray-600" />
-                  <span className="sr-only">Edit</span>
-                </button>
-                <button
-                  title="Delete"
-                  onClick={handleDelete}
-                  className="flex items-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
-                >
-                  <Trash2 strokeWidth={3} className="text-gray-600" size={15} />{" "}
-                  <span className="sr-only">Delete</span>
-                </button>
-              </>
-            )}
-
-            {reply?.childReplyCount !== 0 && (
+            </div>
+          ) : postDetails?.createdBy === userDetails?.userID &&
+            (postDetails?.createdBy !== reply?.createdBy ||
+              (postDetails?.createdBy === reply?.createdBy &&
+                bestAnswer !== reply?.replyID)) ? (
+            <div className="flex items-center rounded-full bg-slate-200 ml-3 py-0.5 px-0.5">
               <button
-                title="Comment"
-                className="rounded-full px-2 py-0.5 text-xs bg-slate-100 hover:bg-slate-200 font-semibold text-gray-600"
-                onClick={handleToggleReplies}
+                title="Mark as Best Answer"
+                onClick={handleMarkAsBestAnswer}
               >
-                {showReplies
-                  ? getChildHideRepliesLabel()
-                  : getChildRepliesLabel()}
-                <span className="sr-only">Comment</span>
+                <CheckCircleIconMicro className="size-4 text-slate-500" />
+                <span className="sr-only">Best Answer</span>
               </button>
-            )}
-          </div>
+            </div>
+          ) : null}
+        </div>
+        <div className="w-full">
+          <p
+            className="text-slate-900 dark:text-slate-300 mt-1 prevent-text-break-out prose prevent-text-break-out prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:text-sm"
+            dangerouslySetInnerHTML={createMarkup(reply?.content)}
+          />
+        </div>
+        <div className="flex mt-2 space-x-3 items-center">
+          <button
+            title="Up vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            onClick={() => onUpvote(reply.replyID)}
+          >
+            <ArrowBigUp
+            size={23}
+            className={`text-gray-600 ${
+              reply?.isUpvoted ? "fill-gray-600" : null
+            }`}
+          />{" "}            <span className="sr-only">Up vote</span>
+            <span>{reply?.upvoteCount}</span>
+          </button>
+          <button
+            title="Down vote"
+            className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+            onClick={() => onDownvote(reply.replyID)}
+          >
+            <ArrowBigDown
+            size={23}
+            className={`text-gray-600 ${
+              reply?.isUpvoted === false ? "fill-gray-600" : null
+            }`}
+          />{" "}
+            <span className="sr-only">Down vote</span>
+            <span>{reply?.downvoteCount}</span>
+          </button>
+          <button
+            className="rounded-full px-1 py-1.5 text-xs hover:bg-slate-200 font-semibold text-gray-600"
+            onClick={handleReplay}
+          >
+            Reply
+          </button>
+          {isHideEditDelete() && (
+            <>
+              <button
+                title="Edit"
+                onClick={handleEdit}
+                className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+              >
+                <PencilSquareIconMicro className="size-4 text-gray-600" />
+                <span className="sr-only">Edit</span>
+              </button>
+              <button
+                title="Delete"
+                onClick={handleDelete}
+                className="flex items-center rounded-full px-1.5 py-1.5 text-xs hover:bg-slate-200"
+              >
+                <Trash2 strokeWidth={3} className="text-gray-600" size={15} />{" "}
+                <span className="sr-only">Delete</span>
+              </button>
+            </>
+          )}
+
+          {reply?.childReplyCount !== 0 && (
+            <button
+              title="Comment"
+              className="rounded-full px-2 py-0.5 text-xs bg-slate-100 hover:bg-slate-200 font-semibold text-gray-600"
+              onClick={handleToggleReplies}
+            >
+              {showReplies
+                ? getChildHideRepliesLabel()
+                : getChildRepliesLabel()}
+              <span className="sr-only">Comment</span>
+            </button>
+          )}
         </div>
       </div>
+        
+    </div>
       <div className="peer-[.parent-thread]:ml-8">
         {renderPostActions()}
 
@@ -516,7 +504,8 @@ export function SingleReply({
               />
             ))
           : null}
-      </div>
+      </div>     
     </>
+   
   );
 }
