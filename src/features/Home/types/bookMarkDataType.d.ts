@@ -20,4 +20,5 @@ export type BookMark = {
   threadOwnerEmail: string;
   communityName: string;
   categoryName: string;
+  isUpVoted: boolean|null;
 };

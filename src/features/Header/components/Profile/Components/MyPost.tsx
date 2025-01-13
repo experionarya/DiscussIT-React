@@ -171,7 +171,7 @@ export default function MyPost(): ReactElement {
                     className="space-y-1 cursor-pointer"
                     onClick={(event) => handleItemClick(event, item?.threadID)}
                   >
-                    <h5 className="font-semibold text-slate-900">
+                    <h5 className="font-semibold text-slate-900 prevent-text-break-out inline">
                       {item?.title}
                     </h5>
                     <div className="flex gap-2 pb-2">
