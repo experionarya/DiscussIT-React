@@ -43,7 +43,7 @@ export default function Drafts({
   }, [location]);
 
   function gotoPost(id: number) {
-    navigate(`/community/category-posts/edit-posts?threadId=${id}`, {
+    navigate(`/profile/community/category-posts/draft-posts?threadId=${id}`, {
       state: { from: window.location.pathname + window.location.search },
     });
   }

@@ -51,7 +51,10 @@ export const useCreatePostStore = create<any>()((set, get) => ({
     tokenType: string,
     tagOptions: Array<{ value: number; label: string }>
   ) => {
-    if (userMode === "Edit" && tokenType) {
+    if (
+      (userMode === "Edit" && tokenType) ||
+      (userMode === "draft" && tokenType)
+    ) {
       set(
         produce((state: any) => {
           state.isEditing = true;
