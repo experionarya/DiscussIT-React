@@ -8,6 +8,7 @@ export type ReplyType = {
   isDeleted: boolean;
   hasViewed: boolean;
   createdBy: string;
+  isUpvoted: boolean;
   createdUserName: string;
   createdAt: string;
   modifiedBy: string | null;

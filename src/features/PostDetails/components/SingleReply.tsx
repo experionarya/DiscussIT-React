@@ -423,7 +423,12 @@ export function SingleReply({
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={() => onUpvote(reply.replyID)}
           >
-            <ArrowBigUp size={23} className="text-gray-600" />{" "}
+            <ArrowBigUp
+            size={23}
+            className={`text-gray-600 ${
+              reply?.isUpvoted ? "fill-gray-600" : null
+            }`}
+          />{" "} 
             <span className="sr-only">Up vote</span>
             <span>{reply?.upvoteCount}</span>
           </button>
@@ -432,7 +437,12 @@ export function SingleReply({
             className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
             onClick={() => onDownvote(reply.replyID)}
           >
-            <ArrowBigDown size={23} className="text-gray-600" />{" "}
+            <ArrowBigDown
+            size={23}
+            className={`text-gray-600 ${
+              reply?.isUpvoted === false ? "fill-gray-600" : null
+            }`}
+          />{" "}
             <span className="sr-only">Down vote</span>
             <span>{reply?.downvoteCount}</span>
           </button>
