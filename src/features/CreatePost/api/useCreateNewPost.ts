@@ -17,14 +17,15 @@ async function createNewPost({
     Title: params?.title,
     Content: params?.content,
     Tags: params?.tagNames?.map((item: any, index: number) => item?.label),
-    isDraft: params?.isDraft
+    isDraft: params?.isDraft,
   };
   const url =
-    params?.userMode !== "Edit"
+    params?.userMode !== "Edit" && params?.userMode !== "draft"
       ? savePost(params?.Category, params?.userId, params?.Community)
-      : editPostDetails(params?.threadId, params?.userId, params?.communityId);
+      : editPostDetails(params?.threadID, params?.userId, params?.communityID);
 
-  const method = params.userMode === "Edit" ? "PUT" : "POST";
+  const method =
+    params.userMode === "Edit" || params.userMode === "draft" ? "PUT" : "POST";
   const response = await fetch(url, {
     method: method,
     headers: {
@@ -44,8 +45,8 @@ type TVariables = {
   tagNames: any;
   content: any;
   userMode: string;
-  threadId: number;
-  communityId: number;
+  threadID: number;
+  communityID: number;
   isDraft: boolean;
 };
 

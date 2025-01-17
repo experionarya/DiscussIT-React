@@ -145,16 +145,16 @@ export default function CreatePost(): ReactElement {
       ...postDetails,
       userId: getUserIdFromToken(),
       userMode: userMode,
-      threadId: id,
-      communityId: dropdownOptions?.find(
+      threadID: id,
+      communityID: dropdownOptions?.find(
         (item) => item?.name === postDetails?.communityName
       )?.value,
       isDraft: false,
     };
-
     createNewPost(postValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_my_draft"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
@@ -170,16 +170,16 @@ export default function CreatePost(): ReactElement {
       ...postDetails,
       userId: getUserIdFromToken(),
       userMode: userMode,
-      threadId: id,
-      communityId: dropdownOptions?.find(
+      threadID: id,
+      communityID: dropdownOptions?.find(
         (item) => item?.name === postDetails?.communityName
       )?.value,
       isDraft: true,
     };
-
     createNewPost(draftValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_my_draft"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
