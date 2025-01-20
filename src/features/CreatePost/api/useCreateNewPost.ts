@@ -22,7 +22,7 @@ async function createNewPost({
   const url =
     params?.userMode !== "Edit" && params?.userMode !== "draft"
       ? savePost(params?.Category, params?.userId, params?.Community)
-      : editPostDetails(params?.threadID, params?.userId, params?.communityID);
+      : editPostDetails(params?.threadId, params?.userId, params?.communityId);
 
   const method =
     params.userMode === "Edit" || params.userMode === "draft" ? "PUT" : "POST";
@@ -45,8 +45,8 @@ type TVariables = {
   tagNames: any;
   content: any;
   userMode: string;
-  threadID: number;
-  communityID: number;
+  threadId: number;
+  communityId: number;
   isDraft: boolean;
 };
 

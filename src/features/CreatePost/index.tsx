@@ -145,8 +145,8 @@ export default function CreatePost(): ReactElement {
       ...postDetails,
       userId: getUserIdFromToken(),
       userMode: userMode,
-      threadID: id,
-      communityID: dropdownOptions?.find(
+      threadId: id,
+      communityId: dropdownOptions?.find(
         (item) => item?.name === postDetails?.communityName
       )?.value,
       isDraft: false,
@@ -170,8 +170,8 @@ export default function CreatePost(): ReactElement {
       ...postDetails,
       userId: getUserIdFromToken(),
       userMode: userMode,
-      threadID: id,
-      communityID: dropdownOptions?.find(
+      threadId: id,
+      communityId: dropdownOptions?.find(
         (item) => item?.name === postDetails?.communityName
       )?.value,
       isDraft: true,
