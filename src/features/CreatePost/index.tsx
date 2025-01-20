@@ -88,6 +88,8 @@ export default function CreatePost(): ReactElement {
       updateUserMode && updateUserMode("Edit");
     if (location?.pathname.split("/").includes("createpost"))
       updateUserMode && updateUserMode("Create");
+    if (location?.pathname.split("/").includes("draft-posts"))
+      updateUserMode && updateUserMode("draft");
   }, [location?.pathname, updateUserMode]);
 
   //for warning the url
@@ -197,22 +199,24 @@ export default function CreatePost(): ReactElement {
         postDetails?.Category === -1 ||
         postDetails?.Category === undefined ||
         postDetails?.Community === undefined) &&
-        userMode !== "Edit") ||
+        userMode !== "Edit" &&
+        userMode !== "draft") ||
       contentUrlWarning?.isInvalid
     ) {
       return true;
     }
     return false;
   }
-  function isDraftDisabled(){
-    if(showWarning(postDetails, "title") ||
-      // showWarning(postDetails, "tagNames") ||
-     (!postDetails?.title)|| 
-     ((postDetails?.Community === -1 ||
-      postDetails?.Category === -1 ||
-      postDetails?.Category === undefined ||
-      postDetails?.Community === undefined) ))
-    {
+  function isDraftDisabled() {
+    if (
+      showWarning(postDetails, "title") ||
+      ((!postDetails?.title ||
+        postDetails?.Community === -1 ||
+        postDetails?.Category === -1 ||
+        postDetails?.Category === undefined ||
+        postDetails?.Community === undefined) &&
+        userMode !== "draft")
+    ) {
       return true;
     }
     return false;
@@ -339,7 +343,7 @@ export default function CreatePost(): ReactElement {
                   ? "Edit Post"
                   : "Create Post"}
               </h1>
-              {userMode !== "Edit" && (
+              {userMode !== "Edit" && userMode !== "draft" && (
                 <div className="flex items-center justify-between">
                   {renderSelectDropDowns({
                     id: "community",
@@ -402,8 +406,7 @@ export default function CreatePost(): ReactElement {
                   onClick={() => {
                     draftPost();
                   }}
-                   disabled={isDraftDisabled() || userMode === "Edit"}
-                  // disabled={isDraftDisabled()}
+                  disabled={isDraftDisabled() || userMode === "Edit"}
                 >
                   Save as Draft
                 </Button>

@@ -39,6 +39,10 @@ function PrivatePage(): ReactElement {
           path="community/category-posts/edit-posts"
           element={<CreatePost />}
         />
+        <Route
+          path="/profile/community/category-posts/draft-posts"
+          element={<CreatePost />}
+        />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tags/tag-threads/:tagName" element={<TagsDetailPage />} />
         <Route path="*" element={<NotFound />} />
