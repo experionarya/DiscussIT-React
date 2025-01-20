@@ -151,10 +151,10 @@ export default function CreatePost(): ReactElement {
       )?.value,
       isDraft: false,
     };
-
     createNewPost(postValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_my_draft"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
@@ -176,10 +176,10 @@ export default function CreatePost(): ReactElement {
       )?.value,
       isDraft: true,
     };
-
     createNewPost(draftValue, {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_my_draft"]);
         navigate(
           location.state?.from
             ? `${location.state.from}?threadId=${id}`
