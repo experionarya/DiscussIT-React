@@ -219,7 +219,7 @@ export default function TagsDetailPage(): ReactElement {
                         title="Up vote"
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
-                       <ArrowBigUp
+                      <ArrowBigUp
                         size={23}
                         className={`text-gray-600 ${
                         item?.isUpvoted ? "fill-gray-600" : null
