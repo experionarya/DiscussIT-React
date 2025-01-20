@@ -102,7 +102,7 @@ function useGetTrendingTagsDetails({
       },
       staleTime: 3 * 1000,
       refetchOnWindowFocus: false,
-      enabled: Boolean(tagName && token),
+      enabled: Boolean(tagName && token && userID),
     }
   );
 }

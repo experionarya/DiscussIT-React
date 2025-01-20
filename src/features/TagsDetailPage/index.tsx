@@ -154,7 +154,7 @@ export default function TagsDetailPage(): ReactElement {
               </div>
             ) : tagsDetails?.pages?.length ? (
               tagsDetails.pages.map((page) =>
-                page.searchThreadDtoList.map((item: ThreadType) => (
+                page?.searchThreadDtoList?.map((item: ThreadType) => (
                   <article
                     key={item.threadID}
                     className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm"
@@ -220,11 +220,11 @@ export default function TagsDetailPage(): ReactElement {
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
                         <ArrowBigUp
-                        size={23}
-                        className={`text-gray-600 ${
-                        item?.isUpvoted ? "fill-gray-600" : null
-                        }`}
-                        />{" "} 
+                          size={23}
+                          className={`text-gray-600 ${
+                            item?.isUpvoted ? "fill-gray-600" : null
+                          }`}
+                        />{" "}
                         <span className="sr-only">Up vote</span>
                         <span>{item.upVoteCount}</span>
                       </button>
@@ -233,11 +233,11 @@ export default function TagsDetailPage(): ReactElement {
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                       >
                         <ArrowBigDown
-                         size={23}
-                         className={`text-gray-600 ${
-                        item?.isUpvoted === false ? "fill-gray-600" : null
-                         }`}
-                         />{" "}
+                          size={23}
+                          className={`text-gray-600 ${
+                            item?.isUpvoted === false ? "fill-gray-600" : null
+                          }`}
+                        />{" "}
                         <span className="sr-only">Down vote</span>
                         <span>{item.downVoteCount}</span>
                       </button>
