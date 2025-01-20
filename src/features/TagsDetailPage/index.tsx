@@ -154,7 +154,7 @@ export default function TagsDetailPage(): ReactElement {
               </div>
             ) : tagsDetails?.pages?.length ? (
               tagsDetails.pages.map((page) =>
-                page.searchThreadDtoList.map((item: ThreadType) => (
+                page?.searchThreadDtoList?.map((item: ThreadType) => (
                   <article
                     key={item.threadID}
                     className="w-full space-y-3 overflow-hidden rounded-md bg-white p-3 shadow-sm"
