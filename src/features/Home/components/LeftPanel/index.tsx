@@ -26,7 +26,6 @@ export default function LeftPanel(): ReactElement {
   const bookMarks = useHomeStore(
     useCallback((state: any) => state.bookMarks, [])
   );
-  
 
   const filterByValue = useHomeStore(
     useCallback((state) => state.filterByValue, [])
@@ -42,8 +41,8 @@ export default function LeftPanel(): ReactElement {
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
 
   const {
-     hasNextPage, 
-     fetchNextPage,
+    hasNextPage, 
+    fetchNextPage,
   } = useGetAllPosts({
     filterBy: filterByValue,
   });
