@@ -147,7 +147,7 @@ export const useHomeStore = create<any>()((set, get) => ({
       })
     );
   },
-
+  
   setCheckedItems: (event: any) => {
     const { name, checked } = event.target;
     set(
@@ -173,10 +173,16 @@ export const useHomeStore = create<any>()((set, get) => ({
     );
   },
 
-  setAllPost: (data: Array<BookMark>) => {
+  setAllPost: (data: Array<BookMark>, reset: boolean = false) => {
     set(
       produce((state: any) => {
-        state.allPosts = data && data.length ? [...state.allPosts,...data] : [];
+        if (reset) {
+          state.allPosts = [];
+          return;
+        }
+        if (data && data.length) {
+          state.allPosts = [...state.allPosts, ...data];
+        }
       })
     );
   },
