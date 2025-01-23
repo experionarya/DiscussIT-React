@@ -147,7 +147,7 @@ export const useHomeStore = create<any>()((set, get) => ({
       })
     );
   },
-
+  
   setCheckedItems: (event: any) => {
     const { name, checked } = event.target;
     set(
@@ -180,11 +180,7 @@ export const useHomeStore = create<any>()((set, get) => ({
           state.allPosts = [];
           return;
         }
-        if (
-          data &&
-          data.length &&
-          ["newest", "popular", "all posts", ""].includes(state.filterByValue)
-        ) {
+        if (data && data.length) {
           state.allPosts = [...state.allPosts, ...data];
         }
       })
