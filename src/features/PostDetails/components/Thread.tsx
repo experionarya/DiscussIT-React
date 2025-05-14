@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
@@ -28,6 +28,7 @@ import { useUnSaveBookmark } from "../api/useUnsaveBookmark";
 import { getUserIdFromToken } from "src/utils/authenticationHelper/tokenHandler";
 import { createMarkup } from "src/utils/common";
 import { usePostDetailsStore } from "../store/postDetailsStore";
+import { useHomeStore } from "src/features/Home/store/homeStore";
 
 dayjs.extend(utc);
 
@@ -56,6 +57,7 @@ export function Thread({
   const userID = getUserIdFromToken();
   const queryClient = useQueryClient();
   const { mutate: unSaveBookmark } = useUnSaveBookmark();
+  const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
 
   useEffect(() => {
     if (postDetails) {
@@ -233,6 +235,8 @@ export function Thread({
           onSuccess: () => {
             const nav = localStorage.getItem("navigation") || "";
             navigate(nav);
+            setAllPost([], true);
+            queryClient.invalidateQueries(["get_all_post"]);
           },
         }
       );
