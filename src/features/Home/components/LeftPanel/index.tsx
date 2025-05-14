@@ -27,7 +27,6 @@ export default function LeftPanel(): ReactElement {
     useCallback((state: any) => state.bookMarks, [])
   );
 
-
   const filterByValue = useHomeStore(
     useCallback((state) => state.filterByValue, [])
   );
@@ -42,7 +41,7 @@ export default function LeftPanel(): ReactElement {
   const { data: savedPosts } = useGetSavedThreads(userDetails?.userID);
 
   const {
-    hasNextPage,
+    hasNextPage, 
     fetchNextPage,
   } = useGetAllPosts({
     filterBy: filterByValue,
@@ -97,6 +96,7 @@ export default function LeftPanel(): ReactElement {
   function handleAddCategories() {
     setIsOpen(true);
   }
+  const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
 
   return (
     <div className="fixed">
@@ -110,6 +110,7 @@ export default function LeftPanel(): ReactElement {
                   : null
               } px-3 py-1 hover:bg-slate-300/50`}
               onClick={() => {
+                setAllPost([], true);
                 setFilterByValue("newest");
                 setCommunityId(-1);
               }}
@@ -118,6 +119,7 @@ export default function LeftPanel(): ReactElement {
             </li>
             <li
               onClick={() => {
+                setAllPost([], true);
                 setFilterByValue("popular");
                 setCommunityId(-1);
               }}
@@ -131,6 +133,7 @@ export default function LeftPanel(): ReactElement {
             </li>
             <li
               onClick={() => {
+                setAllPost([], true);
                 setFilterByValue("all posts");
                 setCommunityId(-1);
               }}

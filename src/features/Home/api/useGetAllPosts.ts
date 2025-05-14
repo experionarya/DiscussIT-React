@@ -46,14 +46,14 @@ type TVariables = {
 
 function useGetAllPosts({
   filterBy,
-  
+
 }: {
   filterBy: string;
 }): UseInfiniteQueryResult<APIResult, TError> {
   const { tokenType } = useAuth();
   const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
   const userID=getUserIdFromToken();
-
+  
 
   return useInfiniteQuery(
     ["get_all_post", filterBy],
@@ -79,7 +79,6 @@ function useGetAllPosts({
           return allPages?.length - 1;
       },
 
-      staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
       //enabled: filterBy !== "",
       enabled: !!userID && filterBy !== ""

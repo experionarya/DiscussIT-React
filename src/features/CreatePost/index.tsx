@@ -27,6 +27,7 @@ import {
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 
 import { useCreatePostStore } from "./store/createPostStore";
+import { useHomeStore } from "../Home/store/homeStore";
 import { validateUrlsInContent } from "../../utils/urlValidator";
 
 export default function CreatePost(): ReactElement {
@@ -81,6 +82,7 @@ export default function CreatePost(): ReactElement {
   const navigate = useNavigate();
 
   const id = location.search.split("threadId=")[1];
+  const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
 
   //for setting the user mode
   useEffect(() => {
@@ -153,7 +155,9 @@ export default function CreatePost(): ReactElement {
     };
     createNewPost(postValue, {
       onSuccess: () => {
+        setAllPost([], true);
         queryClient.invalidateQueries(["get_post_details"]);
+        queryClient.invalidateQueries(["get_all_post"]);
         queryClient.invalidateQueries(["get_my_draft"]);
         navigate(
           location.state?.from

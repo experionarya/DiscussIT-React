@@ -59,6 +59,7 @@ export function PreferenceList({
     if (preferenceList?.length) return "Add more categories";
     else return "Add new categories";
   }
+  const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
 
   return (
     <div>
@@ -78,6 +79,7 @@ export function PreferenceList({
               }`}
               key={`${index}${item?.communityCategoryID}`}
               onClick={() => {
+                setAllPost([], true);
                 setSelectedCategoryId(item?.communityCategoryID);
                 setCommunityId(item?.communityCategoryID);
                 setFilterByValue("");

@@ -70,7 +70,6 @@ function useGetPostByCategories({
           return allPages?.length - 1;
       },
 
-      staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
       enabled: communityCategoryId !== -1,
     }
