@@ -8,6 +8,7 @@ import {
   MessageSquare,
   ArrowBigDown,
   Bookmark,
+  Share2,
 } from "lucide-react";
 
 import { Avatar, Loading, NoData } from "src/components";
@@ -254,17 +255,6 @@ export default function TagsDetailPage(): ReactElement {
                         <span>{item.replyCount}</span>
                       </button>
                       <button
-                        title="Share"
-                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
-                      >
-                        <MessageSquare
-                          size={15}
-                          className="text-gray-600"
-                          strokeWidth={3}
-                        />{" "}
-                        <span className="sr-only">Share</span>
-                      </button>
-                      <button
                         className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
                         title="Bookmark"
                       >
@@ -276,6 +266,13 @@ export default function TagsDetailPage(): ReactElement {
                           strokeWidth={3}
                         />{" "}
                         <span className="sr-only">Bookmark</span>
+                      </button>
+                      <button
+                        title="Share"
+                        className="flex items-center gap-1 rounded-full px-1 py-0.5 text-xs hover:bg-slate-200"
+                      >
+                       <Share2 strokeWidth={3} className="text-slate-600" size={14} />
+                        <span className="sr-only">Share</span>
                       </button>
                     </div>
                   </article>

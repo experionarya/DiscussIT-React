@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import { usePostDetailsStore } from "./store/postDetailsStore";
 import { useAuth } from "src/utils/authenticationHelper/authProvider";
 import { getParsedToken } from "src/utils/authenticationHelper/tokenHandler";
 import { Loading } from "src/components";
+import { useHomeStore } from "../Home/store/homeStore";
 
 export default function PostDetails(): ReactElement {
   const queryClient = useQueryClient();
@@ -30,6 +31,8 @@ export default function PostDetails(): ReactElement {
     React.useCallback((state: any) => state.postDetails, [])
   );
 
+  const setAllPost = useHomeStore(useCallback((state) => state.setAllPost, []));
+  
   const isPostDetailsLoading = usePostDetailsStore(
     React.useCallback((state: any) => state.isPostDetailsLoading, [])
   );
@@ -62,6 +65,8 @@ export default function PostDetails(): ReactElement {
             const nav = localStorage.getItem("navigation") || "";
             navigate(nav);
             queryClient.invalidateQueries(["get_post_details"]);
+            setAllPost([], true);
+            queryClient.invalidateQueries(["get_all_post"]);
           }}
         >
           <ArrowLeftIcon className="size-5" />
